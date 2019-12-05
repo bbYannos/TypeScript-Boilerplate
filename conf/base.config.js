@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CssConfig = require('./css.config');
 
 // const destination = './dist/';
 const destination = path.resolve(__dirname + '/../dist/') + '/';
@@ -23,6 +24,8 @@ for (let page in allEntries) {
     pagePlugins.push(pagePlugin(page))
 }
 
+const plugins = pagePlugins.concat([CssConfig.cssPlugin]);
+
 module.exports = {
     entry: allEntries,
     output: {
@@ -30,5 +33,10 @@ module.exports = {
         publicPath: 'js/',
         filename: '[name].app.js'
     },
-    plugins: pagePlugins,
+    module: {
+        rules: [
+            CssConfig.cssRule
+        ],
+    },
+    plugins: plugins,
 };

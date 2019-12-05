@@ -1,0 +1,12 @@
+@import "vars";
+html, body {
+  height: 100%; width: 100%;
+  overflow-x: hidden;
+  padding-right: 0 !important;
+  margin: 0;
+  background-color: #4a4a4a;
+}
+#app {
+  max-width: $maxWidth;
+  margin: 0 auto;
+}
