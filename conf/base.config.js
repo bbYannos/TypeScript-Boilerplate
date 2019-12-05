@@ -24,7 +24,7 @@ configuration.entry = {
 configuration.output = {
     path: destination,
     publicPath: '',
-    filename: 'js/[name].[hash].js'
+    filename: 'js/[name].[hash].js',
 };
 
 /**
@@ -67,7 +67,8 @@ configuration.resolve = {
 
 configuration.optimization = {
     splitChunks: {
-        chunks: 'async',
+        chunks: 'all',
+
     }
 };
 

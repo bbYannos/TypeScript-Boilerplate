@@ -11,9 +11,6 @@
     "preserveConstEnums": true,
     "rootDir": "src",
     "sourceMap": true,
-    // "outDir": "../../Public/Js/",
-    //     "outFile": "../../Public/Js/app.js",
-    // "sourceRoot": "../../Private/TypeScript/src",
     "moduleResolution": "node",
     "baseUrl": "src",
     "paths": {
