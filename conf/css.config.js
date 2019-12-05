@@ -4,7 +4,7 @@ module.exports = {
     cssPlugin: new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
-        filename: '../css/[name].css',
+        filename: 'css/[name].[hash].css',
         chunkFilename: '[id].css',
     }),
     cssRule: {
@@ -12,10 +12,8 @@ module.exports = {
         use: [{
             loader: MiniCssExtractPlugin.loader,
             options: {
-                // you can specify a publicPath here
-                // by default it uses publicPath in webpackOptions.output
-                // publicPath: '../css/',
-            }
+                publicPath: '../css'
+            },
         }, {
             loader: "css-loader",
             options: {

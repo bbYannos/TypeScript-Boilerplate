@@ -29,9 +29,9 @@ const plugins = pagePlugins.concat([CssConfig.cssPlugin]);
 module.exports = {
     entry: allEntries,
     output: {
-        path: destination + 'js', // path.resolve(__dirname + '/..' , destination ),
-        publicPath: 'js/',
-        filename: '[name].app.js'
+        path: destination, // path.resolve(__dirname + '/..' , destination ),
+        publicPath: '',
+        filename: 'js/[name].[hash].js'
     },
     module: {
         rules: [
