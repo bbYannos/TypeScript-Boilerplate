@@ -59,7 +59,7 @@ configuration.module.rules.push({
     exclude: /node_modules/,
 });
 
-console.log(path.join(path.resolve(__dirname + '/..'), "/node_modules"));
+
 configuration.resolve = {
     alias: {modules: path.join(path.resolve(__dirname + '/..'), "/node_modules")},
     extensions: ['.ts', '.js']
@@ -67,8 +67,24 @@ configuration.resolve = {
 
 configuration.optimization = {
     splitChunks: {
-        chunks: 'all',
-
+        minSize: 10,
+        cacheGroups: {
+            modules: {
+                test: path.resolve('node_modules'),
+                chunks: 'all',
+                priority: -10
+            },
+            shared: {
+                test: path.resolve('src/shared'),
+                chunks: 'all',
+                priority: -10
+            },
+            default: {
+                minChunks: 2,
+                priority: -20,
+                reuseExistingChunk: true
+            }
+        }
     }
 };
 
