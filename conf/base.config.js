@@ -65,7 +65,6 @@ configuration.resolve = {
 };
 
 configuration.optimization = {
-    usedExports: true,
     splitChunks: {
         minSize: 10,
         cacheGroups: {
