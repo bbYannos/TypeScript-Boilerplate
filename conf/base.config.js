@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CssConfig = require('./css.config');
 
-// const destination = './dist/';
 const destination = path.resolve(__dirname + '/../dist/') + '/';
 
 const src = './src/';
@@ -66,6 +65,7 @@ configuration.resolve = {
 };
 
 configuration.optimization = {
+    usedExports: true,
     splitChunks: {
         minSize: 10,
         cacheGroups: {
