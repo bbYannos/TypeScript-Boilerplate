@@ -1,69 +1,62 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const src = './src';
+// js: dest/js, css: dest/css
+const dest = './dist';
+const htmlIndex = src + '/theme/index.html';
+const entries = {
+    login: src + '/apps/login/index.ts',
+    main: src + '/apps/main/index.ts'
+};
+
+const destination = path.resolve(__dirname + '/../', dest) + '/';
+const configuration = {
+    entry: entries,
+    output: {
+        path: destination,
+        publicPath: '',
+        filename: 'js/[name].[hash].js',
+    },
+    plugins: [],
+    module: {
+        rules: []
+    }
+};
+
+// CleanWebpackPlugin: Delete dist content before output
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const CssConfig = require('./css.config');
-
-const destination = path.resolve(__dirname + '/../dist/') + '/';
-
-const src = './src/';
-
-const configuration = {};
 configuration.plugins = [new CleanWebpackPlugin()];
-configuration.module = {
-    rules: []
-};
 
-/**
- * Js & Entries
- */
-configuration.entry = {
-    login: src + 'apps/login/index.ts',
-    main: src + 'apps/main/index.ts'
-};
-configuration.output = {
-    path: destination,
-    publicPath: '',
-    filename: 'js/[name].[hash].js',
-};
-
-/**
- * App Pages for multiples entries
- */
+// Generate HTML Files
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pagePlugin = (name) => new HtmlWebpackPlugin({
     hash: true,
-    template: src + 'Theme/index.html',
+    template: htmlIndex,
     chunks: [name],
-    filename: destination + name + '.html' // path.resolve(__dirname + '/..', destination + )
+    filename: destination + name + '.html'
 });
-
-
 for (let page in configuration.entry) {
     // noinspection JSUnfilteredForInLoop
     configuration.plugins.push(pagePlugin(page))
 }
 
-
-/**
- * Css
- */
+// Css
+const CssConfig = require('./css.config');
 configuration.plugins.push(CssConfig.cssPlugin);
 configuration.module.rules.push(CssConfig.cssRule);
 
-/**
- * TypeScript
- */
+// TypeScript With Babel
 configuration.module.rules.push({
     test: /\.(ts|js)x?$/,
     exclude: /node_modules/,
     loader: 'babel-loader',
 });
-
-
 configuration.resolve = {
     alias: {modules: path.join(path.resolve(__dirname + '/..'), "/node_modules")},
     extensions: ['.ts', '.js']
 };
 
+// Split chunks
 configuration.optimization = {
     splitChunks: {
         minSize: 10,

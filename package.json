@@ -1,14 +1,13 @@
 {
   "name": "tsbase",
   "version": "0.0.0",
-  "description": "Bootstrap Project",
-  "main": "index.ts",
+  "description": "Typescript - Babel - Webpack - TsLint ready to use project",
   "scripts": {
-    "dev": "webpack --config ./conf/dev.config.js --watch",
-    "prod": "webpack --config ./conf/prod.config.js",
-    "tsc": "tsc --noEmit"
+    "dev": "webpack --hide-modules true --display-entrypoints false --display-chunks  false --config ./.conf/dev.config.js --watch",
+    "prod": "webpack --config ./.conf/prod.config.js",
+    "pretest": "tsc --noEmit"
   },
-  "author": "",
+  "author": "Yann PETIT<yannpetit360@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.7.4",
