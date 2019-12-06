@@ -1,0 +1,111 @@
+import {forkJoin, Observable, of} from "rxjs";
+import {map, shareReplay, switchMap, take, tap} from "rxjs/operators";
+import {ObjectList} from "../lists";
+import {AbstractApiModel, Debuggable} from "../models";
+import {OneToOneRelation} from "./index";
+import {ChildrenListDefinition} from "./children-list.definition";
+import {ChildrenListFactory} from "./children-list.factory";
+import {ChildrenList} from "./children-list.model";
+import {AbstractRepositoryService} from "../services/repository-service.model";
+
+
+/**
+ * Manage relation between models :
+ * todo : Extend repository fromJson$ function instead of using fetchForeign$ ... or not
+ * @action: Fetch foreign Object after repository fromJson$ - Needs Repository fetchForeign$ null function
+ * @action: Listen to changes on foreign property to launch updates (ie: parent list update)
+ * @action: Listen to repository delete action to launch updates (ie: parent list update)
+ * Avoid Cyclic dependencies generated when linking services
+ */
+export abstract class AbstractRelationManager<T extends AbstractApiModel> extends Debuggable {
+  public childrenListDefinitions: Array<ChildrenListDefinition<T, any>> = [];
+  protected abstract service: AbstractRepositoryService<T>;
+  protected abstract oneToOneRelations: Array<OneToOneRelation<T, any>>;
+
+  public init() {
+    this.log("INIT " + this.service.name + "RelationManager");
+    this.service.repository.manageForeignRelations = (object: T, json: any) => {
+      this.oneToOneRelations.forEach((relation) => {
+        relation.listenObject(object);
+      });
+      this.manageChildrenLists(object, json);
+      return object;
+    };
+    this.service.repository.rollbackForeignRelations = (object: T) => {
+      this.oneToOneRelations.forEach((relation) => {
+        relation.unListenObject(object);
+      });
+      return object;
+    };
+    /* Fetch foreign Object after repository fromJson$ - Needs Repository fetchForeign$ null function */
+    this.service.repository.fetchForeign$ = (object: T, json: any = null) => this.fetchForeign$(object, json);
+  }
+
+  public manageChildrenLists(object: T, json: any) {
+    this.log("manageChildrenLists " + this.service.name + " " + object.identifier);
+    this.childrenListDefinitions.forEach((childrenListDefinition: ChildrenListDefinition<T, any>) => {
+      this.log("ChildrenLists " + childrenListDefinition.propertyName);
+      let source$ = childrenListDefinition.defaultSource$(object);
+      if (childrenListDefinition.debug) {
+        console.log("Children List From Json", (json !== null && json[childrenListDefinition.jsonKey] !== undefined));
+      }
+      if (json !== null && json[childrenListDefinition.jsonKey] !== undefined) {
+        if (childrenListDefinition.debug) {
+          console.log("Children List Json", json[childrenListDefinition.jsonKey]);
+        }
+        source$ = childrenListDefinition.service.repository.fromJsonArray$(json[childrenListDefinition.jsonKey]).pipe(
+          shareReplay(1),
+        );
+      }
+      const childrenList = this.createChildrenList(object, childrenListDefinition.propertyName, source$, childrenListDefinition.listConstructor);
+      childrenList.list.debug = childrenListDefinition.debug;
+    });
+    return object;
+  }
+
+  public fetchForeign$(object: T, json: any = null): Observable<T> {
+    const object$ = of(object);
+    if (this.oneToOneRelations.length === 0) {
+      return object$;
+    }
+    this.log("fetchForeign$", object);
+    return object$.pipe(
+      switchMap(() => {
+        const getAllOneToOne$: Array<Observable<any>> = this.oneToOneRelations.map(
+          (relation: OneToOneRelation<T, any>) => relation.fetchForeign$(object, json).pipe(
+            take(1),
+            tap((res) => this.log("FETCH FOREIGN DONE : ", relation.property)),
+          ),
+        );
+        this.log("FETCH FOREIGN CALLED", getAllOneToOne$.length);
+        return forkJoin(getAllOneToOne$).pipe(
+          tap(() => this.log("ALL FETCH FOREIGN DONE")),
+          map(() => object),
+        );
+      }),
+    );
+  }
+
+  protected createChildrenList<U extends AbstractApiModel>(
+    object: T,
+    propertyName: keyof T,
+    source$: Observable<U[]>,
+    ctor: new (...param) => ObjectList<U> = ObjectList,
+  ): ChildrenList<U> {
+    let childrenList = ChildrenListFactory.getChildrenListForProperty(object, propertyName as string);
+    if (childrenList === null) {
+      childrenList = new ChildrenList<U>();
+      childrenList.identifier = ChildrenListFactory.getIdentifierForProperty(propertyName as string);
+      childrenList.list = new ctor(object);
+      childrenList.list.source$ = source$;
+      object.lists.push(childrenList);
+      const attributes = {
+        get: () => {
+          return childrenList.list.change$;
+        },
+      };
+      Object.defineProperty(object, propertyName, attributes);
+    }
+    return childrenList as ChildrenList<U>;
+  }
+}
