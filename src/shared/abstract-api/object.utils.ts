@@ -1,4 +1,4 @@
-import moment from "shared/moment";
+import moment from "shared/moment/moment";
 import {AbstractApiModel} from "./classes/models";
 
 

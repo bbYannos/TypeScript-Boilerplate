@@ -21,8 +21,8 @@ const configuration = {
     resolve: {
         alias: {
             assets: path.resolve(__dirname  + '/../', 'src/assets/'),
+            modules: path.resolve(__dirname  + '/../', 'src/modules/'),
             shared: path.resolve(__dirname  + '/../', 'src/shared/'),
-            // modules: path.join(path.resolve(__dirname + '/..'), "/node_modules"),
         },
         extensions: ['.js'],
     },

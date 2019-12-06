@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import {combineLatest, Observable} from "rxjs";
 import {debounceTime, tap} from "rxjs/operators";
 import {JsonMapper} from "shared/json2typescript";
-import moment from "shared/moment";
+import moment from "shared/moment/moment";
 import {RxjsUtils} from "../../rxjs.utils";
 import {ObjectList} from "../lists";
 import {AbstractApiModel} from "../models";

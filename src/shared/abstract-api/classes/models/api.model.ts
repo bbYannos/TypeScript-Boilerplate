@@ -13,7 +13,7 @@ export abstract class AbstractApiModel extends AbstractIdentifiedObject {
   public updatedAt: moment.Moment = null;
   public lists: Array<ChildrenList<AbstractApiModel>> = [];
 
-  protected constructor(fromRepository = false) {
+  public constructor(fromRepository = false) {
     super();
     if (fromRepository === false) {
       console.log("Api Model constructed directly : Relations won\"t be managed. Prefer using repository.makeNew()");
