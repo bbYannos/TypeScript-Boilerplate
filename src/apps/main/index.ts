@@ -1,5 +1,5 @@
 import "assets/main";
-import moment from "moment";
+import moment from "shared/moment";
 
 const $app = document.getElementById("app");
 if ($app !== null) {

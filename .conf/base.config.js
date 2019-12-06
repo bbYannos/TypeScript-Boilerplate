@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const src = './src';
 // js: dest/js, css: dest/css
@@ -34,6 +35,9 @@ const configuration = {
 // CleanWebpackPlugin: Delete dist content before output
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 configuration.plugins = [new CleanWebpackPlugin()];
+
+// Ignore Moment locales
+configuration.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
 
 // Generate HTML Files
 const HtmlWebpackPlugin = require('html-webpack-plugin');
