@@ -5,14 +5,14 @@ module.exports = {
         // Options similar to the same options in webpackOptions.output
         // both options are optional
         filename: 'css/[name].[hash].css',
-        chunkFilename: '[id].css',
+        chunkFilename: 'css/[id].[hash].css',
     }),
     cssRule: {
         test: /\.(sa|sc|c)ss$/,
         use: [{
             loader: MiniCssExtractPlugin.loader,
             options: {
-                publicPath: '../css'
+                publicPath: 'css/'
             },
         }, {
             loader: "css-loader",

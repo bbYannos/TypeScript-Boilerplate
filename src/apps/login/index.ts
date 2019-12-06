@@ -1,7 +1,7 @@
+import "assets/base";
 import {timer} from "rxjs";
 import {take} from "rxjs/operators";
-import appTitle from "../../shared/lib-test";
-import "../../theme/styles/base.scss";
+import appTitle from "shared/lib-test";
 
 timer(1000, 1000).pipe(
   take(5),

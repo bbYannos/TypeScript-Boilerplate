@@ -3,7 +3,7 @@ const path = require('path');
 const src = './src';
 // js: dest/js, css: dest/css
 const dest = './dist';
-const htmlIndex = src + '/theme/index.html';
+const htmlIndex = src + '/assets/index.html';
 const entries = {
     login: src + '/apps/login/index.ts',
     main: src + '/apps/main/index.ts'
@@ -16,6 +16,14 @@ const configuration = {
         path: destination,
         publicPath: '',
         filename: 'js/[name].[hash].js',
+    },
+    resolve: {
+        alias: {
+            assets: path.resolve(__dirname  + '/../', 'src/assets/'),
+            shared: path.resolve(__dirname  + '/../', 'src/shared/'),
+            // modules: path.join(path.resolve(__dirname + '/..'), "/node_modules"),
+        },
+        extensions: ['.js'],
     },
     plugins: [],
     module: {
@@ -51,15 +59,12 @@ configuration.module.rules.push({
     exclude: /node_modules/,
     loader: 'babel-loader',
 });
-configuration.resolve = {
-    alias: {modules: path.join(path.resolve(__dirname + '/..'), "/node_modules")},
-    extensions: ['.ts', '.js']
-};
+configuration.resolve.extensions.push('.ts');
 
 // Split chunks
 configuration.optimization = {
     splitChunks: {
-        minSize: 10,
+        minSize: 0,
         cacheGroups: {
             modules: {
                 test: path.resolve('node_modules'),
@@ -68,6 +73,11 @@ configuration.optimization = {
             },
             shared: {
                 test: path.resolve('src/shared'),
+                chunks: 'all',
+                priority: -10
+            },
+            styles: {
+                test: path.resolve('src/assets'),
                 chunks: 'all',
                 priority: -10
             },
