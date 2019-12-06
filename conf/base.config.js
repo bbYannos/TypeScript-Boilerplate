@@ -53,9 +53,9 @@ configuration.module.rules.push(CssConfig.cssRule);
  * TypeScript
  */
 configuration.module.rules.push({
-    test: /\.tsx?$/,
-    loader: 'ts-loader',
+    test: /\.(ts|js)x?$/,
     exclude: /node_modules/,
+    loader: 'babel-loader',
 });
 
 

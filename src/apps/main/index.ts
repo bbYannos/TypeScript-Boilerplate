@@ -7,4 +7,8 @@ import mainContent from "../../shared/lib-other";
 timer(1000, 1000).pipe(
   take(5)
 ).subscribe(() => console.log(appTitle.name));
-document.getElementById('app').innerHTML = mainContent.home;
+
+const $app = document.getElementById("app");
+if ($app !== null) {
+  $app.innerHTML = mainContent.home;
+}

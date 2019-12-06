@@ -7,7 +7,10 @@ timer(1000, 1000).pipe(
   take(5),
 ).subscribe(() => console.log(appTitle.name));
 
-document.getElementById("app").innerHTML = "login";
+const $app = document.getElementById("app");
+if ($app !== null) {
+  $app.innerHTML = "login";
+}
 
 const test1 = {toto: 1, titi: 2};
 for (const i in test1) {
