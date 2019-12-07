@@ -16,6 +16,7 @@ const configuration = {
     output: {
         path: destination,
         publicPath: '',
+        chunkFilename: 'js/[name].bundle.js',
         filename: 'js/[name].[hash].js',
     },
     resolve: {
@@ -70,13 +71,18 @@ configuration.optimization = {
     splitChunks: {
         minSize: 0,
         cacheGroups: {
-            modules: {
+            nodes: {
                 test: path.resolve('node_modules'),
                 chunks: 'all',
                 priority: -10
             },
             shared: {
                 test: path.resolve('src/shared'),
+                chunks: 'all',
+                priority: -10
+            },
+            modules: {
+                test: path.resolve('src/modules'),
                 chunks: 'all',
                 priority: -10
             },

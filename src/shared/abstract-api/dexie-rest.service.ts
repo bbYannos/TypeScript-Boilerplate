@@ -1,8 +1,8 @@
 import {combineLatest, Observable, of, timer} from "rxjs";
 import {filter, map, switchMap, take, tap} from "rxjs/operators";
-import {AbstractApiQuery} from "./classes/services/repository.query";
-import {ObjectList} from "./classes/lists/object.list";
+import {ObjectList} from "./classes/lists";
 import {AbstractApiModel} from "./classes/models";
+import {AbstractApiQuery} from "./classes/services";
 import {DexieService} from "./dexie";
 import {ObjectUtils} from "./object.utils";
 import {ApiRequestService, RestApiTable} from "./rest/";

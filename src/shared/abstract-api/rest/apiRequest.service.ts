@@ -29,6 +29,7 @@ export class ApiRequestService {
   }
 
   public post<T>(action: string, object: any = {}, extraParams: any = {}): Observable<T> {
+    // tslint:disable-next-line:prefer-object-spread
     const params = Object.assign(extraParams, object);
     return this.addRequest(action, API_METHODS.POST, params);
   }
@@ -38,7 +39,7 @@ export class ApiRequestService {
     return this.addRequestWithFullUrl(url, method, params);
   }
 
-  /** Different EndPoint for Authentication **/
+  /* Different EndPoint for Authentication **/
   public addRequestWithFullUrl<T>(url: string, method: string, params: any = null): Observable<T> {
     const request = new ApiRequest();
     request.url = url;
@@ -63,17 +64,17 @@ export class ApiRequestService {
         return request.execute().pipe(
           tap(() => {
             this.currentRequestIdentifier = null;
-            this.apiLoading_.next(false)
+            this.apiLoading_.next(false);
           }),
           catchError((error) => {
             this.currentRequestIdentifier = null;
             this.apiLoading_.next(false);
             this.error_.next(error);
             return throwError(error);
-          })
+          }),
         );
-      })
-    )
+      }),
+    );
   }
 }
 

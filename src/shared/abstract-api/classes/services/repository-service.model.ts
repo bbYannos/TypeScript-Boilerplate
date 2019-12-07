@@ -1,11 +1,11 @@
 import {Observable, of, pipe} from "rxjs";
 import {map} from "rxjs/operators";
 import {RxjsUtils} from "../../rxjs.utils";
-import {AbstractApiQuery} from "./repository.query";
 import {AbstractApiModel} from "../models";
 import {AbstractInitService} from "./init.service";
 import {AbstractRepositoryServiceOptions} from "./repository-service.options";
 import {AbstractRepository} from "./repository.model";
+import {AbstractApiQuery} from "./repository.query";
 
 export abstract class AbstractRepositoryService<T extends AbstractApiModel> extends AbstractInitService {
   public abstract repository: AbstractRepository<T>;
@@ -19,7 +19,7 @@ export abstract class AbstractRepositoryService<T extends AbstractApiModel> exte
   }
 
   public defaultSort = () => pipe(map((objects: T[]) =>
-    objects.sort((object1, object2) => (object1.apiId > object2.apiId) ? 1 : -1))
+    objects.sort((object1, object2) => (object1.apiId > object2.apiId) ? 1 : -1)),
   );
 
   public getById(id: number): Observable<T> {

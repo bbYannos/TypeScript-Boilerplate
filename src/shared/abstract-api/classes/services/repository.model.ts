@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import {combineLatest, Observable} from "rxjs";
 import {debounceTime, tap} from "rxjs/operators";
 import {JsonMapper} from "shared/json2typescript";

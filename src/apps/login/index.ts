@@ -1,12 +1,19 @@
 import "assets/base";
+import {AbstractAppComponent, AppName, Layout} from "modules/AppTemplate/App";
+import moment from "shared/moment/moment";
 
-const $app = document.getElementById("app");
+class PageLayout implements Layout {
+  public $htmEl: HTMLElement = null;
 
-if ($app !== null) {
-  $app.innerHTML = "login";
+  public render(): void {
+    this.$htmEl.innerHTML = moment().format("HH:mm");
+  }
 }
 
-const test1 = {toto: 1, tata: 2};
-for (const i in test1) {
-  console.log(i);
+// tslint:disable-next-line:max-classes-per-file
+class AppComponent extends AbstractAppComponent {
+  public layout = new PageLayout();
+  protected appName: AppName = "login";
 }
+
+const app = new AppComponent().init();

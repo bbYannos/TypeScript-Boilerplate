@@ -1,9 +1,8 @@
 import {combineLatest, Observable} from "rxjs";
 import {filter, map, shareReplay, switchMap, take, tap} from "rxjs/operators";
-import {ObjectList} from "../classes/lists/object.list";
+import {ObjectList} from "../classes/lists";
 import {AbstractApiModel} from "../classes/models";
-import {AbstractRepositoryService} from "../classes/services/repository-service.model";
-import {AbstractRepository} from "../classes/services/repository.model";
+import {AbstractRepository, AbstractRepositoryService} from "../classes/services";
 import {ApiRequestService} from "./apiRequest.service";
 import {RestApiTable} from "./restApi.table";
 

@@ -2,7 +2,7 @@ import Dexie from "dexie";
 import {exportDB, importInto} from "dexie-export-import";
 import {forkJoin, from, Observable, Subject} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
-import {AbstractInitService} from "../classes/services/init.service";
+import {AbstractInitService} from "../classes/services";
 import {RxjsUtils} from "../rxjs.utils";
 
 export abstract class DexieRequestServiceConnexion extends AbstractInitService {
@@ -90,6 +90,7 @@ export abstract class DexieRequestServiceConnexion extends AbstractInitService {
   }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export abstract class DexieRequestService extends DexieRequestServiceConnexion {
 
   public postAll<T>(jsonArray: any[], tableName: string): Observable<any[]> {
@@ -140,6 +141,7 @@ export abstract class DexieRequestService extends DexieRequestServiceConnexion {
     let dexieCollection: Dexie.Collection<any, number> = null;
     return this.getTable$(tableName).pipe(
       switchMap((table: Dexie.Table<any, number>) => {
+        // tslint:disable-next-line:prefer-conditional-expression
         if (where !== null) {
           dexieCollection = table.where(where) as any;
         } else {

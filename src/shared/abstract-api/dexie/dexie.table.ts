@@ -1,9 +1,7 @@
-import Dexie from "dexie";
 import {Observable, of} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 import {AbstractApiModel} from "../classes/models";
-import {AbstractRepositoryService} from "../classes/services/repository-service.model";
-import {AbstractRepository} from "../classes/services/repository.model";
+import {AbstractRepository, AbstractRepositoryService} from "../classes/services";
 import {ObjectUtils} from "../object.utils";
 import {DexieRequestService} from "./dexieRequest.service";
 
@@ -29,10 +27,6 @@ export class DexieTable<T extends AbstractApiModel> extends AbstractRepositorySe
   public set dexieDataBase(dexieDataBase: DexieRequestService) {
     this._dexieDataBase = dexieDataBase;
     this.ready_.next([true]);
-  }
-
-  public get table$(): Observable<Dexie.Table<T, number>> {
-    return this.dexieDataBase.getTable$(this.tableName);
   }
 
   public get tableName(): string {

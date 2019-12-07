@@ -1,11 +1,9 @@
 import {Observable} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 import {AbstractApiModel} from "../classes/models";
-import {AbstractRepositoryService} from "../classes/services/repository-service.model";
-import {Repository} from "../classes/services/repository.model";
+import {AbstractRepositoryService, Repository} from "../classes/services";
 import {ObjectUtils} from "../object.utils";
 import {ApiRequestService} from "./apiRequest.service";
-
 
 export class RestApiTable<T extends AbstractApiModel> extends AbstractRepositoryService<T> {
   public repository: Repository<T>;
