@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "Typescript - Babel - Webpack - TsLint ready to use project",
   "scripts": {
-    "dev": "webpack --hide-modules true --display-entrypoints false --display-chunks  false --config ./.conf/dev.config.js --watch",
+    "dev": "webpack-dev-server --config ./.conf/dev.config.js --watch",
+    "build:dev": "webpack --hide-modules true --display-entrypoints false --display-chunks  false --config ./.conf/dev.config.js",
     "prod": "webpack --config ./.conf/prod.config.js",
     "pretest": "tsc --noEmit"
   },
@@ -36,7 +37,8 @@
     "typescript": "^3.7.3",
     "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
     "axios": "^0.19.0",

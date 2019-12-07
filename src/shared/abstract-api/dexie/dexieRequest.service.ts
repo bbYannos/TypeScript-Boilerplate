@@ -31,6 +31,8 @@ export abstract class DexieRequestServiceConnexion extends AbstractInitService {
   }
 
   public db$(): Observable<Dexie> {
+    // do not use "dexie" witch import dexie.es.js
+    // when "dexie-export-import" use dexie.js
     return from(import(/* webpackChunkName: "dexie" */  "dexie/dist/dexie.js")).pipe(
       map((dexieModule) => new dexieModule.default(this.dbName)),
       shareReplay(1),

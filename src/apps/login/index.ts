@@ -6,7 +6,7 @@ class PageLayout implements Layout {
   public $htmEl: HTMLElement = null;
 
   public render(): void {
-    this.$htmEl.innerHTML = moment().format("HH:mm");
+    this.$htmEl.innerHTML = moment().format("HH:mm:sss");
   }
 }
 
