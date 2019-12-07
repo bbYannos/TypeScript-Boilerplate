@@ -1,7 +1,7 @@
 import "assets/main";
 import Dexie from "dexie/dist/dexie";
 import {from, Observable, timer} from "rxjs";
-import {map, switchMap, take} from "rxjs/operators";
+import {map, switchMap, take, tap} from "rxjs/operators";
 import mainContent from "shared/lib-other";
 import appTitle from "shared/lib-test";
 
@@ -15,26 +15,25 @@ if ($app !== null) {
 }
 
 const Axios$ = (): Observable<any> => from(import(/* webpackChunkName: "axios" */  "axios")).pipe(
-  map(({ default: axios }) => axios),
+  map((res) => res.default),
 );
 
 
 timer(3000).pipe(
   switchMap(() => Axios$()),
-).subscribe((axios) => {
-  console.log(axios);
-});
+).subscribe();
 
 
-const Dexie$: (name: string) => Observable<Dexie>  = () => from(import(/* webpackChunkName: "dexie" */  "dexie")).pipe(
-  map(({ default: DexieCtor }) => new DexieCtor(name)),
+const Dexie$: (name: string) => Observable<any>  = () => from(import(/* webpackChunkName: "dexie" */  "dexie")).pipe(
+  map((dexieModule) => dexieModule.default),
+  tap((DexieCtor) => console.log(DexieCtor.delete)),
+  switchMap((DexieCtor) => DexieCtor.exists("toto")),
+  tap((res) => console.log(res)),
 );
 
 timer(3000).pipe(
   switchMap(() => Dexie$("test")),
-).subscribe((db) => {
-  console.log(db);
-});
+).subscribe();
 
 
 
