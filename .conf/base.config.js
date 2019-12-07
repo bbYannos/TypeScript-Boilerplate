@@ -16,7 +16,7 @@ const configuration = {
     output: {
         path: destination,
         publicPath: '',
-        chunkFilename: 'js/[name].bundle.js',
+        chunkFilename: 'js/[name].[hash].bundle.js',
         filename: 'js/[name].[hash].js',
     },
     resolve: {
