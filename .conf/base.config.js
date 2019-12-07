@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const src = './src';
 // js: dest/js, css: dest/css
@@ -15,13 +16,14 @@ const configuration = {
     output: {
         path: destination,
         publicPath: '',
+        chunkFilename: 'js/[name].bundle.js',
         filename: 'js/[name].[hash].js',
     },
     resolve: {
         alias: {
             assets: path.resolve(__dirname  + '/../', 'src/assets/'),
+            modules: path.resolve(__dirname  + '/../', 'src/modules/'),
             shared: path.resolve(__dirname  + '/../', 'src/shared/'),
-            // modules: path.join(path.resolve(__dirname + '/..'), "/node_modules"),
         },
         extensions: ['.js'],
     },
@@ -34,6 +36,9 @@ const configuration = {
 // CleanWebpackPlugin: Delete dist content before output
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 configuration.plugins = [new CleanWebpackPlugin()];
+
+// Ignore Moment locales
+configuration.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
 
 // Generate HTML Files
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -66,13 +71,18 @@ configuration.optimization = {
     splitChunks: {
         minSize: 0,
         cacheGroups: {
-            modules: {
+            nodes: {
                 test: path.resolve('node_modules'),
                 chunks: 'all',
                 priority: -10
             },
             shared: {
                 test: path.resolve('src/shared'),
+                chunks: 'all',
+                priority: -10
+            },
+            modules: {
+                test: path.resolve('src/modules'),
                 chunks: 'all',
                 priority: -10
             },
