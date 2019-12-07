@@ -6,7 +6,7 @@ const src = './src';
 const dest = './dist';
 const htmlIndex = src + '/assets/index.html';
 const entries = {
-    login: src + '/apps/login/index.ts',
+    index: src + '/apps/login/index.ts',
     main: src + '/apps/main/index.ts'
 };
 

@@ -1,4 +1,22 @@
 const base = require("./base.config");
+const path = require('path');
+const dest = './dist';
+const destination = path.resolve(__dirname + '/../', dest) + '/';
+
+base.devServer = {
+    contentBase: destination,
+    compress: true,
+    port: 9000,
+    open: "firefox",
+    hot: true,
+};
+
+base.stats = {
+    entrypoints: false,
+    chunks: false,
+    modules: false,
+    children: false,
+};
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const circularDependencyPlugin = new CircularDependencyPlugin({
