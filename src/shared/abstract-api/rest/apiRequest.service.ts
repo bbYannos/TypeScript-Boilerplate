@@ -7,12 +7,12 @@ export {ApiRequest, API_METHODS};
 
 export class ApiRequestService {
   public token: string | boolean = false;
-
+  public apiEndpointUrl = null;
+  public authEndPoint = null;
   public apiLoading_: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public readyToSendNext$ = this.apiLoading_.asObservable().pipe(filter((loading: boolean) => loading === false));
   public error_: Subject<AxiosError> = new Subject<AxiosError>();
   protected currentRequestIdentifier: string = null;
-  protected apiEndpointUrl = null;
 
   protected queue: ApiRequest[] = [];
 

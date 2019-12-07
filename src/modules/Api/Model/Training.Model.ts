@@ -1,7 +1,7 @@
 import {Observable} from "rxjs";
 import {AbstractPeriod, PeriodList} from "shared/abstract-api";
 import {JsonObject, JsonProperty, RelationConverter} from "shared/json2typescript";
-import {Exam} from "..";
+import {Exam} from "./Exam.Model";
 import {Formation} from "./Formation.Model";
 import {Module} from "./Module.Model";
 import {Room} from "./Room.Model";

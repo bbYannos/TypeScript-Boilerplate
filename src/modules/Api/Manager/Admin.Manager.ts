@@ -10,7 +10,7 @@ export class AdminApiManager extends BaseApiManager {
 
   public static get services() {
     return super.services.concat(
-      [this.downloadService],
+      [],
     );
   }
 

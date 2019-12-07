@@ -8,7 +8,7 @@ import {
   Repository,
   RestService,
 } from "shared/abstract-api";
-import {User} from "../Model";
+import {User} from "../Model/User.Model";
 import {WpUserModel} from "../Model/WpUser.Model";
 
 export {WpUserModel, User};
@@ -21,9 +21,14 @@ class JwAuthResponse {
 
 // tslint:disable-next-line:max-classes-per-file
 export class UserService extends RestService<User> {
+  protected static _instance: UserService = null;
+  public static get instance(): UserService {
+    if (this._instance === null) {
+      this._instance = new UserService();
+    }
+    return new UserService();
+  }
   public repository: AbstractRepository<User> = new Repository(User);
-
-
   protected userJson_: BehaviorSubject<void> = new BehaviorSubject(null);
   // tslint:disable-next-line:member-ordering
   public userJson$ = this.userJson_.asObservable().pipe(filter((json) => json !== null));
@@ -40,7 +45,7 @@ export class UserService extends RestService<User> {
   );
 
   protected cookieName = "token";
-  protected jwAuthEndPoint = "/wp-json/jwt-auth/v1/";
+  protected jwAuthEndPoint = null;
 
   public init() {
     WpUserModel.fromJson$(this.userJson_.getValue()).subscribe((wpUser: WpUserModel) => {
@@ -51,6 +56,7 @@ export class UserService extends RestService<User> {
 
   public initRest(restApiRequestService: ApiRequestService) {
     const response = super.initRest(restApiRequestService);
+    this.jwAuthEndPoint = restApiRequestService.authEndPoint;
     this.checkStoredSession();
     return response;
   }
@@ -74,7 +80,7 @@ export class UserService extends RestService<User> {
     return this.userConnected$;
   }
 
-  public login(request): Observable<boolean> {
+  public login(request: { username: string, password: string }): Observable<boolean> {
     return this.getToken(request).pipe(
       map((data: JwAuthResponse) => {
         CookieUtils.setCookie(this.cookieName, data.token);
@@ -108,5 +114,5 @@ export class UserService extends RestService<User> {
   }
 }
 
-export const userService = new UserService();
+export default UserService.instance;
 

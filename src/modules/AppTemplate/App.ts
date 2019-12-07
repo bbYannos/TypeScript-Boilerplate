@@ -1,6 +1,5 @@
 import {tap} from "rxjs/operators";
-import {WpUserModel} from "../Api";
-import {LoginManager} from "../Api/Manager/Login.Manager";
+import {LoginManager, WpUserModel} from "../Api/Manager/Login.Manager";
 
 export type AppName = ("admin" | "trainee" | "speaker" | "login");
 export const APP_PAGES = {
@@ -9,6 +8,8 @@ export const APP_PAGES = {
   speaker: "teacher",
   login: "index",
 };
+
+
 
 export interface Layout {
   $htmEl: HTMLElement;
@@ -28,7 +29,6 @@ export abstract class AbstractAppComponent {
   public init() {
     this.api.userService.user$.pipe(
       tap((wpUser: WpUserModel) => {
-        this.api.currentWpUser = wpUser;
         if (this.getUserApp(wpUser) !== this.appName) {
           if (!this.debug) {
             document.location.href = this.getUserPage(wpUser) + ".html";

@@ -7,7 +7,7 @@ const dest = './dist';
 const htmlIndex = src + '/assets/index.html';
 const entries = {
     index: src + '/apps/login/index.ts',
-    main: src + '/apps/main/index.ts'
+    // main: src + '/apps/main/index.ts',
 };
 
 const destination = path.resolve(__dirname + '/../', dest) + '/';

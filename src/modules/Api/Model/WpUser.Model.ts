@@ -1,8 +1,6 @@
 import {Observable, of} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
-import {formationService} from "../Service/Formation.Service";
-import {speakerService} from "../Service/Speaker.Service";
-import {traineeService} from "../Service/Trainee.Service";
+import formationService from "../Service/Formation.Service";
 import {Speaker} from "./Speaker.Model";
 import {Trainee} from "./Trainee.Model";
 
@@ -19,16 +17,22 @@ export class WpUserModel {
   get isTrainee(): boolean {
     return (this.roles.indexOf("trainee") > -1);
   }
+  public static fromJson$(json: any): Observable<WpUserModel> {
+    const wpUser = Object.assign(new WpUserModel(), json);
+    return of(wpUser);
+  }
 
+
+  /*
   public static fromJson$(json: any): Observable<WpUserModel> {
     const wpUser = Object.assign(new WpUserModel(), json);
     return of(wpUser).pipe(
       switchMap(() => {
         if (wpUser.isTrainee && traineeService.rest !== null && formationService.rest !== null) {
           return traineeService.isReady$.pipe(
-            /* populate speakers from data */
+            // populate speakers from data
             switchMap(() => speakerService.repository.fromJsonArray$(wpUser.data.speakers)),
-            /* populate trainee from data */
+            // populate trainee from data
             switchMap(() => traineeService.repository.fromJson$(wpUser.data.trainee)),
             map((trainee: Trainee) => {
               wpUser.trainee = trainee;
@@ -38,9 +42,9 @@ export class WpUserModel {
         }
         if (wpUser.isSpeaker && speakerService.rest !== null && formationService.rest !== null) {
           return speakerService.isReady$.pipe(
-            /* populate formations from data */
+            // populate formations from data
             switchMap(() => formationService.repository.fromJsonArray$(wpUser.data.formations)),
-            /* populate trainee from data */
+            // populate trainee from data
             switchMap(() => speakerService.repository.fromJson$(wpUser.data.speaker)),
             map((speaker: Speaker) => {
               wpUser.speaker = speaker;
@@ -52,6 +56,7 @@ export class WpUserModel {
       }),
     );
   }
+   */
   public roles: string[];
   public trainee: Trainee = null;
   public speaker: Speaker = null;

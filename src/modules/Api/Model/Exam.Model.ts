@@ -1,8 +1,8 @@
 import {AbstractApiModel} from "shared/abstract-api";
 import {JsonObject, JsonProperty, MomentConverter, RelationConverter} from "shared/json2typescript";
 import moment from "shared/moment/moment";
-import {Training} from "..";
 import {ExamType} from "./ExamType.Model";
+import {Training} from "./Training.Model";
 
 @JsonObject("Exam")
 export class Exam extends AbstractApiModel {

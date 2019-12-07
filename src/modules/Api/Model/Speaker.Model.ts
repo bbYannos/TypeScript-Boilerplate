@@ -2,7 +2,7 @@ import {combineLatest, Observable, of} from "rxjs";
 import {map, share, switchMap} from "rxjs/operators";
 import {JsonObject} from "shared/json2typescript";
 import moment from "shared/moment/moment";
-import {Formation} from "..";
+import {Formation} from "./Formation.Model";
 import {Availability} from "./Availability.Model";
 import {Session} from "./Session.Model";
 import {Training} from "./Training.Model";

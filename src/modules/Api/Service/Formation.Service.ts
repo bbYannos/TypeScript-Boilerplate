@@ -1,7 +1,7 @@
 import {MODULES_CONSTANTS} from "modules/modules.constants";
 import {DexieRestService, ObjectUtils, Repository} from "shared/abstract-api";
 import moment from "shared/moment/moment";
-import {Formation} from "../Model/";
+import {Formation} from "../Model/Formation.Model";
 
 export {Formation};
 
@@ -67,4 +67,11 @@ export class FormationService extends DexieRestService<Formation> {
   }
 }
 
-export const formationService = new FormationService();
+let _service = null;
+export default () => {
+  if (_service === null) {
+    _service = new FormationService();
+  }
+  return _service;
+}
+

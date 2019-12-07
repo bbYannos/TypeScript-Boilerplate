@@ -1,4 +1,5 @@
 const base = require("./base.config");
+const webpack = require('webpack');
 const path = require('path');
 const dest = './dist';
 const destination = path.resolve(__dirname + '/../', dest) + '/';
@@ -9,6 +10,7 @@ base.devServer = {
     port: 9000,
     open: "firefox",
     hot: true,
+    host: 'isvin.loc'
 };
 
 base.stats = {
@@ -17,6 +19,13 @@ base.stats = {
     modules: false,
     children: false,
 };
+
+base.plugins.push(new webpack.HotModuleReplacementPlugin({
+    // if undefined or true : ReferenceError: webpackHotUpdate is not defined
+    // https://github.com/webpack/webpack/issues/6693
+    // todo: test -> optimization.runtimeChunk: true
+    multiStep: false,
+}));
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const circularDependencyPlugin = new CircularDependencyPlugin({
