@@ -1,4 +1,5 @@
 import {tap} from "rxjs/operators";
+import {ServiceFactory} from "../../shared/abstract-api";
 import {UserService, WpUserModel} from "../Api/Service/User.Service";
 
 export type AppName = ("admin" | "trainee" | "speaker" | "login");
@@ -36,6 +37,7 @@ export abstract class AbstractAppComponent {
         }
       }),
     ).subscribe();
+    ServiceFactory.initService(this.userService);
     return this;
   }
 

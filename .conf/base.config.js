@@ -21,9 +21,9 @@ const configuration = {
     },
     resolve: {
         alias: {
-            assets: path.resolve(__dirname  + '/../', 'src/assets/'),
-            modules: path.resolve(__dirname  + '/../', 'src/modules/'),
-            shared: path.resolve(__dirname  + '/../', 'src/shared/'),
+            assets: path.resolve(__dirname + '/../', 'src/assets/'),
+            modules: path.resolve(__dirname + '/../', 'src/modules/'),
+            shared: path.resolve(__dirname + '/../', 'src/shared/'),
         },
         extensions: ['.js'],
     },
@@ -52,6 +52,12 @@ for (let page in configuration.entry) {
     // noinspection JSUnfilteredForInLoop
     configuration.plugins.push(pagePlugin(page))
 }
+// Nunjucks Files
+configuration.module.rules.push({
+    test: /\.(njk|nunjucks|html)$/,
+    loader: 'nunjucks-loader',
+    exclude: /assets/,
+});
 
 // Css
 const CssConfig = require('./css.config');
@@ -75,7 +81,7 @@ configuration.optimization = {
             nodes: {
                 test: path.resolve('node_modules'),
                 chunks: 'all',
-                priority: -10
+                priority: -5
             },
             shared: {
                 test: path.resolve('src/shared'),
@@ -85,18 +91,17 @@ configuration.optimization = {
             modules: {
                 test: path.resolve('src/modules'),
                 chunks: 'all',
-                priority: -10
+                priority: -15
             },
             styles: {
-                // test: /[\\/]src[\\/]assets[\\/]vendor[\\/]|[\\/]src[\\/]assets[\\/]styles[\\/]/,
-                // can not share base.scss :'(
-                test: path.resolve('src/assets/vendor'),
+                test: path.resolve('src/assets'),
                 chunks: 'all',
-                priority: -5
+                priority: -20,
+                enforce: true,
             },
             default: {
                 minChunks: 2,
-                priority: -20,
+                priority: -30,
                 reuseExistingChunk: true
             }
         }

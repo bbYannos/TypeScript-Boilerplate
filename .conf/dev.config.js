@@ -8,7 +8,7 @@ base.devServer = {
     contentBase: destination,
     compress: true,
     port: 9000,
-    open: "firefox",
+    // open: "firefox",
     hot: true,
     host: 'isvin.loc'
 };

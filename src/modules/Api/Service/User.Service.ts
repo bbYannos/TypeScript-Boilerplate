@@ -67,7 +67,7 @@ export class UserService extends RestService<User> {
         throw error;
       });
     } else {
-      // console.log("User", null);
+      console.log("User", null);
       this.user_.next(null);
     }
     return this.userConnected$;

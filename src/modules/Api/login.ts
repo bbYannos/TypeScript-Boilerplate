@@ -8,7 +8,6 @@ class LoginApi {
   static get export() {
     ServiceFactory.restDB = new IsVinRestBDD();
     const userService = ServiceFactory.getService<UserService>(UserService);
-    ServiceFactory.initService(userService);
     return {
       userService: userService,
     };
