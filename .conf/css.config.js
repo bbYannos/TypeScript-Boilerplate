@@ -1,6 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
-
+const devMode = process.env.NODE_ENV !== 'production';
 module.exports = {
     cssPlugin: new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
@@ -13,6 +13,7 @@ module.exports = {
         use: [{
             loader: MiniCssExtractPlugin.loader,
             options: {
+                hmr: devMode,
                 publicPath: 'css/'
             },
         }, {
