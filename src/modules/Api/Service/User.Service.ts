@@ -1,5 +1,5 @@
-import {BehaviorSubject, Observable, of, Subject} from "rxjs";
-import {filter, map, shareReplay, take, tap} from "rxjs/operators";
+import {Observable, of, Subject} from "rxjs";
+import {filter, map, shareReplay, switchMap, take, tap} from "rxjs/operators";
 import {
   AbstractRepository,
   API_METHODS,
@@ -10,7 +10,9 @@ import {
 } from "shared/abstract-api";
 import {User} from "../Model/User.Model";
 import {WpUserModel} from "../Model/WpUser.Model";
+
 export {User, WpUserModel};
+
 class JwAuthResponse {
   public token: string;
   // tslint:disable-next-line:variable-name
@@ -20,10 +22,9 @@ class JwAuthResponse {
 // tslint:disable-next-line:max-classes-per-file
 export class UserService extends RestService<User> {
   public repository: AbstractRepository<User> = new Repository(User);
-  protected userJson_: BehaviorSubject<void> = new BehaviorSubject(null);
+  protected userJson_: Subject<void> = new Subject();
   // tslint:disable-next-line:member-ordering
   public userJson$ = this.userJson_.asObservable().pipe(filter((json) => json !== null));
-
   protected user_: Subject<WpUserModel> = new Subject();
   // tslint:disable-next-line:member-ordering
   public user$ = this.user_.asObservable().pipe(
@@ -34,21 +35,22 @@ export class UserService extends RestService<User> {
     filter((user) => user !== null),
     take(1),
   );
-
   protected cookieName = "token";
   protected jwAuthEndPoint = null;
 
   public init() {
-    WpUserModel.fromJson$(this.userJson_.getValue()).subscribe((wpUser: WpUserModel) => {
+    this.userJson_.pipe(
+      switchMap((userJson: any) => WpUserModel.fromJson$(userJson)),
+    ).subscribe((wpUser: WpUserModel) => {
       this.ready_.next([true]);
       this.user_.next(wpUser);
     });
+    this.checkStoredSession();
   }
 
   public initRest(restApiRequestService: ApiRequestService) {
     const response = super.initRest(restApiRequestService);
     this.jwAuthEndPoint = restApiRequestService.authEndPoint;
-    this.checkStoredSession();
     return response;
   }
 

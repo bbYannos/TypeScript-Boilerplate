@@ -7,7 +7,7 @@ base.optimization = Object.assign(base.optimization, {
 });
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// base.plugins.push(new BundleAnalyzerPlugin());
+base.plugins.push(new BundleAnalyzerPlugin());
 
 module.exports = Object.assign(base, {
     mode: 'production'

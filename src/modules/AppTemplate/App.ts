@@ -1,5 +1,5 @@
 import {tap} from "rxjs/operators";
-import {LoginManager, WpUserModel} from "../Api/Manager/Login.Manager";
+import {UserService, WpUserModel} from "../Api/Service/User.Service";
 
 export type AppName = ("admin" | "trainee" | "speaker" | "login");
 export const APP_PAGES = {
@@ -9,8 +9,6 @@ export const APP_PAGES = {
   login: "index",
 };
 
-
-
 export interface Layout {
   $htmEl: HTMLElement;
   render(): void;
@@ -19,7 +17,7 @@ export interface Layout {
 export abstract class AbstractAppComponent {
   public layout: Layout;
   public debug = false;
-  protected api = LoginManager;
+  public abstract userService: UserService;
   protected abstract appName: AppName;
 
   protected get $app(): HTMLElement {
@@ -27,7 +25,7 @@ export abstract class AbstractAppComponent {
   }
 
   public init() {
-    this.api.userService.user$.pipe(
+    this.userService.user$.pipe(
       tap((wpUser: WpUserModel) => {
         if (this.getUserApp(wpUser) !== this.appName) {
           if (!this.debug) {
@@ -38,7 +36,6 @@ export abstract class AbstractAppComponent {
         }
       }),
     ).subscribe();
-    this.api.init();
     return this;
   }
 

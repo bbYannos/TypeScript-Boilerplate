@@ -1,10 +1,8 @@
 import "assets/_base";
+import Api, {UserService} from "modules/Api/login";
 import {AbstractAppComponent, AppName, Layout} from "modules/AppTemplate/App";
 import {timer} from "rxjs";
 import moment from "shared/moment";
-
-import Api from "modules/Api/login";
-
 
 // tslint:disable-next-line
 class PageLayout implements Layout {
@@ -14,12 +12,15 @@ class PageLayout implements Layout {
     this.$htmEl.innerHTML = moment().format("HH:mm:sss");
   }
 }
+
 // tslint:disable-next-line:max-classes-per-file
 class AppComponent extends AbstractAppComponent {
   public layout = new PageLayout();
+  public userService: UserService = Api.userService;
   protected appName: AppName = "login";
   protected api = Api;
 }
+
 const app = new AppComponent().init();
 
 timer(1000).subscribe(() => {
