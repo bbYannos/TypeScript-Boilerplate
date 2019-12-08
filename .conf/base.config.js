@@ -3,11 +3,11 @@ const webpack = require('webpack');
 
 const src = './src';
 // js: dest/js, css: dest/css
-
 const htmlIndex = src + '/assets/index.html';
+// Never add comma, space  on the last line: broke common css
 const entries = {
     index: src + '/apps/login/index.ts',
-    main: src + '/apps/main/index.ts',
+    main: src + '/apps/main/index.ts'
 };
 
 const dest = './dist';

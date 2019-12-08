@@ -1,4 +1,5 @@
 import "assets/main";
+
 import {AbstractAppComponent, AppName, Layout} from "modules/AppTemplate/App";
 import moment from "shared/moment/moment";
 
@@ -9,7 +10,6 @@ class PageLayout implements Layout {
     this.$htmEl.innerHTML = moment().format("HH:mm");
   }
 }
-
 
 // tslint:disable-next-line:max-classes-per-file
 class AppComponent extends AbstractAppComponent {
