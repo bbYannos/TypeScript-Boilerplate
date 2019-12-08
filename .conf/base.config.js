@@ -7,7 +7,7 @@ const dest = './dist';
 const htmlIndex = src + '/assets/index.html';
 const entries = {
     index: src + '/apps/login/index.ts',
-    // main: src + '/apps/main/index.ts',
+    main: src + '/apps/main/index.ts',
 };
 
 const destination = path.resolve(__dirname + '/../', dest) + '/';
@@ -56,7 +56,8 @@ for (let page in configuration.entry) {
 // Css
 const CssConfig = require('./css.config');
 configuration.plugins.push(CssConfig.cssPlugin);
-configuration.module.rules.push(CssConfig.cssRule);
+configuration.module.rules = configuration.module.rules.concat(CssConfig.cssRules);
+
 
 // TypeScript With Babel
 configuration.module.rules.push({

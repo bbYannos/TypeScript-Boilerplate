@@ -5,9 +5,9 @@ module.exports = {
         // Options similar to the same options in webpackOptions.output
         // both options are optional
         filename: 'css/[name].[hash].css',
-        chunkFilename: 'css/[id].[hash].css',
+        chunkFilename: 'css/[name].[hash].css',
     }),
-    cssRule: {
+    cssRules: [{
         test: /\.(sa|sc|c)ss$/,
         use: [{
             loader: MiniCssExtractPlugin.loader,
@@ -30,5 +30,24 @@ module.exports = {
         }, {
             loader: 'sass-loader'
         }]
-    }
+    }, {
+        test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        use: [{
+            loader: 'file-loader',
+            options: {
+                name: '[name].[ext]',
+                outputPath: '../fonts',
+                publicPath: '../fonts'
+            }
+        }]
+    }, {
+        test: /\.(png|jpg|gif|svg)$/,
+        exclude: /fontawesome|materialdesignicons/,
+        loader: 'file-loader',
+        options: {
+            name: '[name].[ext]?[hash]',
+            outputPath: '../img',
+            publicPath: '../img'
+        }
+    }],
 };
