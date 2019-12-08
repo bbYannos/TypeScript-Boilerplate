@@ -1,4 +1,4 @@
-import "assets/base";
+import "assets/_base";
 import {AbstractAppComponent, AppName, Layout} from "modules/AppTemplate/App";
 import {timer} from "rxjs";
 import moment from "shared/moment";

@@ -4,10 +4,9 @@ const webpack = require('webpack');
 const src = './src';
 // js: dest/js, css: dest/css
 const htmlIndex = src + '/assets/index.html';
-// Never add comma, space  on the last line: broke common css
 const entries = {
     index: src + '/apps/login/index.ts',
-    main: src + '/apps/main/index.ts'
+    main: src + '/apps/main/index.ts',
 };
 
 const dest = './dist';
@@ -89,9 +88,11 @@ configuration.optimization = {
                 priority: -10
             },
             styles: {
-                test: path.resolve('src/assets'),
+                // test: /[\\/]src[\\/]assets[\\/]vendor[\\/]|[\\/]src[\\/]assets[\\/]styles[\\/]/,
+                // can not share base.scss :'(
+                test: path.resolve('src/assets/vendor'),
                 chunks: 'all',
-                priority: -10
+                priority: -5
             },
             default: {
                 minChunks: 2,

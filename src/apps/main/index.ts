@@ -1,4 +1,4 @@
-import "assets/main";
+import "assets/_main";
 
 import {AbstractAppComponent, AppName, Layout} from "modules/AppTemplate/App";
 import moment from "shared/moment/moment";
