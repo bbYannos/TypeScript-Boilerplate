@@ -3,13 +3,14 @@ const webpack = require('webpack');
 
 const src = './src';
 // js: dest/js, css: dest/css
-const dest = './dist';
+
 const htmlIndex = src + '/assets/index.html';
 const entries = {
     index: src + '/apps/login/index.ts',
     main: src + '/apps/main/index.ts',
 };
 
+const dest = './dist';
 const destination = path.resolve(__dirname + '/../', dest) + '/';
 const configuration = {
     entry: entries,

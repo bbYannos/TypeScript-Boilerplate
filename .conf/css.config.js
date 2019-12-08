@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+
 module.exports = {
     cssPlugin: new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
@@ -36,7 +37,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
                 name: '[name].[ext]',
-                outputPath: '../fonts',
+                outputPath: 'fonts',
                 publicPath: '../fonts'
             }
         }]
@@ -46,7 +47,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
             name: '[name].[ext]?[hash]',
-            outputPath: '../img',
+            outputPath: 'img',
             publicPath: '../img'
         }
     }],
