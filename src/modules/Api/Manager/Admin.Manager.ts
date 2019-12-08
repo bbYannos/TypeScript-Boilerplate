@@ -20,7 +20,7 @@ export class AdminApiManager extends BaseApiManager {
 
   // noinspection JSUnusedGlobalSymbols
   protected static get bDDsReady$(): Observable<boolean> {
-    const cookieConnectedMode = CookieUtils.setIfNotExists(CookieUtils.Names.OnOffLine, "true");
+    const cookieConnectedMode = CookieUtils.setIfNotSet(CookieUtils.Names.OnOffLine, "true");
     this.connectedMode = cookieConnectedMode !== "false";
     this.log("Connected Mode", this.connectedMode);
     if (!this.connectedMode) {

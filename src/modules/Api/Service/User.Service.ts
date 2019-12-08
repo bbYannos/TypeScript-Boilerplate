@@ -11,8 +11,6 @@ import {
 import {User} from "../Model/User.Model";
 import {WpUserModel} from "../Model/WpUser.Model";
 
-export {WpUserModel, User};
-
 class JwAuthResponse {
   public token: string;
   // tslint:disable-next-line:variable-name
@@ -21,13 +19,6 @@ class JwAuthResponse {
 
 // tslint:disable-next-line:max-classes-per-file
 export class UserService extends RestService<User> {
-  protected static _instance: UserService = null;
-  public static get instance(): UserService {
-    if (this._instance === null) {
-      this._instance = new UserService();
-    }
-    return new UserService();
-  }
   public repository: AbstractRepository<User> = new Repository(User);
   protected userJson_: BehaviorSubject<void> = new BehaviorSubject(null);
   // tslint:disable-next-line:member-ordering
@@ -113,6 +104,4 @@ export class UserService extends RestService<User> {
     return this.rest.restApiRequestService.addRequest(action, API_METHODS.GET);
   }
 }
-
-export default UserService.instance;
 

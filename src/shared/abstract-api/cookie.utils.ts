@@ -24,7 +24,7 @@ export class CookieUtils {
         return value;
     }
 
-    public static setIfNotExists(name: string, value: string): string {
+    public static setIfNotSet(name: string, value: string): string {
         const existingValue = this.getCookie(name);
         if (existingValue === null) {
             this.setCookie(name, value);

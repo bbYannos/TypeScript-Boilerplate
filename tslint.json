@@ -20,6 +20,7 @@
     "object-literal-shorthand": false,
     "object-literal-sort-keys": false,
     "no-object-literal-type-assertion": false,
+    "member-ordering": false,
     "forin": false,
     "semicolon":  [true, "always", "ignore-bound-class-methods"],
     "variable-name": {

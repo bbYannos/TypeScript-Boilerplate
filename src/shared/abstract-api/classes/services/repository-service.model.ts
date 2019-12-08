@@ -1,6 +1,7 @@
 import {Observable, of, pipe} from "rxjs";
 import {map} from "rxjs/operators";
 import {RxjsUtils} from "../../rxjs.utils";
+import {ServiceFactory} from "../../service.factory";
 import {AbstractApiModel} from "../models";
 import {AbstractInitService} from "./init.service";
 import {AbstractRepositoryServiceOptions} from "./repository-service.options";
@@ -40,11 +41,11 @@ export abstract class AbstractRepositoryService<T extends AbstractApiModel> exte
     );
   }
 
-  abstract create(object: T): Observable<T>;
+  public abstract create(object: T): Observable<T>;
 
-  abstract update(object: T, ...params): Observable<T>;
+  public abstract update(object: T, ...params): Observable<T>;
 
-  abstract delete(object: T): Observable<boolean>;
+  public abstract delete(object: T): Observable<boolean>;
 
-  abstract list(request: any): Observable<T[]>;
+  public abstract list(request: any): Observable<T[]>;
 }

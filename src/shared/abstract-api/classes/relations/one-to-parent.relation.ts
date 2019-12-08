@@ -5,7 +5,11 @@ import {ChildrenListFactory} from "./children-list.factory";
 import {OneToOneRelation} from "./one-to-one.relation";
 
 export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractApiModel> extends OneToOneRelation<T, U> {
-  constructor(public property: keyof T = null, public parentProperty: keyof U = null, public service: AbstractRepositoryService<U> = null) {
+  constructor(
+    public property: keyof T = null,
+    public parentProperty: keyof U = null,
+    public service: AbstractRepositoryService<U> = null
+  ) {
     super(property, service);
   }
 
