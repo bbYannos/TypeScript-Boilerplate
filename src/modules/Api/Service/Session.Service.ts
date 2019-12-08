@@ -5,7 +5,7 @@ import moment from "shared/moment/moment";
 import {Formation} from "../Model/Formation.Model";
 import {Session} from "../Model/Session.Model";
 import {Training} from "../Model/Training.Model";
-
+export {Session};
 export class SessionQuery extends AbstractApiQuery<Session> {
   public startTime: moment.Moment = null;
   public endTime: moment.Moment = null;

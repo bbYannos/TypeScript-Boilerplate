@@ -1,6 +1,6 @@
 import {DexieRestService, Repository} from "shared/abstract-api";
 import {ExamType} from "../Model/ExamType.Model";
-
+export {ExamType};
 export class ExamTypeService extends DexieRestService<ExamType> {
   public repository: Repository<ExamType> = new Repository<ExamType>(ExamType);
 

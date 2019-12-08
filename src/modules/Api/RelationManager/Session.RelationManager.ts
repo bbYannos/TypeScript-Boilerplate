@@ -5,10 +5,8 @@ import {
   PeriodToParentRelation,
   ServiceFactory,
 } from "shared/abstract-api";
-import {Session} from "../Model/Session.Model";
-import {Training} from "../Model/Training.Model";
-import {SessionService} from "../Service/Session.Service";
-import {TrainingService} from "../Service/Training.Service";
+import {Session, SessionService} from "../Service/Session.Service";
+import {Training, TrainingService} from "../Service/Training.Service";
 import {trainingRelationManager} from "./Training.RelationManager";
 
 const sessionService = ServiceFactory.getService(SessionService);

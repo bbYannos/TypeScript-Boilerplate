@@ -2,7 +2,7 @@ import {MODULES_CONSTANTS} from "modules/modules.constants";
 import {DexieRestService, ObjectUtils, Repository} from "shared/abstract-api";
 import moment from "shared/moment/moment";
 import {Formation} from "../Model/Formation.Model";
-
+export {Formation};
 export class FormationService extends DexieRestService<Formation> {
   public repository: Repository<Formation> = new Repository<Formation>(Formation);
 

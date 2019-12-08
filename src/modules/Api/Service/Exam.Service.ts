@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 import {AbstractApiQuery, DexieRestService, Repository} from "shared/abstract-api";
 import {Exam} from "../Model/Exam.Model";
 import {Training} from "../Model/Training.Model";
-
+export {Exam};
 export class ExamQuery extends AbstractApiQuery<Exam> {
   public training: Training = null;
   protected equals = ["training"];

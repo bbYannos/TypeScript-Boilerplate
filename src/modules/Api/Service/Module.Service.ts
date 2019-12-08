@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 import {AbstractApiQuery, DexieRestService, Repository} from "shared/abstract-api";
 import {Formation} from "../Model/Formation.Model";
 import {Module} from "../Model/Module.Model";
-
+export {Module};
 export class ModuleQuery extends AbstractApiQuery<Module> {
   public formation: Formation = null;
   protected equals = ["formation"];

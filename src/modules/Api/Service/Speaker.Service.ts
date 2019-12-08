@@ -3,7 +3,7 @@ import {map, switchMap, take} from "rxjs/operators";
 import {DexieRestService, Repository} from "shared/abstract-api";
 import {Formation} from "../Model/Formation.Model";
 import {Speaker} from "../Model/Speaker.Model";
-
+export {Speaker};
 export class SpeakerService extends DexieRestService<Speaker> {
   public repository: Repository<Speaker> = new Repository<Speaker>(Speaker);
 

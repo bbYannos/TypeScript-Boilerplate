@@ -6,12 +6,9 @@ import {
   PeriodToGenericParentRelation,
   ServiceFactory,
 } from "shared/abstract-api";
-import {Availability} from "../Model/Availability.Model";
-import {Formation} from "../Model/Formation.Model";
-import {Speaker} from "../Model/Speaker.Model";
-import {AvailabilityService} from "../Service/Availability.Service";
-import {FormationService} from "../Service/Formation.Service";
-import {SpeakerService} from "../Service/Speaker.Service";
+import {Availability, AvailabilityService} from "../Service/Availability.Service";
+import {Formation, FormationService} from "../Service/Formation.Service";
+import {Speaker, SpeakerService} from "../Service/Speaker.Service";
 import {formationRelationManager} from "./Formation.RelationManager";
 import {speakerRelationManager} from "./Speaker.RelationManager";
 

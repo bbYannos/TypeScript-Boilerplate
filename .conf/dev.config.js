@@ -45,5 +45,6 @@ const circularDependencyPlugin = new CircularDependencyPlugin({
 base.plugins.push(circularDependencyPlugin);
 
 module.exports = Object.assign(base, {
-    mode: 'development'
+    mode: 'development',
+    devtool: 'source-map',
 });

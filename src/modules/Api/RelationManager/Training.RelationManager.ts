@@ -3,17 +3,13 @@ import {
   ChildrenListDefinition,
   OneToOneRelation,
   OneToParentRelation,
-  PeriodList, ServiceFactory,
+  PeriodList,
+  ServiceFactory,
 } from "shared/abstract-api";
-import {Formation} from "../Model/Formation.Model";
-import {Module} from "../Model/Module.Model";
-import {Speaker} from "../Model/Speaker.Model";
-import {Training} from "../Model/Training.Model";
-import {FormationService} from "../Service/Formation.Service";
-import {ModuleService} from "../Service/Module.Service";
-import {SpeakerService} from "../Service/Speaker.Service";
-import {TrainingService} from "../Service/Training.Service";
-
+import {Formation, FormationService} from "../Service/Formation.Service";
+import {Module, ModuleService} from "../Service/Module.Service";
+import {Speaker, SpeakerService} from "../Service/Speaker.Service";
+import {Training, TrainingService} from "../Service/Training.Service";
 import {formationRelationManager} from "./Formation.RelationManager";
 import {speakerRelationManager} from "./Speaker.RelationManager";
 

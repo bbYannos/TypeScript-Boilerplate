@@ -3,9 +3,8 @@ import {map} from "rxjs/operators";
 import {AbstractApiQuery, DexieRestService, Repository, ServiceFactory} from "shared/abstract-api";
 import {Exam} from "../Model/Exam.Model";
 import {ExamScore} from "../Model/ExamScore.Model";
-import {Trainee} from "../Model/Trainee.Model";
-import {TraineeService} from "./Trainee.Service";
-
+import {Trainee, TraineeService} from "./Trainee.Service";
+export {ExamScore};
 export class ExamScoreQuery extends AbstractApiQuery<ExamScore> {
   public exam: Exam = null;
   public trainee: Trainee = null;

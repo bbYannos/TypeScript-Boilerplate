@@ -3,7 +3,7 @@ import {map} from "rxjs/operators";
 import {AbstractApiQuery, DexieRestService, Repository} from "shared/abstract-api";
 import {Formation} from "../Model/Formation.Model";
 import {Trainee} from "../Model/Trainee.Model";
-
+export {Trainee};
 export class TraineeQuery extends AbstractApiQuery<Trainee> {
   public searchedString: string = null;
   public formation: Formation = null;

@@ -6,6 +6,7 @@ import {Availability} from "../Model/Availability.Model";
 import {Formation} from "../Model/Formation.Model";
 import {Speaker} from "../Model/Speaker.Model";
 
+export {Availability};
 export class AvailabilityQuery extends AbstractApiQuery<Availability> {
   public global?: boolean = null;
   public open?: boolean = null;

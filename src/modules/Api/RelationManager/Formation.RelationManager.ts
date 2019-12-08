@@ -2,11 +2,9 @@ import {combineLatest} from "rxjs";
 import {auditTime, map, shareReplay, tap} from "rxjs/operators";
 import {AbstractRelationManager, OneToOneRelation, ServiceFactory} from "shared/abstract-api";
 import moment from "shared/moment/moment";
-import {Availability} from "../Model/Availability.Model";
-import {Formation} from "../Model/Formation.Model";
 import {Speaker} from "../Model/Speaker.Model";
-import {AvailabilityService} from "../Service/Availability.Service";
-import {FormationService} from "../Service/Formation.Service";
+import {Availability, AvailabilityService} from "../Service/Availability.Service";
+import {Formation, FormationService} from "../Service/Formation.Service";
 
 import {FormationUtil} from "../Util/Formation.Util";
 

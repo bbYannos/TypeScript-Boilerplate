@@ -5,12 +5,9 @@ import {
   OneToParentRelation,
   ServiceFactory,
 } from "shared/abstract-api";
-import {Exam} from "../Model/Exam.Model";
-import {ExamType} from "../Model/ExamType.Model";
-import {Training} from "../Model/Training.Model";
-import {ExamService} from "../Service/Exam.Service";
-import {ExamTypeService} from "../Service/ExamType.Service";
-import {TrainingService} from "../Service/Training.Service";
+import {Exam, ExamService} from "../Service/Exam.Service";
+import {ExamType, ExamTypeService} from "../Service/ExamType.Service";
+import {Training, TrainingService} from "../Service/Training.Service";
 import {trainingRelationManager} from "./Training.RelationManager";
 
 const trainingRelation = new OneToParentRelation<Exam, Training>("training", "exams$", TrainingService);

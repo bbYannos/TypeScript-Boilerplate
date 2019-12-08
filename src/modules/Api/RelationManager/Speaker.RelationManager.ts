@@ -1,6 +1,5 @@
 import {AbstractRelationManager, OneToOneRelation} from "shared/abstract-api";
-import {Speaker} from "../Model/Speaker.Model";
-import {SpeakerService} from "../Service/Speaker.Service";
+import {Speaker, SpeakerService} from "../Service/Speaker.Service";
 
 export class SpeakerRelationManager extends AbstractRelationManager<Speaker> {
   protected Service = SpeakerService;

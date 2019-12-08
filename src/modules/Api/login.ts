@@ -7,6 +7,7 @@ class LoginApi {
   static get export() {
     ServiceFactory.restDB = new IsVinRestBDD();
     LoginManager.userService = ServiceFactory.getService<UserService>(UserService);
+    ServiceFactory.initService(LoginManager.userService);
     return LoginManager;
   }
 }

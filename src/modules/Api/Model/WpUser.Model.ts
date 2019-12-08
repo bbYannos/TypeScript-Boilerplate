@@ -1,11 +1,12 @@
 import {Observable, of} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
-import formationService from "../Service/Formation.Service";
+import {ServiceFactory} from "shared/abstract-api";
+import {SpeakerService} from "../Service/Speaker.Service";
+import {TraineeService} from "../Service/Trainee.Service";
 import {Speaker} from "./Speaker.Model";
 import {Trainee} from "./Trainee.Model";
 
 export class WpUserModel {
-
   get isAdmin(): boolean {
     return (this.roles.indexOf("administrator") > -1);
   }
@@ -17,15 +18,12 @@ export class WpUserModel {
   get isTrainee(): boolean {
     return (this.roles.indexOf("trainee") > -1);
   }
+
   public static fromJson$(json: any): Observable<WpUserModel> {
     const wpUser = Object.assign(new WpUserModel(), json);
-    return of(wpUser);
-  }
-
-
-  /*
-  public static fromJson$(json: any): Observable<WpUserModel> {
-    const wpUser = Object.assign(new WpUserModel(), json);
+    const traineeService = ServiceFactory.getService(TraineeService);
+    const formationService = ServiceFactory.getService(TraineeService);
+    const speakerService = ServiceFactory.getService(SpeakerService);
     return of(wpUser).pipe(
       switchMap(() => {
         if (wpUser.isTrainee && traineeService.rest !== null && formationService.rest !== null) {
@@ -56,7 +54,7 @@ export class WpUserModel {
       }),
     );
   }
-   */
+
   public roles: string[];
   public trainee: Trainee = null;
   public speaker: Speaker = null;

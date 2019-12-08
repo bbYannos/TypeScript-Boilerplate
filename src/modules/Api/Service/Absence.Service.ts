@@ -3,6 +3,7 @@ import {AbstractApiQuery, DexieRestService, Repository} from "shared/abstract-ap
 import {Absence} from "../Model/Absence.Model";
 import {Trainee} from "../Model/Trainee.Model";
 
+export {Absence};
 export class AbsenceQuery extends AbstractApiQuery<Absence> {
   public trainee: Trainee = null;
   public delay: boolean = null;

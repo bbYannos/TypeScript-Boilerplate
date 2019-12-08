@@ -1,8 +1,6 @@
 import {AbstractRelationManager, OneToParentRelation, ServiceFactory} from "shared/abstract-api";
-import {Absence} from "../Model/Absence.Model";
-import {Trainee} from "../Model/Trainee.Model";
-import {AbsenceService} from "../Service/Absence.Service";
-import {TraineeService} from "../Service/Trainee.Service";
+import {Absence, AbsenceService} from "../Service/Absence.Service";
+import {Trainee, TraineeService} from "../Service/Trainee.Service";
 import {traineeRelationManager} from "./Trainee.RelationManager";
 
 const absenceService = ServiceFactory.getService(AbsenceService);

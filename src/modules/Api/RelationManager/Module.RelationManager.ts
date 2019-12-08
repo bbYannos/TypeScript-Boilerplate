@@ -4,10 +4,8 @@ import {
   OneToParentRelation,
   ServiceFactory,
 } from "shared/abstract-api";
-import {Formation} from "../Model/Formation.Model";
-import {Module} from "../Model/Module.Model";
-import {FormationService} from "../Service/Formation.Service";
-import {ModuleQuery, ModuleService} from "../Service/Module.Service";
+import {Formation, FormationService} from "../Service/Formation.Service";
+import {Module, ModuleQuery, ModuleService} from "../Service/Module.Service";
 import {formationRelationManager} from "./Formation.RelationManager";
 
 const moduleService = ServiceFactory.getService(ModuleService);

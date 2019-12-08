@@ -10,7 +10,7 @@ import {
 } from "shared/abstract-api";
 import {User} from "../Model/User.Model";
 import {WpUserModel} from "../Model/WpUser.Model";
-
+export {User, WpUserModel};
 class JwAuthResponse {
   public token: string;
   // tslint:disable-next-line:variable-name

@@ -6,7 +6,7 @@ import {Formation} from "../Model/Formation.Model";
 import {Room} from "../Model/Room.Model";
 import {Speaker} from "../Model/Speaker.Model";
 import {Training} from "../Model/Training.Model";
-
+export {Training};
 export class TrainingQuery extends AbstractApiQuery<Training> {
   public formation: Formation = null;
   public speaker: Speaker = null;

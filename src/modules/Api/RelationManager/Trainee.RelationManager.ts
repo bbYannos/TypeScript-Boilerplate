@@ -1,8 +1,6 @@
 import {AbstractRelationManager, OneToOneRelation} from "shared/abstract-api";
-import {Formation} from "../Model/Formation.Model";
-import {Trainee} from "../Model/Trainee.Model";
-import {FormationService} from "../Service/Formation.Service";
-import {TraineeService} from "../Service/Trainee.Service";
+import {Formation, FormationService} from "../Service/Formation.Service";
+import {Trainee, TraineeService} from "../Service/Trainee.Service";
 
 const formationRelation = new OneToOneRelation<Trainee, Formation>("formation", FormationService);
 formationRelation.debug = false;
