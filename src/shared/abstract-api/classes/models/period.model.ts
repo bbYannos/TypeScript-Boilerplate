@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import {DurationConverter, JsonObject, JsonProperty, MomentConverter} from "shared/json2typescript";
-import {ObjectUtils} from "../../object.utils";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {AbstractApiModel} from "./api.model";
 
 export interface PeriodInterface {

@@ -10,7 +10,6 @@ export class LoginPageLayout extends ComponentNjk {
   protected njk = require("./login-page.layout.html");
 
   public render() {
-    console.log("pase");
     super.render({});
     this.manageLoginForm();
     this.manageSubscribeForm();

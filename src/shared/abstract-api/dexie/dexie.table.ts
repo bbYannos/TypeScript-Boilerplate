@@ -2,7 +2,7 @@ import {Observable, of} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 import {AbstractApiModel} from "../classes/models";
 import {AbstractRepository, AbstractRepositoryService} from "../classes/services";
-import {ObjectUtils} from "../object.utils";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {DexieRequestService} from "./dexieRequest.service";
 
 /**

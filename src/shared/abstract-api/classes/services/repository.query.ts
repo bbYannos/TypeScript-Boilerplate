@@ -1,4 +1,4 @@
-import {ObjectUtils} from "../../object.utils";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {AbstractApiModel} from "../models";
 
 export abstract class AbstractApiQuery<T extends AbstractApiModel> {

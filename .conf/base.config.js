@@ -7,6 +7,7 @@ const htmlIndex = src + '/assets/index.html';
 const entries = {
     index: src + '/apps/login/index.ts',
     admin: src + '/apps/admin/index.ts',
+    teacher: src + '/apps/speaker/index.ts',
 };
 
 const dest = './dist';
@@ -76,22 +77,25 @@ configuration.resolve.extensions.push('.ts');
 // Split chunks
 configuration.optimization = {
     splitChunks: {
-        minSize: 0,
+        minSize: 500,
         cacheGroups: {
             nodes: {
                 test: path.resolve('node_modules'),
                 chunks: 'all',
-                priority: -5
+                priority: -5,
+                enforce: true,
             },
             shared: {
                 test: path.resolve('src/shared'),
                 chunks: 'all',
-                priority: -10
+                priority: -10,
+                enforce: true,
             },
             modules: {
                 test: path.resolve('src/modules'),
                 chunks: 'all',
-                priority: -15
+                priority: -15,
+                enforce: true,
             },
             styles: {
                 test: path.resolve('src/assets'),

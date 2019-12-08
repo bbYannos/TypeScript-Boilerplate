@@ -5,7 +5,7 @@ export abstract class ComponentNjk extends Component {
   protected data = {};
 
   public render(data) {
-    data = Object.assign(this.data, data);
+    data = {...this.data, ...data};
     const html =  this.njk.render(data);
     super.render(html);
   }

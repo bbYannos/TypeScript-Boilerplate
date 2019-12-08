@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {ObjectUtils} from "../object.utils";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {RxjsUtils} from "../rxjs.utils";
 
 export enum API_METHODS {

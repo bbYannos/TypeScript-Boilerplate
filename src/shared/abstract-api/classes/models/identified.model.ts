@@ -1,5 +1,5 @@
 import {BooleanConverter, JsonObject, JsonProperty} from "shared/json2typescript";
-import {ObjectUtils} from "../../object.utils";
+import {ObjectUtils} from "shared/utils/object.utils";
 
 @JsonObject("AbstractIdentifiedObject")
 export abstract class AbstractIdentifiedObject {

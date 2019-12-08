@@ -1,6 +1,6 @@
 import {of} from "rxjs";
 import {map, tap} from "rxjs/operators";
-import {ObjectUtils} from "../../object.utils";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {ServiceFactory} from "../../service.factory";
 import {AbstractApiModel, AbstractIdentifiedObject, Debuggable} from "../models";
 import {AbstractRepositoryService} from "../services/repository-service.model";

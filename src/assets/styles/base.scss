@@ -31,12 +31,12 @@ html, body {
 
 .btn-primary {
   color: #fff;
-  background-color: $main-color;
-  border-color: $main-color;
+  background-color: $main-color-2;
+  border-color: $main-color-2;
 }
 
 .btn-primary:hover, .btn-primary:not(:disabled):not(.disabled):active, .btn-primary.focus, .btn-primary:focus {
   color: #fff;
-  background-color: rgba($main-color, 0.9);
+  background-color: rgba($main-color-2, 0.7);
   border-color: $main-color;
 }

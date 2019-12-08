@@ -2,7 +2,7 @@ import {Observable, Subject} from "rxjs/index";
 import {filter, map, take} from "rxjs/internal/operators";
 import SocketIOClient from "socket.io-client";
 import {AbstractInitService} from "../classes/services/init.service";
-import {ObjectUtils} from "../object.utils";
+import {ObjectUtils} from "shared/utils/object.utils";
 import Socket = SocketIOClient.Socket;
 
 export type SocketIORequestAction = "create" | "delete" | "update" | "list";

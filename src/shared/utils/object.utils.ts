@@ -1,5 +1,5 @@
 import moment from "shared/moment/moment";
-import {AbstractApiModel} from "./classes/models";
+import {AbstractApiModel} from "../abstract-api/classes/models";
 
 
 type TypeString = ("boolean" | "number" | "string" | "AbstractModel" | "array" | "moment" | "duration");

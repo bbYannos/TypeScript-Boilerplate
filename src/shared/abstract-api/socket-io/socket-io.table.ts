@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {AbstractApiModel} from "../classes/models";
 import {AbstractRepository} from "../classes/services/repository.model";
-import {ObjectUtils} from "../object.utils";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {AbstractSocketIORequestService} from "./abstractSocketIORequest.service";
 
 export class SocketIoTable<T extends AbstractApiModel> {
