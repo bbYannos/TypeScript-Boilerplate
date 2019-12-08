@@ -12,7 +12,6 @@ import {TIME_FORMAT} from "./Constants";
 import {EventInterface} from "./Interface/Event.Interface";
 import {EventSourceInterface} from "./Interface/EventSource.Interface";
 
-
 export class FullCalendar extends Component {
   public calendar: Calendar = null;
   public service: EventSourceInterface<EventInterface> = null;

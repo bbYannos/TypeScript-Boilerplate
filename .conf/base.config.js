@@ -77,30 +77,30 @@ configuration.resolve.extensions.push('.ts');
 // Split chunks
 configuration.optimization = {
     splitChunks: {
-        minSize: 500,
+        minSize: 20000,
         cacheGroups: {
             nodes: {
                 test: path.resolve('node_modules'),
                 chunks: 'all',
                 priority: -5,
-                enforce: true,
             },
             shared: {
                 test: path.resolve('src/shared'),
                 chunks: 'all',
                 priority: -10,
-                enforce: true,
+                reuseExistingChunk: true,
             },
             modules: {
                 test: path.resolve('src/modules'),
                 chunks: 'all',
                 priority: -15,
-                enforce: true,
+                reuseExistingChunk: true,
             },
             styles: {
-                test: path.resolve('src/assets'),
+                test: path.resolve('src/assets/vendor'),
                 chunks: 'all',
                 priority: -20,
+                reuseExistingChunk: true,
                 enforce: true,
             },
             default: {

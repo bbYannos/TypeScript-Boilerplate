@@ -1,7 +1,8 @@
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {AbstractApiQuery, DexieRestService, ObjectUtils, Repository} from "shared/abstract-api";
+import {AbstractApiQuery, DexieRestService, Repository} from "shared/abstract-api";
 import moment from "shared/moment/moment";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {Availability} from "../Model/Availability.Model";
 import {Formation} from "../Model/Formation.Model";
 import {Speaker} from "../Model/Speaker.Model";

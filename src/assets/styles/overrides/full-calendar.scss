@@ -1,0 +1,87 @@
+@import "~assets/styles/vars.scss";
+.fc { font-size: 0.8em; }
+.fc-toolbar h2{font-size: 1em; line-height: 1em;}
+
+.fc-delete {
+  display: inline-block; float: right; padding: 0 3px; background: rgba(0,0,0,0.3); border-radius: 3px;
+}
+
+.fc-delete a span:before {color: white}
+.fc-event, .fc-event-dot{ background-color: $main-color;}
+.fc-event { border: 1px solid  $main-color; }
+
+.fc-content {color: #fff; background: rgba(0,0,0,0.3); padding: 2px;}
+
+.fc-bg-event-availability {background-color: green;}
+.fc-bg-event-vacancy {background-color: $main-color;}
+
+/* theme */
+.fc-button {
+  display: inline-block;
+  font-weight: 400;
+  color: $main-color-2;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.4em 0.65em;
+  font-size: 1em;
+  line-height: 1.5;
+  border-radius: 0.25em; }
+
+.fc-button:hover {
+  color: $main-color;
+  text-decoration: none; }
+
+.fc-button:focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba($main-color, 0.1);
+  box-shadow: 0 0 0 0.2rem rgba($main-color, 0.1); }
+
+.fc-button:disabled {
+  opacity: 0.65; }
+
+/* "primary" coloring */
+.fc-button-primary {
+  color: $main-color;
+  background-color: #fff;
+  border-color: $main-color;
+  font-weight: bold;
+}
+.fc-button-primary span::before{color: $main-color}
+.fc-button-primary:hover {
+  color: $main-color;
+  background-color: #fff;
+  border-color: $main-color;
+}
+
+.fc-button-primary:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba($main-color, 0.1);
+  box-shadow: 0 0 0 0.2rem rgba($main-color, 0.1);
+}
+
+.fc-button-primary:disabled {
+  color: rgba($main-color, 0.5);
+  background-color: #fff;
+  border-color:rgba($main-color, 0.5); }
+
+.fc-button-primary:not(:disabled):active,
+.fc-button-primary:not(:disabled).fc-button-active {
+  color: $main-color-2;
+  background-color: #fff;
+  border-color: $main-color-2;
+}
+
+.fc-button-primary:not(:disabled):active:focus,
+.fc-button-primary:not(:disabled).fc-button-active:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba($main-color, 0.1);
+  box-shadow: 0 0 0 0.2rem rgba($main-color, 0.1); }
+
+/* icons within buttons */
+.fc-button .fc-icon {
+  vertical-align: middle;
+  font-size: 1.5em; }
