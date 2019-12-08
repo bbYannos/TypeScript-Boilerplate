@@ -57,7 +57,7 @@ speakerRelationManager.childrenListDefinitions.push({
 
 // tslint:disable-next-line:max-classes-per-file
 export class AvailabilityRelationManager extends AbstractRelationManager<Availability> {
-  protected service = availabilityService;
+  protected Service = AvailabilityService;
   protected oneToOneRelations = [parentRelation];
 }
 export const availabilityRelationManager = new AvailabilityRelationManager();

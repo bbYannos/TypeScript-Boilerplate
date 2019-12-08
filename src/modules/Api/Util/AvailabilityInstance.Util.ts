@@ -2,7 +2,10 @@ import {combineLatest, Observable, of} from "rxjs";
 import {debounceTime, map} from "rxjs/operators";
 import {ObjectUtils} from "shared/abstract-api";
 import moment, {adjustWeekOfMomentToOtherMoment} from "shared/moment";
-import {Availability, Formation, Session} from "../Model";
+import {Availability} from "../Model/Availability.Model";
+import {Formation} from "../Model/Formation.Model";
+import {Session} from "../Model/Session.Model";
+
 
 export class AvailabilityInstanceUtil {
   /* return all instances - Vacations are excluded **/

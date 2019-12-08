@@ -11,7 +11,7 @@ import {FormationService} from "../Service/Formation.Service";
 import {FormationUtil} from "../Util/Formation.Util";
 
 export class FormationRelationManager extends AbstractRelationManager<Formation> {
-  protected service = ServiceFactory.getService(FormationService);
+  protected Service = FormationService;
   protected oneToOneRelations: Array<OneToOneRelation<Formation, any>> = [];
 
   public manageChildrenLists(object: Formation, json: any): Formation {

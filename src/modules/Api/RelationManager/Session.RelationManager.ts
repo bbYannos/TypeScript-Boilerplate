@@ -3,7 +3,7 @@ import {
   ChildrenListDefinition,
   PeriodList,
   PeriodToParentRelation,
-  ServiceFactory
+  ServiceFactory,
 } from "shared/abstract-api";
 import {Session} from "../Model/Session.Model";
 import {Training} from "../Model/Training.Model";
@@ -12,7 +12,7 @@ import {TrainingService} from "../Service/Training.Service";
 import {trainingRelationManager} from "./Training.RelationManager";
 
 const sessionService = ServiceFactory.getService(SessionService);
-const trainingRelation = new PeriodToParentRelation<Session, Training>("training", "sessions$", ServiceFactory.getService(TrainingService));
+const trainingRelation = new PeriodToParentRelation<Session, Training>("training", "sessions$", TrainingService);
 trainingRelationManager.childrenListDefinitions.push({
   propertyName: "sessions$",
   defaultSource$: (object) => sessionService.getByTraining(object),
@@ -22,7 +22,7 @@ trainingRelationManager.childrenListDefinitions.push({
 } as ChildrenListDefinition<Training, Session>);
 
 export class SessionRelationManager extends AbstractRelationManager<Session> {
-  protected service = sessionService;
+  protected Service = SessionService;
   protected oneToOneRelations = [trainingRelation];
 }
 

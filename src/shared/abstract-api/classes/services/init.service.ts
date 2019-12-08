@@ -9,7 +9,7 @@ export abstract class AbstractInitService {
     return this.ready$.pipe(
       map((readies) => (readies.indexOf(false) === -1)),
       filter((ready: boolean) => ready),
-      take(1)
+      take(1),
     );
   }
   protected ready_: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([false]);

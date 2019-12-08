@@ -13,7 +13,7 @@ import {ExamTypeService} from "../Service/ExamType.Service";
 import {TrainingService} from "../Service/Training.Service";
 import {trainingRelationManager} from "./Training.RelationManager";
 
-const trainingRelation = new OneToParentRelation<Exam, Training>("training", "exams$", ServiceFactory.getService(TrainingService));
+const trainingRelation = new OneToParentRelation<Exam, Training>("training", "exams$", TrainingService);
 
 const examService = ServiceFactory.getService(ExamService);
 trainingRelationManager.childrenListDefinitions.push({
@@ -23,10 +23,10 @@ trainingRelationManager.childrenListDefinitions.push({
   service: examService,
 } as ChildrenListDefinition<Training, Exam>);
 
-const examTypeRelation = new OneToOneRelation<Exam, ExamType>("examType", ServiceFactory.getService(ExamTypeService));
+const examTypeRelation = new OneToOneRelation<Exam, ExamType>("examType", ExamTypeService);
 
 export class ExamRelationManager extends AbstractRelationManager<Exam> {
-  protected service = examService;
+  protected Service = ExamService;
   protected oneToOneRelations = [trainingRelation, examTypeRelation];
 }
 

@@ -1,13 +1,13 @@
 import {forkJoin, Observable, of} from "rxjs";
 import {map, shareReplay, switchMap, take, tap} from "rxjs/operators";
+import {ServiceFactory} from "../../service.factory";
 import {ObjectList} from "../lists";
 import {AbstractApiModel, Debuggable} from "../models";
-import {OneToOneRelation} from "./index";
+import {AbstractRepositoryService} from "../services/repository-service.model";
 import {ChildrenListDefinition} from "./children-list.definition";
 import {ChildrenListFactory} from "./children-list.factory";
 import {ChildrenList} from "./children-list.model";
-import {AbstractRepositoryService} from "../services/repository-service.model";
-
+import {OneToOneRelation} from "./index";
 
 /**
  * Manage relation between models :
@@ -19,8 +19,12 @@ import {AbstractRepositoryService} from "../services/repository-service.model";
  */
 export abstract class AbstractRelationManager<T extends AbstractApiModel> extends Debuggable {
   public childrenListDefinitions: Array<ChildrenListDefinition<T, any>> = [];
-  protected abstract service: AbstractRepositoryService<T>;
+  protected abstract Service: new () => AbstractRepositoryService<T>;
   protected abstract oneToOneRelations: Array<OneToOneRelation<T, any>>;
+
+  protected get service(): AbstractRepositoryService<T> {
+    return ServiceFactory.getService(this.Service);
+  }
 
   public init() {
     this.log("INIT " + this.service.name + "RelationManager");

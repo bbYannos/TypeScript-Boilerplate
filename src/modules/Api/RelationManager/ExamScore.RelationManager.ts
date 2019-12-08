@@ -7,11 +7,11 @@ import {ExamScoreService} from "../Service/ExamScore.Service";
 import {TraineeService} from "../Service/Trainee.Service";
 
 
-const examRelation = new OneToOneRelation<ExamScore, Exam>("exam", ServiceFactory.getService(ExamService));
-const traineeRelation = new OneToOneRelation<ExamScore, Trainee>("trainee", ServiceFactory.getService(TraineeService));
+const examRelation = new OneToOneRelation<ExamScore, Exam>("exam", ExamService);
+const traineeRelation = new OneToOneRelation<ExamScore, Trainee>("trainee", TraineeService);
 
 export class ExamScoreRelationManager extends AbstractRelationManager<ExamScore> {
-  protected service = ServiceFactory.getService(ExamScoreService);
+  protected Service = ExamScoreService;
   protected oneToOneRelations = [examRelation, traineeRelation];
 }
 

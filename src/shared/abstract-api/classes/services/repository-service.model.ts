@@ -1,7 +1,6 @@
 import {Observable, of, pipe} from "rxjs";
 import {map} from "rxjs/operators";
 import {RxjsUtils} from "../../rxjs.utils";
-import {ServiceFactory} from "../../service.factory";
 import {AbstractApiModel} from "../models";
 import {AbstractInitService} from "./init.service";
 import {AbstractRepositoryServiceOptions} from "./repository-service.options";

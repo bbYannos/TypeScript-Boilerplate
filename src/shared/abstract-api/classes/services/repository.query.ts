@@ -24,6 +24,6 @@ export abstract class AbstractApiQuery<T extends AbstractApiModel> {
   }
 
   public filter(objects: T[]) {
-    return objects.filter((object) => this.test(object))
+    return objects.filter((object) => this.test(object));
   }
 }

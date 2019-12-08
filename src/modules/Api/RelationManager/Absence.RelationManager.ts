@@ -5,11 +5,9 @@ import {AbsenceService} from "../Service/Absence.Service";
 import {TraineeService} from "../Service/Trainee.Service";
 import {traineeRelationManager} from "./Trainee.RelationManager";
 
-const traineeService = ServiceFactory.getService(TraineeService);
 const absenceService = ServiceFactory.getService(AbsenceService);
 
-const traineeRelation = new OneToParentRelation<Absence, Trainee>("trainee", "allAbsences$", traineeService);
-
+const traineeRelation = new OneToParentRelation<Absence, Trainee>("trainee", "allAbsences$", TraineeService);
 traineeRelationManager.childrenListDefinitions.push({
     propertyName: "allAbsences$",
     defaultSource$: (object) => absenceService.getByTrainee(object),
@@ -18,7 +16,7 @@ traineeRelationManager.childrenListDefinitions.push({
 });
 
 export class AbsenceRelationManager extends AbstractRelationManager<Absence> {
-  protected service = absenceService;
+  protected Service = AbsenceService;
   protected oneToOneRelations = [traineeRelation];
 }
 

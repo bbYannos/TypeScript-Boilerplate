@@ -11,7 +11,7 @@ import {ModuleQuery, ModuleService} from "../Service/Module.Service";
 import {formationRelationManager} from "./Formation.RelationManager";
 
 const moduleService = ServiceFactory.getService(ModuleService);
-const formationRelation = new OneToParentRelation<Module, Formation>("formation", "modules$", ServiceFactory.getService(FormationService));
+const formationRelation = new OneToParentRelation<Module, Formation>("formation", "modules$", FormationService);
 formationRelationManager.childrenListDefinitions.push({
   propertyName: "modules$",
   defaultSource$: (object) => {
@@ -24,7 +24,7 @@ formationRelationManager.childrenListDefinitions.push({
 } as ChildrenListDefinition<Formation, Module>);
 
 export class ModuleRelationManager extends AbstractRelationManager<Module> {
-  protected service = moduleService;
+  protected Service = ModuleService;
   protected oneToOneRelations = [formationRelation];
 }
 
