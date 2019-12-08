@@ -23,7 +23,7 @@ class AppComponent extends AbstractAppComponent {
 
 const app = new AppComponent().init();
 
-timer(1000).subscribe(() => {
+timer(5000).subscribe(() => {
   console.log("passe");
   Api.userService.login({username: "yann", password: "Vodka22&Sedi"}).subscribe();
 });
