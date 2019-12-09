@@ -1,6 +1,6 @@
 import Api from "modules/Api/login";
-import {from, of} from "rxjs";
-import {map} from "rxjs/operators";
+import {calendarModule$} from "modules/Calendar";
+import {of} from "rxjs";
 
 import {ComponentNjk} from "shared/nunjucks";
 
@@ -15,8 +15,7 @@ export class SpeakerLayout extends ComponentNjk {
   public render() {
     super.render({});
     this.manageHeader();
-    from(import(/* webpackChunkName: "full-calendar" */ "modules/Calendar")).pipe(
-    ).subscribe((module) => {
+    calendarModule$.subscribe((module) => {
       const planningComponent = new module.FullCalendar();
       planningComponent.$htmEl = this.find(".planning");
       planningComponent.getAllEvents$ = () => of([]);

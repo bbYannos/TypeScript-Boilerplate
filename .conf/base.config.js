@@ -53,11 +53,10 @@ for (let page in configuration.entry) {
     // noinspection JSUnfilteredForInLoop
     configuration.plugins.push(pagePlugin(page))
 }
-// Nunjucks Files
+// Html Files
 configuration.module.rules.push({
-    test: /\.(njk|nunjucks|html)$/,
-    loader: 'nunjucks-loader',
-    exclude: /assets/,
+    test: /\.(html)$/,
+    loader: 'file-loader',
 });
 
 // Css
@@ -89,12 +88,6 @@ configuration.optimization = {
                 chunks: 'all',
                 priority: -2,
             },
-            nunjucks: {
-                test: /nunjucks/,
-                chunks: 'all',
-                priority: -3,
-            },
-
             abstract_api: {
                 test: /(abstract\-api|json2typescript|object\.utils|modules[\\/]Api)/,
                 chunks: 'all',
