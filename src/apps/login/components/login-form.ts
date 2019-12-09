@@ -4,7 +4,7 @@ import {catchError} from "rxjs/operators";
 import Vue from "vue";
 import Component from "vue-class-component";
 import WithRender from "./login-form.html";
-import {MessageComponent} from "./message";
+import {MessageComponent} from "components/forms/message";
 
 @WithRender
 @Component({components: {MessageComponent}})
@@ -26,5 +26,4 @@ export class LoginForm extends Vue {
     ).subscribe();
   }
 }
-
 export default Vue.component("login-form-c", LoginForm);

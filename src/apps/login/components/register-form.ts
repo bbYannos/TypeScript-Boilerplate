@@ -1,8 +1,8 @@
+import {MessageComponent} from "components/forms/message";
 import Api from "modules/Api/login";
 import Vue from "vue";
 import Component from "vue-class-component";
-import {LANG} from "./labels";
-import {MessageComponent} from "./message";
+import {LANG} from "../labels";
 import WithRender from "./register-form.html";
 
 @WithRender

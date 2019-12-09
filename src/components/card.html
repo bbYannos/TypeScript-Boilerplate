@@ -1,21 +1,21 @@
 <div class="card grid-margin">
     <div class="card-header">
-        {% block header %}
-        <h4 class="text-center">{{title}}</h4>
-        {% endblock %}
+        <slot name="card-header">
+            <h4 class="text-center">{{data.label}}</h4>
+        </slot>
     </div>
     <div class="card-body">
-        {% block body %}
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" v-if="data.loading">
                 <div style="width: 50px; margin: auto;">
                     <div class="spinner-border text-light" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <{{selector}} class=""></{{selector}}>
+            </div>
+            <div class="col-12" v-else>
+                <slot name="card-body"/>
             </div>
         </div>
-        {% endblock %}
     </div>
 </div>

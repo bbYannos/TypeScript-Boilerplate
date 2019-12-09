@@ -6,21 +6,22 @@ import momentPlugin from "@fullcalendar/moment";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import {Observable, of, Subject, Subscription} from "rxjs";
 import {auditTime, map, shareReplay, switchMap, take, takeUntil, tap} from "rxjs/operators";
-import {Component} from "shared/nunjucks";
+
 import {ObjectUtils} from "shared/utils/object.utils";
 import {TIME_FORMAT} from "./Constants";
 import {EventInterface} from "./Interface/Event.Interface";
 import {EventSourceInterface} from "./Interface/EventSource.Interface";
 
-export class FullCalendar extends Component {
+export class FullCalendar {
   public calendar: Calendar = null;
   public service: EventSourceInterface<EventInterface> = null;
   public query: any = null;
+  public close$: Observable<void>;
+  public $htmEl: HTMLElement;
 
   protected source$ = of([]);
   protected calendarCallback_: Subject<{ info: any, cb: (...params) => void }> = new Subject();
   protected calendarCallback$: Observable<{ info: any, cb: (...params) => void }> = this.calendarCallback_.asObservable().pipe(
-    takeUntil(this.close_),
     shareReplay(1),
   );
   protected calendarCallback$ub: Subscription = null;
@@ -48,18 +49,6 @@ export class FullCalendar extends Component {
     lazyFetching: false,
     events: (info, successCallback, failureCallback) => this.getEventsCalledByCalendar(info, successCallback, failureCallback),
   };
-
-
-  public get toolBar() {
-    return this.find(".fc-toolbar.fc-header-toolbar");
-    /**
-     * todo:
-     *  const $toolbarWrapper =
-     *  this.$wrapper.parent().find(FullCalendarComponent.jqSelectorToolbar)
-     *  .addClass('dataTables_wrapper fc fc-unthemed fc-ltr');
-     *   toolBar.appendTo($toolbarWrapper);
-     */
-  }
 
   public static objectToEvent(object: EventInterface) {
     if (!ObjectUtils.isValidMoment(object.startTime) || !ObjectUtils.isValidMoment(object.endTime)) {
@@ -112,6 +101,7 @@ export class FullCalendar extends Component {
     // if switchMap -- one subscribe -> one call : unsubscribe to previous and create a new one
     // @link: https://guide-angular.wishtack.io/angular/observables/operateurs/mergemap-and-switchmap
     this.calendarCallback$ub = this.calendarCallback$.pipe(
+      takeUntil(this.close$),
       switchMap(({info, cb}) => {
         return this.getAllEvents$(info).pipe(
           auditTime(50),
@@ -133,9 +123,7 @@ export class FullCalendar extends Component {
     ).subscribe();
   }
 
-  public getAllEvents$(info): Observable<any[]> {
-    return this.source$;
-  }
+  public getAllEvents$: (...params) => Observable<any[]> = (...params) => this.source$;
 }
 
 

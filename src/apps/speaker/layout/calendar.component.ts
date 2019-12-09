@@ -1,6 +1,6 @@
 import {calendarModule$} from "modules/Calendar";
 import {of} from "rxjs";
-import {ComponentNjk} from "shared/nunjucks";
+import {FullCalendar} from "../../../modules/Calendar/FullCalendar";
 
 export class CalendarComponent extends ComponentNjk {
   protected njk = require("./calendar.component.njk");
@@ -11,12 +11,11 @@ export class CalendarComponent extends ComponentNjk {
 
   public render() {
     super.render();
-    calendarModule$.subscribe(({FullCalendar}) => {
-      const planningComponent = new FullCalendar();
-      planningComponent.$htmEl = this.find(this.data.selector);
+    calendarModule$.subscribe(({FullCalendar_}) => {
+      /* @var FullCalendar planningComponent*/
+      const planningComponent: FullCalendar = new FullCalendar_();
       planningComponent.getAllEvents$ = () => of([]);
       planningComponent.render();
     });
-
   }
 }
