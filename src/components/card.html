@@ -6,14 +6,7 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-12" v-if="data.loading">
-                <div style="width: 50px; margin: auto;">
-                    <div class="spinner-border text-light" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12" v-else>
+            <div class="col-12">
                 <slot name="card-body"/>
             </div>
         </div>
