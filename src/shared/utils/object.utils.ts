@@ -1,12 +1,13 @@
-import moment from "shared/moment/moment";
-import {AbstractApiModel} from "../abstract-api/classes/models";
+import moment from "shared/moment";
 
+interface AbstractApiModel {
+  constructorName: string;
+  isSame(AbstractApiModel): boolean;
+}
 
 type TypeString = ("boolean" | "number" | "string" | "AbstractModel" | "array" | "moment" | "duration");
 
 export class ObjectUtils {
-
-
   public static dexPrefix: string = "dex_";
   public static dexieRegexp = /^dex_\d*$/g;
   public static apiPrefix: string = "api_";
@@ -227,6 +228,5 @@ export class ObjectUtils {
     }
     return value;
   }
-
 }
 

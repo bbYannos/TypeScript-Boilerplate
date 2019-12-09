@@ -79,10 +79,34 @@ configuration.optimization = {
     splitChunks: {
         minSize: 20000,
         cacheGroups: {
+            node_mod: {
+                test: /(lodash|moment|rxjs|axios)/,
+                chunks: 'all',
+                priority: -1,
+            },
+            calendar: {
+                test: /(@fullcalendar|Calendar)/,
+                chunks: 'all',
+                priority: -2,
+            },
+            nunjucks: {
+                test: /nunjucks/,
+                chunks: 'all',
+                priority: -3,
+            },
+
+            abstract_api: {
+                test: /(abstract\-api|json2typescript|object\.utils|modules[\\/]Api)/,
+                chunks: 'all',
+                reuseExistingChunk: true,
+                enforce: true,
+                priority: -4,
+            },
             nodes: {
                 test: path.resolve('node_modules'),
                 chunks: 'all',
-                priority: -5,
+                priority: -6,
+
             },
             shared: {
                 test: path.resolve('src/shared'),
