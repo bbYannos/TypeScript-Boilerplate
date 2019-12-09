@@ -1,0 +1,21 @@
+<div class="card grid-margin">
+    <div class="card-header">
+        {% block header %}
+        <h4 class="text-center">{{title}}</h4>
+        {% endblock %}
+    </div>
+    <div class="card-body">
+        {% block body %}
+        <div class="row">
+            <div class="col-12">
+                <div style="width: 50px; margin: auto;">
+                    <div class="spinner-border text-light" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <{{selector}} class=""></{{selector}}>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+</div>

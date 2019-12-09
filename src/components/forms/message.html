@@ -1,0 +1,4 @@
+<div v-if="data !== null" :class="'alert alert-' + data.type" role="alert">
+    <h4 v-show="data.label" class="alert-heading"><i class="fa fa-info-circle"></i> {{data.label}}</h4>
+    <p v-show="data.detail" v-html="data.detail" class="mb-0"></p>
+</div>

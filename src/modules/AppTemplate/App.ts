@@ -10,13 +10,7 @@ export const APP_PAGES = {
   login: "index",
 };
 
-export interface Layout {
-  $htmEl: HTMLElement;
-  render(): void;
-}
-
 export abstract class AbstractAppComponent {
-  public layout: Layout;
   public debug = false;
   public abstract userService: UserService;
   protected abstract appName: AppName;
@@ -33,7 +27,7 @@ export abstract class AbstractAppComponent {
             document.location.href = this.getUserPage(wpUser) + ".html";
           }
         } else {
-          this.showLayout();
+          this.render();
         }
       }),
     ).subscribe();
@@ -63,8 +57,5 @@ export abstract class AbstractAppComponent {
   }
 
   // noinspection JSMethodCanBeStatic
-  protected showLayout() {
-    this.layout.$htmEl = this.$app;
-    this.layout.render();
-  }
+  protected abstract render: () => void;
 }

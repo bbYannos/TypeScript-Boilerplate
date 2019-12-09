@@ -23,6 +23,8 @@ const configuration = {
     resolve: {
         alias: {
             assets: path.resolve(__dirname + '/../', 'src/assets/'),
+            components: path.resolve(__dirname + '/../', 'src/components/'),
+            layouts: path.resolve(__dirname + '/../', 'src/layouts/'),
             modules: path.resolve(__dirname + '/../', 'src/modules/'),
             shared: path.resolve(__dirname + '/../', 'src/shared/'),
         },
@@ -53,12 +55,38 @@ for (let page in configuration.entry) {
     // noinspection JSUnfilteredForInLoop
     configuration.plugins.push(pagePlugin(page))
 }
-// Html Files
+// HTML Files
 configuration.module.rules.push({
-    test: /\.(html)$/,
-    loader: 'file-loader',
+    test: /\.html$/,
+    include: [path.resolve('src')],
+    use: 'vue-template-loader',
+    exclude: /assets/,
 });
 
+// Vue Files
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+configuration.plugins.push(new VueLoaderPlugin());
+configuration.module.rules.push({
+    test: /\.vue$/,
+    loader: 'vue-loader',
+    options: {
+        loaders: {
+            // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
+            // the "scss" and "sass" values for the lang attribute to the right configs here.
+            // other preprocessors should work out of the box, no loader config like this necessary.
+            'scss': 'vue-style-loader!css-loader!sass-loader',
+            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
+        }
+        // other vue-loader options go here
+    }
+});
+configuration.resolve.alias = {
+    ...configuration.resolve.alias, ...{
+        // full version
+        // todo: https://fr.vuejs.org/v2/guide/installation.html
+        vue: path.resolve(__dirname + '/../', 'node_modules/vue/dist/vue.js'),
+    }
+};
 // Css
 const CssConfig = require('./css.config');
 configuration.plugins.push(CssConfig.cssPlugin);
@@ -70,6 +98,9 @@ configuration.module.rules.push({
     test: /\.(ts|js)x?$/,
     exclude: /node_modules/,
     loader: 'babel-loader',
+    options: {
+        // appendTsSuffixTo: [/\.vue$/],
+    }
 });
 configuration.resolve.extensions.push('.ts');
 
