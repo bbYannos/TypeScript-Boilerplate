@@ -1,21 +1,16 @@
-import "assets/_main";
+import "assets/_user";
 import Api, {UserService} from "modules/Api/login";
-import {AbstractAppComponent, AppName, Layout} from "modules/AppTemplate/App";
-import moment from "shared/moment/moment";
-
-class PageLayout implements Layout {
-  public $htmEl: HTMLElement = null;
-
-  public render(): void {
-    this.$htmEl.innerHTML = moment().format("HH:mm");
-  }
-}
+import {AbstractAppComponent, AppName} from "modules/AppTemplate/App";
 
 // tslint:disable-next-line:max-classes-per-file
 class AppComponent extends AbstractAppComponent {
-  public layout = new PageLayout();
   public userService: UserService = Api.userService;
   protected appName: AppName = "admin";
+  protected render: () => void = () => {
+    const layout =  null;
+    layout.$mount("#app");
+    console.log(layout);
+  };
 }
 
-const app = new AppComponent().init();
+new AppComponent().init();
