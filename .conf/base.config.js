@@ -5,7 +5,7 @@ const src = './src';
 // js: dest/js, css: dest/css
 const htmlIndex = src + '/assets/index.html';
 const entries = {
-    index: src + '/apps/index.ts',
+    index: src + '/app/index.ts',
     // index: src + '/apps/login/index.ts',
     // admin: src + '/apps/admin/index.ts',
     // teacher: src + '/apps/speaker/index.ts',

@@ -45,7 +45,6 @@ export class UserService extends RestService<User> {
       this.ready_.next([true]);
       this.user_.next(wpUser);
     });
-    this.checkStoredSession();
   }
 
   public initRest(restApiRequestService: ApiRequestService) {
