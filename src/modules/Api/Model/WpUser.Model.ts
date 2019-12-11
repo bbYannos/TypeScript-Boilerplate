@@ -6,7 +6,14 @@ import {TraineeService} from "../Service/Trainee.Service";
 import {Speaker} from "./Speaker.Model";
 import {Trainee} from "./Trainee.Model";
 
+export type Role = ("administrator" | "speaker" | "trainee");
+
 export class WpUserModel {
+
+  public hasRole(role: string) {
+    return (this.roles.indexOf(role) > -1);
+  }
+
   get isAdmin(): boolean {
     return (this.roles.indexOf("administrator") > -1);
   }

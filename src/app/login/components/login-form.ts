@@ -1,10 +1,10 @@
+import {MessageComponent} from "components/forms/message";
 import Api from "modules/Api/login";
 import {of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import Vue from "vue";
 import Component from "vue-class-component";
 import WithRender from "./login-form.html";
-import {MessageComponent} from "components/forms/message";
 
 @WithRender
 @Component({components: {MessageComponent}})
