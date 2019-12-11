@@ -1,5 +1,5 @@
 import {Observable, of, Subject} from "rxjs";
-import {filter, map, shareReplay, switchMap, take, tap} from "rxjs/operators";
+import {filter, map, shareReplay, switchMap, take} from "rxjs/operators";
 import {
   AbstractRepository,
   API_METHODS,
@@ -66,7 +66,6 @@ export class UserService extends RestService<User> {
         throw error;
       });
     } else {
-      console.log("User", null);
       this.user_.next(null);
     }
     return this.userConnected$;
@@ -79,7 +78,8 @@ export class UserService extends RestService<User> {
         this.rest.restApiRequestService.token = data.token;
         return true;
       }),
-      tap(() => this.checkStoredSession()),
+      switchMap(() => this.checkStoredSession()),
+      map(() => true),
     );
   }
 

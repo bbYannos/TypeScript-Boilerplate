@@ -3,7 +3,7 @@ import {CardComponent} from "components/card";
 import {MainPageLayout} from "layouts/main-page";
 import Vue from "vue";
 import Component from "vue-class-component";
-import WithRender from "./speaker-page.layout.html";
+import WithRender from "./page.layout.html";
 
 @WithRender
 @Component({

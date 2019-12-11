@@ -10,8 +10,8 @@ export type Role = ("administrator" | "speaker" | "trainee");
 
 export class WpUserModel {
 
-  public hasRole(role: string) {
-    return (this.roles.indexOf(role) > -1);
+  public hasRole(roles: Role[]): boolean {
+    return roles.filter((role: Role) => this.roles.indexOf(role) > -1).length > 0;
   }
 
   get isAdmin(): boolean {

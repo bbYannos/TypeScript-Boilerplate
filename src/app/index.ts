@@ -1,7 +1,7 @@
 import "assets/_base";
 import Vue from "vue";
 import {App} from "./app";
-import {router, routerAuthService} from "./router";
+import {router, routerAuthService} from "./routes/router";
 
 routerAuthService.isReady$.subscribe(() => {
   // tslint:disable-next-line
@@ -12,4 +12,5 @@ routerAuthService.isReady$.subscribe(() => {
     render: (h) => h(App),
   });
 });
+
 routerAuthService.init();
