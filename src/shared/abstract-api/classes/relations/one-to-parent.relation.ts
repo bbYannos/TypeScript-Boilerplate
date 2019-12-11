@@ -8,9 +8,9 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
   constructor(
     public property: keyof T = null,
     public parentProperty: keyof U = null,
-    public Service: new () => AbstractRepositoryService<U> = null,
+    public service: AbstractRepositoryService<U> = null,
   ) {
-    super(property, Service);
+    super(property, service);
   }
 
   public updateOnChange = (object: T, previousParent: U, newParent: U) => {

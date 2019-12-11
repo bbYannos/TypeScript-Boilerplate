@@ -1,4 +1,4 @@
-import {Role} from "modules/Api/Model/WpUser.Model";
+import {Role} from "modules/Api/Model/User/WpUser.Model";
 import {RouteConfig as VueRouteConfig} from "vue-router";
 import {LoginPageLayout} from "../login/page.layout";
 

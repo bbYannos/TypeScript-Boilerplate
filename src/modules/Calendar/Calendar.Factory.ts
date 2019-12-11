@@ -1,14 +1,14 @@
-import {Availability} from "modules/Api/Model/Availability.Model";
-import {Session} from "modules/Api/Model/Session.Model";
+import {Availability} from "modules/Api/Model/Availability/Availability.Model";
+import {Session} from "modules/Api/Model/Session/Session.Model";
 import {combineLatest, Observable, of} from "rxjs";
 import {auditTime, map} from "rxjs/operators";
 import {ServiceFactory} from "shared/abstract-api";
 import {TIME_FULL_CALENDAR} from "modules/Calendar/Constants";
 import {EventMapper, EventMapperOptions} from "modules/Calendar/EventMapper";
 import moment from "shared/moment";
-import {Speaker} from "../Api/Model/Speaker.Model";
-import {Trainee} from "../Api/Model/Trainee.Model";
-import {FormationService} from "../Api/Service/Formation.Service";
+import {Speaker} from "../Api/Model/Speaker/Speaker.Model";
+import {Trainee} from "../Api/Model/Trainee/Trainee.Model";
+import {FormationService} from "../Api/Model/Formation/Formation.Service";
 
 export interface CalendarFactoryOptions {
   startTime?: moment.Moment;

@@ -4,6 +4,7 @@ import {ServiceFactory} from "../../service.factory";
 import {ObjectList} from "../lists";
 import {AbstractApiModel, Debuggable} from "../models";
 import {AbstractRepositoryService} from "../services/repository-service.model";
+import {RelationManagerInterface} from "../services/repository.model";
 import {ChildrenListDefinition} from "./children-list.definition";
 import {ChildrenListFactory} from "./children-list.factory";
 import {ChildrenList} from "./children-list.model";
@@ -17,55 +18,30 @@ import {OneToOneRelation} from "./index";
  * @action: Listen to repository delete action to launch updates (ie: parent list update)
  * Avoid Cyclic dependencies generated when linking services
  */
-export abstract class AbstractRelationManager<T extends AbstractApiModel> extends Debuggable {
+export class RelationManager<T extends AbstractApiModel> extends Debuggable implements RelationManagerInterface<T> {
   public childrenListDefinitions: Array<ChildrenListDefinition<T, any>> = [];
-  protected abstract Service: new () => AbstractRepositoryService<T>;
-  protected abstract oneToOneRelations: Array<OneToOneRelation<T, any>>;
-
-  protected get service(): AbstractRepositoryService<T> {
-    return ServiceFactory.getService(this.Service);
+  public oneToOneRelations: Array<OneToOneRelation<T, any>> = [];
+  constructor(
+    protected service: AbstractRepositoryService<T>,
+  ) {
+    super();
+    this.service.repository.relationManager = this;
   }
 
-  public init() {
-    this.log("INIT " + this.service.name + "RelationManager");
-    this.service.repository.manageForeignRelations = (object: T, json: any) => {
-      this.oneToOneRelations.forEach((relation) => {
-        relation.listenObject(object);
-      });
-      this.manageChildrenLists(object, json);
-      return object;
-    };
-    this.service.repository.rollbackForeignRelations = (object: T) => {
-      this.oneToOneRelations.forEach((relation) => {
-        relation.unListenObject(object);
-      });
-      return object;
-    };
-    /* Fetch foreign Object after repository fromJson$ - Needs Repository fetchForeign$ null function */
-    this.service.repository.fetchForeign$ = (object: T, json: any = null) => this.fetchForeign$(object, json);
-  }
-
-  public manageChildrenLists(object: T, json: any) {
-    this.log("manageChildrenLists " + this.service.name + " " + object.identifier);
-    this.childrenListDefinitions.forEach((childrenListDefinition: ChildrenListDefinition<T, any>) => {
-      this.log("ChildrenLists " + childrenListDefinition.propertyName);
-      let source$ = childrenListDefinition.defaultSource$(object);
-      if (childrenListDefinition.debug) {
-        console.log("Children List From Json", (json !== null && json[childrenListDefinition.jsonKey] !== undefined));
-      }
-      if (json !== null && json[childrenListDefinition.jsonKey] !== undefined) {
-        if (childrenListDefinition.debug) {
-          console.log("Children List Json", json[childrenListDefinition.jsonKey]);
-        }
-        source$ = childrenListDefinition.service.repository.fromJsonArray$(json[childrenListDefinition.jsonKey]).pipe(
-          shareReplay(1),
-        );
-      }
-      const childrenList = this.createChildrenList(object, childrenListDefinition.propertyName, source$, childrenListDefinition.listConstructor);
-      childrenList.list.debug = childrenListDefinition.debug;
+  public manageForeignRelations(object: T, json: any) {
+    this.oneToOneRelations.forEach((relation) => {
+      relation.listenObject(object);
     });
+    this.manageChildrenLists(object, json);
     return object;
   }
+
+  public rollbackForeignRelations = (object: T) => {
+    this.oneToOneRelations.forEach((relation) => {
+      relation.unListenObject(object);
+    });
+    return object;
+  };
 
   public fetchForeign$(object: T, json: any = null): Observable<T> {
     const object$ = of(object);
@@ -88,6 +64,28 @@ export abstract class AbstractRelationManager<T extends AbstractApiModel> extend
         );
       }),
     );
+  }
+
+  protected manageChildrenLists(object: T, json: any) {
+    this.log("manageChildrenLists " + this.service.name + " " + object.identifier);
+    this.childrenListDefinitions.forEach((childrenListDefinition: ChildrenListDefinition<T, any>) => {
+      this.log("ChildrenLists " + childrenListDefinition.propertyName);
+      let source$ = childrenListDefinition.defaultSource$(object);
+      if (childrenListDefinition.debug) {
+        console.log("Children List From Json", (json !== null && json[childrenListDefinition.jsonKey] !== undefined));
+      }
+      if (json !== null && json[childrenListDefinition.jsonKey] !== undefined) {
+        if (childrenListDefinition.debug) {
+          console.log("Children List Json", json[childrenListDefinition.jsonKey]);
+        }
+        source$ = childrenListDefinition.service.repository.fromJsonArray$(json[childrenListDefinition.jsonKey]).pipe(
+          shareReplay(1),
+        );
+      }
+      const childrenList = this.createChildrenList(object, childrenListDefinition.propertyName, source$, childrenListDefinition.listConstructor);
+      childrenList.list.debug = childrenListDefinition.debug;
+    });
+    return object;
   }
 
   protected createChildrenList<U extends AbstractApiModel>(

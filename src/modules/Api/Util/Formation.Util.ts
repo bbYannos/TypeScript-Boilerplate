@@ -1,10 +1,10 @@
 import {combineLatest, Observable, of} from "rxjs";
 import {map, share, switchMap} from "rxjs/operators";
-import moment from "shared/moment/moment";
-import {Availability} from "../Model/Availability.Model";
-import {Formation} from "../Model/Formation.Model";
-import {Session} from "../Model/Session.Model";
-import {Speaker} from "../Model/Speaker.Model";
+import moment from "shared/moment";
+import {Availability} from "../Model/Availability/Availability.Model";
+import {Formation} from "../Model/Formation/Formation.Model";
+import {Session} from "../Model/Session/Session.Model";
+import {Speaker} from "../Model/Speaker/Speaker.Model";
 import {AvailabilityInstanceUtil} from "./AvailabilityInstance.Util";
 
 export class FormationUtil {

@@ -1,7 +1,6 @@
 import {of} from "rxjs";
 import {map, tap} from "rxjs/operators";
 import {ObjectUtils} from "shared/utils/object.utils";
-import {ServiceFactory} from "../../service.factory";
 import {AbstractApiModel, AbstractIdentifiedObject, Debuggable} from "../models";
 import {AbstractRepositoryService} from "../services/repository-service.model";
 
@@ -12,13 +11,13 @@ export class OneToOneRelation<T extends AbstractApiModel, U extends AbstractApiM
   public listenObject: (object: T) => void = null;
   public unListenObject: (object: T) => void = null;
 
-  constructor(public property: keyof T = null, public Service: new () => AbstractRepositoryService<U> = null) {
+  constructor(public property: keyof T = null, public service: AbstractRepositoryService<U> = null) {
     super();
   }
 
   // noinspection JSUnusedLocalSymbols
   public getServiceForForeign(object: T) {
-    return ServiceFactory.getService(this.Service);
+    return this.service;
   }
 
   // Function called after json -> object

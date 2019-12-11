@@ -6,9 +6,18 @@ import moment from "shared/moment/moment";
 import {RxjsUtils} from "../../rxjs.utils";
 import {ObjectList} from "../lists";
 import {AbstractApiModel} from "../models";
+import {ChildrenListDefinition} from "../relations/children-list.definition";
+
+export interface RelationManagerInterface<T extends AbstractApiModel> {
+  childrenListDefinitions: Array<ChildrenListDefinition<T, any>>;
+  manageForeignRelations(object: T, json: any): void;
+  rollbackForeignRelations(object: T): void;
+  fetchForeign$(object: T, json: any): Observable<T>;
+}
 
 export abstract class AbstractRepository<T extends AbstractApiModel> extends ObjectList<T> {
   public abstract constructorFn: new (...params) => T;
+  public relationManager: RelationManagerInterface<T> = null;
   public debug = false;
   public perfDebug = false;
   public checkExisting = true;
@@ -22,7 +31,7 @@ export abstract class AbstractRepository<T extends AbstractApiModel> extends Obj
   public makeNew(): T {
     const object = new  this.constructorFn(true);
     object.createdAt = moment();
-    this.manageForeignRelations(object, null);
+    this.relationManager.manageForeignRelations(object, null);
     this.push(object);
     return object;
   }
@@ -52,7 +61,7 @@ export abstract class AbstractRepository<T extends AbstractApiModel> extends Obj
     }
     if (object !== null) {
       this.log("object found");
-      this.rollbackForeignRelations(object);
+      this.relationManager.rollbackForeignRelations(object);
       this.jsonMapper.updateFromJson(json, object);
     } else {
       object = this.jsonMapper.createFromJson(json, this.constructorFn);
@@ -62,8 +71,8 @@ export abstract class AbstractRepository<T extends AbstractApiModel> extends Obj
     this.log("Before fetch foreign " + this.constructorName);
     this.log("-- Object ", object);
     this.log("-- Json ", json);
-    this.manageForeignRelations(object, json);
-    return this.fetchForeign$(object, json).pipe(
+    this.relationManager.manageForeignRelations(object, json);
+    return this.relationManager.fetchForeign$(object, json).pipe(
       tap(() => this.constructorName + "Fetch FOREIGN DONE"),
     );
   }
@@ -93,21 +102,6 @@ export abstract class AbstractRepository<T extends AbstractApiModel> extends Obj
     const tempObj: T = this.jsonToObject(json);
     const result = this._objects.find((_object: T) => _object.isSame(tempObj));
     return (result) ? result : null;
-  }
-
-  /** handle for ForeignManagers -- Do not delete */
-  public rollbackForeignRelations(object: T): T {
-    return object;
-  }
-
-  /** handle for ForeignManagers -- Do not delete */
-  public manageForeignRelations(object: T, json: any): T {
-    return object;
-  }
-
-  /** handle for ForeignManagers -- Do not delete */
-  public fetchForeign$(object: T, json: any): Observable<T> {
-    return RxjsUtils.of(object);
   }
 
   public log(...param) {

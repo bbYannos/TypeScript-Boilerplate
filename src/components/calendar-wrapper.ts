@@ -2,7 +2,7 @@ import {OptionsInput} from "@fullcalendar/core/types/input-types";
 import {Observable, of, Subject} from "rxjs";
 import Vue from "vue";
 import Component from "vue-class-component";
-import {Session} from "../modules/Api/Model/Session.Model";
+import {Session} from "../modules/Api/Model/Session/Session.Model";
 import {calendarModule$} from "../modules/Calendar";
 import {FullCalendar} from "../modules/Calendar/FullCalendar";
 import WithRender from "./calendar-wrapper.html";
