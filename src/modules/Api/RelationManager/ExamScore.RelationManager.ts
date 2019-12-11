@@ -11,6 +11,3 @@ export class ExamScoreRelationManager extends AbstractRelationManager<ExamScore>
   protected oneToOneRelations = [examRelation, traineeRelation];
 }
 
-export const examScoreRelationManager = new ExamScoreRelationManager();
-examScoreRelationManager.init();
-examScoreRelationManager.debug = false;

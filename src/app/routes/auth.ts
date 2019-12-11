@@ -12,7 +12,6 @@ export class RouterAuthService extends AbstractInitService {
   );
 
   public init() {
-    ServiceFactory.initService(Api.userService);
     Api.userService.checkStoredSession();
     return this.ready$;
   }

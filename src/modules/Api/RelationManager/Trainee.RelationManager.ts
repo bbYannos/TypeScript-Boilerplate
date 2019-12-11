@@ -8,6 +8,3 @@ export class TraineeRelationManager extends AbstractRelationManager<Trainee> {
   protected Service = TraineeService;
   protected oneToOneRelations = [formationRelation];
 }
-
-export const traineeRelationManager = new TraineeRelationManager();
-traineeRelationManager.init();

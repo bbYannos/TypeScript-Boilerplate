@@ -55,7 +55,3 @@ export class FormationRelationManager extends AbstractRelationManager<Formation>
     Object.defineProperty(object, property, attributes);
   }
 }
-
-export const formationRelationManager = new FormationRelationManager();
-formationRelationManager.debug = false;
-formationRelationManager.init();

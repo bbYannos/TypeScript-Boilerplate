@@ -18,6 +18,3 @@ export class AbsenceRelationManager extends AbstractRelationManager<Absence> {
   protected oneToOneRelations = [traineeRelation];
 }
 
-export const absenceRelationManager = new AbsenceRelationManager();
-absenceRelationManager.debug = false;
-absenceRelationManager.init();

@@ -26,7 +26,3 @@ export class ExamRelationManager extends AbstractRelationManager<Exam> {
   protected Service = ExamService;
   protected oneToOneRelations = [trainingRelation, examTypeRelation];
 }
-
-export const examRelationManager = new ExamRelationManager();
-examRelationManager.init();
-examRelationManager.debug = false;

@@ -23,7 +23,3 @@ export class SessionRelationManager extends AbstractRelationManager<Session> {
   protected Service = SessionService;
   protected oneToOneRelations = [trainingRelation];
 }
-
-export const sessionRelationManager = new SessionRelationManager();
-sessionRelationManager.init();
-sessionRelationManager.debug = false;

@@ -51,4 +51,4 @@ export class TrainingRelationManager extends AbstractRelationManager<Training> {
 
 export const trainingRelationManager = new TrainingRelationManager();
 trainingRelationManager.init();
-trainingRelationManager.debug = false;
+trainingRelationManager.debug = true;

@@ -36,6 +36,7 @@ export class ServiceFactory {
     if (cachedService) {
       service = cachedService as T;
     } else {
+      this.initService(service);
       this.services.push(service);
     }
     return service;

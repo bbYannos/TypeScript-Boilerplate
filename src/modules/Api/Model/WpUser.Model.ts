@@ -1,6 +1,7 @@
 import {Observable, of} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 import {ServiceFactory} from "shared/abstract-api";
+import {FormationService} from "../Service/Formation.Service";
 import {SpeakerService} from "../Service/Speaker.Service";
 import {TraineeService} from "../Service/Trainee.Service";
 import {Speaker} from "./Speaker.Model";
@@ -29,7 +30,7 @@ export class WpUserModel {
   public static fromJson$(json: any): Observable<WpUserModel> {
     const wpUser = Object.assign(new WpUserModel(), json);
     const traineeService = ServiceFactory.getService(TraineeService);
-    const formationService = ServiceFactory.getService(TraineeService);
+    const formationService = ServiceFactory.getService(FormationService);
     const speakerService = ServiceFactory.getService(SpeakerService);
     return of(wpUser).pipe(
       switchMap(() => {

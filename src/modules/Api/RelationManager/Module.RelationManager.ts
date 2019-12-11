@@ -26,6 +26,3 @@ export class ModuleRelationManager extends AbstractRelationManager<Module> {
   protected oneToOneRelations = [formationRelation];
 }
 
-export const moduleRelationManager = new ModuleRelationManager();
-moduleRelationManager.init();
-moduleRelationManager.debug = false;

@@ -9,8 +9,6 @@ import {
 import {Availability, AvailabilityService} from "../Service/Availability.Service";
 import {Formation, FormationService} from "../Service/Formation.Service";
 import {Speaker, SpeakerService} from "../Service/Speaker.Service";
-import {formationRelationManager} from "./Formation.RelationManager";
-import {speakerRelationManager} from "./Speaker.RelationManager";
 
 class AvailabilityToParentRelation extends PeriodToGenericParentRelation<Availability, Formation | Speaker> {
   constructor() {
@@ -57,6 +55,4 @@ export class AvailabilityRelationManager extends AbstractRelationManager<Availab
   protected Service = AvailabilityService;
   protected oneToOneRelations = [parentRelation];
 }
-export const availabilityRelationManager = new AvailabilityRelationManager();
-availabilityRelationManager.init();
 
