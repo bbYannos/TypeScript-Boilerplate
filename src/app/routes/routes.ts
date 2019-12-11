@@ -1,6 +1,6 @@
 import {Role} from "modules/Api/Model/WpUser.Model";
 import {RouteConfig as VueRouteConfig} from "vue-router";
-import {LoginPageLayout} from "../login/login-page.layout";
+import {LoginPageLayout} from "../login/page.layout";
 
 export const Roles: { [key: string]: Role } = {
   Admin: "administrator",
@@ -16,7 +16,6 @@ export interface RouteMeta {
 interface RouteConfig extends VueRouteConfig {
   meta?: RouteMeta;
 }
-
 
 export const homeRoute = {path: "/", meta: {authorize: [null]}};
 export const loginRoute = {path: "/login", component: LoginPageLayout, meta: {authorize: [null]}};

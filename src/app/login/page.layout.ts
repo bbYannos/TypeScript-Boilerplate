@@ -3,7 +3,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import {LoginForm} from "./components/login-form";
 import {RegisterForm} from "./components/register-form";
-import WithRender from "./login-page.layout.html";
+import WithRender from "./page.layout.html";
 
 @WithRender
 @Component({

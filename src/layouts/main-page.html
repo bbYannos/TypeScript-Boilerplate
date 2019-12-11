@@ -1,17 +1,6 @@
-<div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper auth-page">
-        <div class="content-wrapper auth auth-bg-1 theme-one">
-            <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="padding: 2%">
-                <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                    <a class="logo" href="javascript:">
-                        <img class="img-fluid ml-2" src="./img/logo_isv.png" alt="logo">
-                    </a>
-                </div>
-                <header-c/>
-            </nav>
-            <div class="d-flex flex-column bd-highlight mt-5">
-                <slot name="content"/>
-            </div>
-        </div>
+<div class="row w-100">
+    <header-c/>
+    <div class="d-flex flex-column bd-highlight mt-5">
+        <slot name="content"/>
     </div>
 </div>

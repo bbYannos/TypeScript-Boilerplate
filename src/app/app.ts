@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import WithRender from "./app.html";
-import {LoginPageLayout} from "./login/login-page.layout";
+import {LoginPageLayout} from "./login/page.layout";
 import {SpeakerPageLayout} from "./routes/routes";
 
 @WithRender

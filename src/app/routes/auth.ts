@@ -39,9 +39,11 @@ export class RouterAuthService extends AbstractInitService {
         return this.user.hasRole(_authorize);
       }
     });
+
     if (loggedRoute) {
       return next(loggedRoute);
     }
+    console.log(loggedRoute);
     this.logout();
     return next(false);
   }

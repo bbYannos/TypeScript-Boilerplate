@@ -1,6 +1,7 @@
 import Api from "modules/Api/login";
 import Vue from "vue";
 import Component from "vue-class-component";
+import "./header.css";
 import WithRender from "./header.html";
 
 @WithRender
