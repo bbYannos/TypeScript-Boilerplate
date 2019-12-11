@@ -20,7 +20,7 @@ export class RouterAuthService extends AbstractInitService {
     return this.ready$;
   }
 
-  public checkPage(to, from, next) {
+  public checkAccessRights(to, from, next) {
     const { authorize } = to.meta;
     Api.userService.user$.pipe(take(1)).subscribe((wpUser) => {
       if (authorize && wpUser === null) {
@@ -30,6 +30,5 @@ export class RouterAuthService extends AbstractInitService {
       }
     });
   }
-
   public logout = () => Api.userService.logout();
 }

@@ -21,7 +21,8 @@ export const router = new Router({
   ],
 });
 export const routerAuthService = new RouterAuthService();
-router.beforeEach((to, from, next) => routerAuthService.checkPage(to, from, next));
+
+router.beforeEach((to, from, next) => routerAuthService.checkAccessRights(to, from, next));
 
 
 

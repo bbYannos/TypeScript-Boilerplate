@@ -10,7 +10,8 @@ base.devServer = {
     port: 9000,
     // open: "firefox",
     hot: true,
-    host: 'isvin.loc'
+    host: 'isvin.loc',
+    clientLogLevel: 'none',
 };
 
 base.stats = {
@@ -20,12 +21,16 @@ base.stats = {
     children: false,
 };
 
+// HMR
 base.plugins.push(new webpack.HotModuleReplacementPlugin({
-    // if undefined or true : ReferenceError: webpackHotUpdate is not defined
+    // ReferenceError: webpackHotUpdate is not defined
     // https://github.com/webpack/webpack/issues/6693
-    // todo: test -> optimization.runtimeChunk: true
-    multiStep: false,
+    // multiStep: true,
 }));
+// ReferenceError: webpackHotUpdate is not defined
+// https://github.com/webpack/webpack/issues/6693
+base.optimization.runtimeChunk = true;
+
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const circularDependencyPlugin = new CircularDependencyPlugin({
