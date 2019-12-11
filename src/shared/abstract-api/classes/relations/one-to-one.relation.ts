@@ -5,17 +5,31 @@ import {AbstractApiModel, AbstractIdentifiedObject, Debuggable} from "../models"
 import {AbstractRepositoryService} from "../services/repository-service.model";
 
 export class OneToOneRelation<T extends AbstractApiModel, U extends AbstractApiModel> extends Debuggable {
-  public updateOnChange?: (object: T, previousParent: U, newParent: U) => void = null;
-  public updateOnDelete?: (object: T, previousValue: boolean, newValue: boolean) => void = null;
-
-  public listenObject: (object: T) => void = null;
-  public unListenObject: (object: T) => void = null;
-
   constructor(public property: keyof T = null, public service: AbstractRepositoryService<U> = null) {
     super();
   }
 
   // noinspection JSUnusedLocalSymbols
+  public updateOnChange(object: T, previousParent: U, newParent: U): void {
+    return;
+  }
+
+  // noinspection JSUnusedLocalSymbols
+  public updateOnDelete(object: T, previousValue: boolean, newValue: boolean): void {
+    return;
+  }
+
+  // noinspection JSUnusedLocalSymbols
+  public listenObject(object: T): void {
+    return;
+  }
+
+  // noinspection JSUnusedLocalSymbols
+  public unListenObject(object: T): void {
+    return;
+  }
+
+// noinspection JSUnusedLocalSymbols
   public getServiceForForeign(object: T) {
     return this.service;
   }

@@ -13,7 +13,7 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
     super(property, service);
   }
 
-  public updateOnChange = (object: T, previousParent: U, newParent: U) => {
+  public updateOnChange(object: T, previousParent: U, newParent: U) {
     if (previousParent !== null) {
       ChildrenListFactory.getChildrenListForProperty(previousParent, (this.parentProperty as string)).list.delete(object);
     }
@@ -21,23 +21,23 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
       this.log("OneToParentRelation : add to parent list ", newParent.identifier);
       ChildrenListFactory.getChildrenListForProperty(newParent, (this.parentProperty as string)).list.push(object);
     }
-  };
+  }
 
-  public updateOnDelete = (object: T, previousValue: boolean, newValue: boolean) => {
+  public updateOnDelete(object: T, previousValue: boolean, newValue: boolean) {
     if (newValue && !previousValue) {
       object[this.property] = null;
     }
-  };
+  }
 
-  public listenObject = (object: T) => {
-    this.listen(object, this.property, this.updateOnChange);
-    this.listen(object, "deleted", this.updateOnDelete);
-  };
+  public listenObject(object: T) {
+    this.listen(object, this.property, (_object: T, previousParent: U, newParent: U) => this.updateOnChange(_object, previousParent, newParent));
+    this.listen(object, "deleted", (_object: T, previousValue: boolean, newValue: boolean) => this.updateOnDelete(_object, previousValue, newValue));
+  }
 
-  public unListenObject = (object: T) => {
+  public unListenObject(object: T) {
     this.unListen(object, this.property);
     this.unListen(object, "deleted");
-  };
+  }
 
   protected listen<V>(object: T, property: keyof T, cb: (object: T, oldValue: V, newValue: V) => void) {
     if (cb === null) {

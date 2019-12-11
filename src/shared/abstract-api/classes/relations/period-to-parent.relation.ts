@@ -10,14 +10,13 @@ export class PeriodToParentRelation<T extends AbstractPeriod, U extends Abstract
     }
   };
 
-  public listenObject = (object: T) => {
-    console.log(this);
+  public listenObject(object: T) {
     super.listenObject(object);
     this.listen(object, "duration", this.updateParent);
-  };
+  }
 
-  public unListenObject = (object: T) => {
+  public unListenObject(object: T) {
     super.unListenObject(object);
     this.unListen(object, "duration");
-  };
+  }
 }

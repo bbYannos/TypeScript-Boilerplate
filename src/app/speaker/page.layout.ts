@@ -4,7 +4,6 @@ import {CardComponent} from "components/card";
 import {MainPageLayout} from "layouts/main-page";
 import Vue from "vue";
 import Component from "vue-class-component";
-import {routerAuthService} from "../routes/router";
 import WithRender from "./page.layout.html";
 
 @WithRender
@@ -16,20 +15,6 @@ export class SpeakerPageLayout extends Vue {
     label: "Planning",
     loading: false,
   };
-
-  public mounted() {
-    console.log(routerAuthService.user.speaker);
-    /*
-    planningComponent.getAllEvents$ = (info) => {
-      const options: CalendarFactoryOptions = {
-        startTime: moment(info.start),
-        endTime: moment(info.end),
-        sessions$: speaker.sessions$,
-      };
-      return CalendarFactory.makeSessionsCalendarSource$(options);
-    };
-     */
-  }
 }
 export default Vue.component("speaker-page-layout", SpeakerPageLayout);
 

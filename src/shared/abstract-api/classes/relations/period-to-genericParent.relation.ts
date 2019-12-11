@@ -9,23 +9,23 @@ export interface PeriodWithGenericParent extends AbstractPeriod {
 }
 
 export class PeriodToGenericParentRelation<T extends PeriodWithGenericParent, U extends AbstractApiModel> extends OneToGenericParentRelation<T, U> {
-  public updateParent = (object: T) => {
+  public updateParent(object: T) {
     if (this.getParent(object))  {
       this.log(this.getParent(object));
       this.getParentList<PeriodList<T>>(object).deleteDurationCache();
       this.getParentList(object).emitChange();
     }
-  };
+  }
 
-  public listenObject = (object: T) => {
+  public listenObject(object: T) {
     super.listenObject(object);
     this.listen(object, "duration", this.updateParent);
     this.listen(object, "startTime", this.updateParent);
-  };
+  }
 
-  public unListenObject = (object: T) => {
+  public unListenObject(object: T) {
     super.unListenObject(object);
     this.unListen(object, "duration");
     this.unListen(object, "startTime");
-  };
+  }
 }

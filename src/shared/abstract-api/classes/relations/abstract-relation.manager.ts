@@ -43,9 +43,6 @@ export class RelationManager<T extends AbstractApiModel> extends Debuggable impl
     this.oneToOneRelations.forEach((relation) => {
       if (relation.listenObject !== null) {
         relation.listenObject(object);
-      } else {
-        this.debug = true;
-        console.log('passe dans null');
       }
     });
     this.manageChildrenLists(object, json);

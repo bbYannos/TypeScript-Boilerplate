@@ -1,10 +1,11 @@
 import {OptionsInput} from "@fullcalendar/core/types/input-types";
+import {calendarModule$} from "modules/Calendar";
 import {Observable, of, Subject} from "rxjs";
+import moment from "shared/moment";
 import Vue from "vue";
 import Component from "vue-class-component";
+import {routerAuthService} from "../app/routes/router";
 import {Session} from "../modules/Api/Model/Session/Session.Model";
-import {calendarModule$} from "../modules/Calendar";
-import {FullCalendar} from "../modules/Calendar/FullCalendar";
 import WithRender from "./calendar-wrapper.html";
 
 interface ModuleComponent {
@@ -26,12 +27,31 @@ export class CalendarWrapper extends Vue {
   public mounted() {
     calendarModule$.subscribe((module) => {
       this.data.loading = false;
-      const planningComponent: FullCalendar = new module.FullCalendar();
+      const planningComponent = new module.FullCalendar();
       const calendarParams: OptionsInput = module.CalendarFactory.getCalendarRangeForSpeaker();
       calendarParams.header = {left: "prev,next", center: "title", right: ""};
-      calendarParams.eventRender = (info) => module.CalendarFactory.formatSession(info, (session: Session) => session.training.formation.label);
+      calendarParams.eventRender = (info) => module.CalendarFactory.formatSession(info, (session: Session) => {
+        console.log(session);
+        if (session.training.formation) {
+          return session.training.formation.label;
+        }
+        return "";
+      });
+      routerAuthService.user.speaker.sessions$.subscribe((sessions) => {
+        console.log(sessions);
+      });
       planningComponent.getAllEvents$ = () => of([]);
-
+      console.log(routerAuthService.user.speaker);
+      /*
+      planningComponent.getAllEvents$ = (info) => {
+        const options = {
+          startTime: moment(info.start),
+          endTime: moment(info.end),
+          sessions$: routerAuthService.user.speaker.sessions$,
+        };
+        return module.CalendarFactory.makeSessionsCalendarSource$(options);
+      };
+      */
       planningComponent.$htmEl = this.$refs.target as HTMLElement;
       planningComponent.close$ = this.close_;
       planningComponent.render(calendarParams);

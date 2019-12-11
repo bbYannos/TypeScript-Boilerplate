@@ -7,20 +7,21 @@ export class AvailabilityToParentRelation extends PeriodToGenericParentRelation<
   constructor() {
     super("allAvailabilities$");
   }
-  public getServiceForForeign = (object: Availability): AbstractRepositoryService<any> => {
+
+  public getServiceForForeign(object: Availability): AbstractRepositoryService<any> {
     if (object.parentClass === "Formation") {
       return formationService;
     } else {
       return speakerService;
     }
-  };
+  }
 
-  public listenObject = (object: Availability) => {
+  public listenObject(object: Availability) {
     super.listenObject(object);
     this.listen(object, "global", this.updateParent);
-  };
+  }
 
-  public unListen = (object: Availability, property: keyof Availability) => {
+  public unListen(object: Availability, property: keyof Availability) {
     super.unListen(object, property);
     super.unListen(object, "global");
   }

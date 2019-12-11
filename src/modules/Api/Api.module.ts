@@ -1,4 +1,3 @@
-import {AbstractRepositoryService} from "shared/abstract-api";
 import {absenceService} from "./Model/Absence";
 import {availabilityService} from "./Model/Availability";
 import {examService} from "./Model/Exam";
@@ -12,7 +11,7 @@ import {traineeService} from "./Model/Trainee";
 import {trainingService} from "./Model/Training";
 import {UserService} from "./Model/User/User.Service";
 
-const Api: { [key: string]: AbstractRepositoryService<any> } = {
+const Api = {
   absenceService: absenceService,
   availabilityService : availabilityService,
   examService : examService,

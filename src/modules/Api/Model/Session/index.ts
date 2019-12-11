@@ -1,10 +1,9 @@
 import {ChildrenListDefinition, PeriodList, PeriodToParentRelation, RelationManager} from "shared/abstract-api";
 import {Training, trainingService} from "../Training";
 import {Session, SessionService} from "./Session.Service";
-
-const sessionService = RelationManager.makeService(SessionService, [
-  new PeriodToParentRelation<Session, Training>("training", "sessions$", trainingService),
-]);
+const relation = new PeriodToParentRelation<Session, Training>("training", "sessions$", trainingService);
+relation.debug = true;
+const sessionService = RelationManager.makeService(SessionService, [relation]);
 
 trainingService.repository.relationManager.childrenListDefinitions.push({
   propertyName: "sessions$",

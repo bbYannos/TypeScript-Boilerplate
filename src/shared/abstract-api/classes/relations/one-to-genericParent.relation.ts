@@ -27,7 +27,7 @@ export class OneToGenericParentRelation<T extends AbstractApiModelWithGenericPar
     super("parent", parentProperty, null);
   }
 
-  public updateOnChange = (object: T, previousParent: U, newParent: U) => {
+  public updateOnChange(object: T, previousParent: U, newParent: U) {
     if (previousParent !== null) {
       ChildrenListFactory.getChildrenListForProperty(previousParent, (this.parentProperty as string)).list.delete(object);
       object.parentClass = "";
