@@ -1,6 +1,5 @@
 import {forkJoin, Observable, of} from "rxjs";
 import {map, shareReplay, switchMap, take, tap} from "rxjs/operators";
-import {ServiceFactory} from "../../service.factory";
 import {ObjectList} from "../lists";
 import {AbstractApiModel, Debuggable} from "../models";
 import {AbstractRepositoryService} from "../services/repository-service.model";
@@ -21,16 +20,33 @@ import {OneToOneRelation} from "./index";
 export class RelationManager<T extends AbstractApiModel> extends Debuggable implements RelationManagerInterface<T> {
   public childrenListDefinitions: Array<ChildrenListDefinition<T, any>> = [];
   public oneToOneRelations: Array<OneToOneRelation<T, any>> = [];
+
   constructor(
     protected service: AbstractRepositoryService<T>,
   ) {
     super();
-    this.service.repository.relationManager = this;
+  }
+
+  public static makeService<U extends AbstractApiModel, V extends AbstractRepositoryService<U>>(
+    Service: new () => V,
+    relations: Array<OneToOneRelation<U, any>> = [],
+    RelationManagerCtor: new (...param) => RelationManager<U> = RelationManager,
+  ): V {
+    const service = new Service();
+    const relationManager = new RelationManagerCtor(service);
+    relationManager.oneToOneRelations = relations;
+    service.repository.relationManager = relationManager;
+    return service;
   }
 
   public manageForeignRelations(object: T, json: any) {
     this.oneToOneRelations.forEach((relation) => {
-      relation.listenObject(object);
+      if (relation.listenObject !== null) {
+        relation.listenObject(object);
+      } else {
+        this.debug = true;
+        console.log('passe dans null');
+      }
     });
     this.manageChildrenLists(object, json);
     return object;
@@ -38,7 +54,9 @@ export class RelationManager<T extends AbstractApiModel> extends Debuggable impl
 
   public rollbackForeignRelations = (object: T) => {
     this.oneToOneRelations.forEach((relation) => {
-      relation.unListenObject(object);
+      if (relation.unListenObject !== null) {
+        relation.unListenObject(object);
+      }
     });
     return object;
   };
@@ -71,11 +89,11 @@ export class RelationManager<T extends AbstractApiModel> extends Debuggable impl
     this.childrenListDefinitions.forEach((childrenListDefinition: ChildrenListDefinition<T, any>) => {
       this.log("ChildrenLists " + childrenListDefinition.propertyName);
       let source$ = childrenListDefinition.defaultSource$(object);
-      if (childrenListDefinition.debug) {
+      if (childrenListDefinition.debug || this.debug) {
         console.log("Children List From Json", (json !== null && json[childrenListDefinition.jsonKey] !== undefined));
       }
       if (json !== null && json[childrenListDefinition.jsonKey] !== undefined) {
-        if (childrenListDefinition.debug) {
+        if (childrenListDefinition.debug || this.debug) {
           console.log("Children List Json", json[childrenListDefinition.jsonKey]);
         }
         source$ = childrenListDefinition.service.repository.fromJsonArray$(json[childrenListDefinition.jsonKey]).pipe(

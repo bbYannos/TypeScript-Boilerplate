@@ -2,11 +2,9 @@ import {ChildrenListDefinition, PeriodList, PeriodToParentRelation, RelationMana
 import {Training, trainingService} from "../Training";
 import {Session, SessionService} from "./Session.Service";
 
-const sessionService = new SessionService();
-const relationManager = new RelationManager(sessionService);
-relationManager.oneToOneRelations = [
+const sessionService = RelationManager.makeService(SessionService, [
   new PeriodToParentRelation<Session, Training>("training", "sessions$", trainingService),
-];
+]);
 
 trainingService.repository.relationManager.childrenListDefinitions.push({
   propertyName: "sessions$",

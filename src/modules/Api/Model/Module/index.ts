@@ -2,11 +2,9 @@ import {ChildrenListDefinition, OneToParentRelation, RelationManager} from "shar
 import {Formation, formationService} from "../Formation";
 import {Module, ModuleQuery, ModuleService} from "./Module.Service";
 
-const moduleService = new ModuleService();
-const relationManager = new RelationManager(moduleService);
-relationManager.oneToOneRelations = [
+const moduleService = RelationManager.makeService(ModuleService, [
   new OneToParentRelation<Module, Formation>("formation", "modules$", formationService)
-];
+]);
 
 formationService.repository.relationManager.childrenListDefinitions.push({
   propertyName: "modules$",

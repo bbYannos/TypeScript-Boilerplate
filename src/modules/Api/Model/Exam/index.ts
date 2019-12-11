@@ -3,12 +3,10 @@ import {ExamType, examTypeService} from "../ExamType";
 import {Training, trainingService} from "../Training";
 import {Exam, ExamService} from "./Exam.Service";
 
-const examService = new ExamService();
-const relationManager = new RelationManager(examService);
-relationManager.oneToOneRelations = [
+const examService = RelationManager.makeService(ExamService, [
   new OneToParentRelation<Exam, Training>("training", "exams$", trainingService),
   new OneToOneRelation<Exam, ExamType>("examType", examTypeService),
-];
+]);
 
 trainingService.repository.relationManager.childrenListDefinitions.push({
   propertyName: "exams$",

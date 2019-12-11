@@ -1,8 +1,6 @@
 import {RelationManager} from "shared/abstract-api";
 import {ExamType, ExamTypeService} from "./ExamType.Service";
 
-const examTypeService = new ExamTypeService();
-// tslint:disable-next-line:no-unused-expression
-new RelationManager(examTypeService);
+const examTypeService = RelationManager.makeService<ExamType, ExamTypeService>(ExamTypeService);
 
 export {ExamType, ExamTypeService, examTypeService};

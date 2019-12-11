@@ -16,13 +16,26 @@ export interface RelationManagerInterface<T extends AbstractApiModel> {
 }
 
 export abstract class AbstractRepository<T extends AbstractApiModel> extends ObjectList<T> {
+  public get relationManager(): RelationManagerInterface<T> {
+    if (this._relationManager === null) {
+      console.trace();
+      throw Error("Relation manager not defined for " + this.constructorName);
+    }
+    return this._relationManager;
+  }
+
+  public set relationManager(value) {
+    console.log("Relation manager set for " + this.constructorName, value);
+    this._relationManager = value;
+  }
   public abstract constructorFn: new (...params) => T;
-  public relationManager: RelationManagerInterface<T> = null;
+
   public debug = false;
   public perfDebug = false;
   public checkExisting = true;
 
   protected jsonMapper = new JsonMapper<T>();
+  public _relationManager: RelationManagerInterface<T> = null;
 
   public get constructorName(): string {
     return  new this.constructorFn(true).constructorName;

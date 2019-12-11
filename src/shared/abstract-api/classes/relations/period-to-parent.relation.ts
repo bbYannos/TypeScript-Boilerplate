@@ -11,6 +11,7 @@ export class PeriodToParentRelation<T extends AbstractPeriod, U extends Abstract
   };
 
   public listenObject = (object: T) => {
+    console.log(this);
     super.listenObject(object);
     this.listen(object, "duration", this.updateParent);
   };

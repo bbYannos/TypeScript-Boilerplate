@@ -1,14 +1,12 @@
-import {ChildrenListDefinition, PeriodList, RelationManager,} from "shared/abstract-api";
+import {ChildrenListDefinition, PeriodList, RelationManager} from "shared/abstract-api";
 import {Formation, formationService} from "../Formation";
 import {Speaker, speakerService} from "../Speaker";
 import {Availability, AvailabilityService} from "./Availability.Service";
 import {AvailabilityToParentRelation} from "./AvailabilityToParent.Relation";
 
-const availabilityService = new AvailabilityService();
-const relationManager = new RelationManager(availabilityService);
-relationManager.oneToOneRelations = [
+const availabilityService = RelationManager.makeService(AvailabilityService, [
   new AvailabilityToParentRelation(),
-];
+]);
 
 formationService.repository.relationManager.childrenListDefinitions.push({
   propertyName: "allAvailabilities$",

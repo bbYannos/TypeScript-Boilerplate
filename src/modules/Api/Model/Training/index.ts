@@ -10,13 +10,11 @@ import {Module, moduleService} from "../Module";
 import {Speaker, speakerService} from "../Speaker/";
 import {Training, TrainingService} from "./Training.Service";
 
-const trainingService = new TrainingService();
-const relationManager = new RelationManager(trainingService);
-relationManager.oneToOneRelations = [
+const trainingService = RelationManager.makeService(TrainingService, [
   new OneToParentRelation<Training, Formation>("formation", "trainings$", formationService),
   new OneToParentRelation<Training, Speaker>("speaker", "trainings$", speakerService),
   new OneToOneRelation<Training, Module>("module", moduleService),
-];
+]);
 
 formationService.repository.relationManager.childrenListDefinitions.push({
   propertyName: "trainings$",

@@ -1,11 +1,8 @@
 import {Observable, of} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
-import {ServiceFactory} from "shared/abstract-api";
-import {FormationService} from "../Formation/Formation.Service";
-import {SpeakerService} from "../Speaker/Speaker.Service";
-import {TraineeService} from "../Trainee/Trainee.Service";
-import {Speaker} from "../Speaker/Speaker.Model";
-import {Trainee} from "../Trainee/Trainee.Model";
+import {formationService} from "../Formation";
+import {Speaker, speakerService} from "../Speaker";
+import {Trainee, traineeService} from "../Trainee";
 
 export type Role = ("administrator" | "speaker" | "trainee");
 
@@ -29,9 +26,6 @@ export class WpUserModel {
 
   public static fromJson$(json: any): Observable<WpUserModel> {
     const wpUser = Object.assign(new WpUserModel(), json);
-    const traineeService = ServiceFactory.getService(TraineeService);
-    const formationService = ServiceFactory.getService(FormationService);
-    const speakerService = ServiceFactory.getService(SpeakerService);
     return of(wpUser).pipe(
       switchMap(() => {
         if (wpUser.isTrainee && traineeService.rest !== null && formationService.rest !== null) {

@@ -53,8 +53,7 @@ class FormationRelationManager extends RelationManager<Formation> {
   }
 }
 
-const formationService = new FormationService();
-// tslint:disable-next-line:no-unused-expression
-new FormationRelationManager(formationService);
+const formationService = RelationManager.makeService<Formation, FormationService>(FormationService, [], FormationRelationManager);
+
 
 export {Formation, FormationService, formationService};
