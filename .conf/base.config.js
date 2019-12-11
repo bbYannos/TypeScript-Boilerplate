@@ -116,7 +116,7 @@ configuration.optimization = {
                 priority: -1,
             },
             calendar: {
-                test: /(@fullcalendar|Calendar)/,
+                test: /(@fullcalendar|Calendar|full\-calendar)/,
                 chunks: 'all',
                 priority: -2,
             },

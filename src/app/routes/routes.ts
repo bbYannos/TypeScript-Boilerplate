@@ -22,17 +22,19 @@ export const homeRoute = {path: "/", meta: {authorize: [null]}};
 export const loginRoute = {path: "/login", component: LoginPageLayout, meta: {authorize: [null]}};
 export const afterLoginRoute = homeRoute;
 export const afterLogoutRoute = homeRoute;
-const routes: RouteConfig[] = [homeRoute, loginRoute];
+let routes: RouteConfig[] = [homeRoute, loginRoute];
+
+export const SpeakerPageLayout = () => import(/* webpackChunkName: "speaker" */ "../speaker/page.layout");
 
 const lazyRoutes: RouteConfig[] = [
   {
     path: "/speaker",
-    component: () => import(/* webpackChunkName: "speaker" */ "../speaker/page.layout"),
+    component: SpeakerPageLayout,
     meta: {authorize: [Roles.Speaker]}
   },
   // {path: "/admin", component:  import(/* webpackChunkName: "admin" */ "../admin/page.layout"), meta: {authorize: [Roles.Admin]}},
   // {path: "/admin", component:  import(/* webpackChunkName: "trainee" */ "../trainee/page.layout"), meta: {authorize: [Roles.Admin]}},
 ];
-routes.concat(lazyRoutes);
+routes = routes.concat(lazyRoutes);
 
 export {routes};

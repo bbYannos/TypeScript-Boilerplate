@@ -1,3 +1,4 @@
+import "assets/_user";
 import {CalendarWrapper} from "components/calendar-wrapper";
 import {CardComponent} from "components/card";
 import {MainPageLayout} from "layouts/main-page";

@@ -14,7 +14,7 @@ html, body {
   background-image: url('~assets/img/logo_isv.png')
 }
 
-#app {
+.content-wrapper {
   max-width: $max-width;
   margin: 0 auto;
 }
