@@ -43,7 +43,7 @@ export class RouterAuthService extends AbstractInitService {
     if (loggedRoute) {
       return next(loggedRoute);
     }
-    console.log(loggedRoute);
+    alert("Pas de rôle attribué à ce profil");
     this.logout();
     return next(false);
   }

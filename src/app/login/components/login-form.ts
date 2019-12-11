@@ -23,7 +23,7 @@ export class LoginForm extends Vue {
         this.message = {type: "danger", label: null, detail: error.data.message};
         return of(false);
       }),
-    ).subscribe();
+    ).subscribe(() => this.loading = false);
   }
 }
 export default Vue.component("login-form-c", LoginForm);
