@@ -2,7 +2,7 @@ import {ChildrenListDefinition, PeriodList, PeriodToParentRelation, RelationMana
 import {Training, trainingService} from "../Training";
 import {Session, SessionService} from "./Session.Service";
 const relation = new PeriodToParentRelation<Session, Training>("training", "sessions$", trainingService);
-relation.debug = true;
+
 const sessionService = RelationManager.makeService(SessionService, [relation]);
 
 trainingService.repository.relationManager.childrenListDefinitions.push({

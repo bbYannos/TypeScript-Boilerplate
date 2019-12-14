@@ -1,5 +1,5 @@
 import {combineLatest, Observable, of} from "rxjs";
-import {map, switchMap, take, tap} from "rxjs/operators";
+import {map, shareReplay, switchMap, take, tap} from "rxjs/operators";
 import {AbstractApiModel} from "../classes/models";
 import {AbstractRepository, AbstractRepositoryService} from "../classes/services";
 import {DexieTable} from "./dexie.table";

@@ -1,4 +1,4 @@
-import Api from "modules/Api/login";
+import Api from "modules/Api/Api.module";
 import Vue from "vue";
 import Component from "vue-class-component";
 import "./header.css";

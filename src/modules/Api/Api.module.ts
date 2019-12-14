@@ -1,3 +1,5 @@
+import {ServiceFactory} from "../../shared/abstract-api";
+import {IsVinRestBDD} from "./isVinBDD.Rest";
 import {absenceService} from "./Model/Absence";
 import {availabilityService} from "./Model/Availability";
 import {examService} from "./Model/Exam";
@@ -9,9 +11,10 @@ import {sessionService} from "./Model/Session";
 import {speakerService} from "./Model/Speaker";
 import {traineeService} from "./Model/Trainee";
 import {trainingService} from "./Model/Training";
-import {UserService} from "./Model/User/User.Service";
+import {UserService, WpUserModel} from "./Model/User/User.Service";
 
-const Api = {
+export {WpUserModel};
+export const Api = {
   absenceService: absenceService,
   availabilityService : availabilityService,
   examService : examService,
@@ -26,7 +29,12 @@ const Api = {
   userService: new UserService(),
 };
 
-export {Api};
+ServiceFactory.restDB = new IsVinRestBDD();
+for (const key in Api) {
+  ServiceFactory.initService(Api[key]);
+}
+
+export default Api;
 
 
 

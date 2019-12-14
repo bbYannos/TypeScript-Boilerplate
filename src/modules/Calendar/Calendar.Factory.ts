@@ -1,14 +1,19 @@
+import {OptionsInput} from "@fullcalendar/core/types/input-types";
 import {Availability} from "modules/Api/Model/Availability/Availability.Model";
 import {Session} from "modules/Api/Model/Session/Session.Model";
+import {Trainee} from "modules/Api/Model/Trainee/Trainee.Model";
 import {combineLatest, Observable, of} from "rxjs";
 import {auditTime, map} from "rxjs/operators";
-import {ServiceFactory} from "shared/abstract-api";
-import {TIME_FULL_CALENDAR} from "modules/Calendar/Constants";
-import {EventMapper, EventMapperOptions} from "modules/Calendar/EventMapper";
 import moment from "shared/moment";
-import {Speaker} from "../Api/Model/Speaker/Speaker.Model";
-import {Trainee} from "../Api/Model/Trainee/Trainee.Model";
-import {FormationService} from "../Api/Model/Formation/Formation.Service";
+import {TIME_FULL_CALENDAR} from "./Constants";
+import {EventMapper, EventMapperOptions} from "./EventMapper";
+
+interface FormationServiceInterface {
+  startTime: moment.Moment;
+  endTime: moment.Moment;
+  hourMin: moment.Moment;
+  hourMax: moment.Moment;
+}
 
 export interface CalendarFactoryOptions {
   startTime?: moment.Moment;
@@ -33,7 +38,7 @@ export class CalendarFactory {
    * Transform Api.observables$ (sessions$, vacations$, availableSessions$)
    * to readyToUseInCalendarObservables$
    */
-  public static makeSessionsCalendarSource$(options: CalendarFactoryOptions) {
+  public static makeSessionsCalendarSource$(options: CalendarFactoryOptions): Observable<any[]> {
     const startTime = (options.startTime) ? options.startTime : null;
     const endTime = (options.endTime) ? options.endTime : null;
     const obs$ = [];
@@ -72,14 +77,12 @@ export class CalendarFactory {
 
     return combineLatest(obs$).pipe(
       auditTime(10),
-      // todo: don't let the dog out !!
-      // takeUntil(routerService.close$),
       map((allEventsArray: any[][]) => allEventsArray.flat()),
     );
   }
 
-  public static getCalendarRangeForSpeaker() {
-    const formationService = ServiceFactory.getService(FormationService);
+
+  public static getCalendarRangeForSpeaker(formationService: FormationServiceInterface): OptionsInput {
     let validRangeStartTime = (formationService.startTime !== null) ? formationService.startTime.clone() : null;
     let validRangeEndTime = (formationService.endTime !== null) ? formationService.endTime.clone() : null;
     const todayTime = moment();

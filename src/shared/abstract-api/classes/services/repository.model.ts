@@ -9,6 +9,7 @@ import {AbstractApiModel} from "../models";
 import {ChildrenListDefinition} from "../relations/children-list.definition";
 
 export interface RelationManagerInterface<T extends AbstractApiModel> {
+  debug: boolean;
   childrenListDefinitions: Array<ChildrenListDefinition<T, any>>;
   manageForeignRelations(object: T, json: any): void;
   rollbackForeignRelations(object: T): void;
@@ -25,7 +26,7 @@ export abstract class AbstractRepository<T extends AbstractApiModel> extends Obj
   }
 
   public set relationManager(value) {
-    console.log("Relation manager set for " + this.constructorName, value);
+    // console.log("Relation manager set for " + this.constructorName, value);
     this._relationManager = value;
   }
   public abstract constructorFn: new (...params) => T;
@@ -76,17 +77,19 @@ export abstract class AbstractRepository<T extends AbstractApiModel> extends Obj
       this.log("object found");
       this.relationManager.rollbackForeignRelations(object);
       this.jsonMapper.updateFromJson(json, object);
+      this.log("object updated by json Mapper :", object);
     } else {
       object = this.jsonMapper.createFromJson(json, this.constructorFn);
       this.push(object);
     }
 
-    this.log("Before fetch foreign " + this.constructorName);
-    this.log("-- Object ", object);
-    this.log("-- Json ", json);
+    // this.log("Before fetch foreign " + this.constructorName);
+    // this.log("-- Object ", object);
+    // this.log("-- Json ", json);
     this.relationManager.manageForeignRelations(object, json);
+    this.log(this.constructorName + "FETCH FOREIGN CALLED");
     return this.relationManager.fetchForeign$(object, json).pipe(
-      tap(() => this.constructorName + "Fetch FOREIGN DONE"),
+      tap(() => this.log(this.constructorName + "Fetch FOREIGN DONE")),
     );
   }
 

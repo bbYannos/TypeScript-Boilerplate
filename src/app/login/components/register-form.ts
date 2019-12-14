@@ -1,5 +1,5 @@
 import {MessageComponent} from "components/forms/message";
-import Api from "modules/Api/login";
+import Api from "modules/Api/Api.module";
 import Vue from "vue";
 import Component from "vue-class-component";
 import {LANG} from "../labels";

@@ -1,5 +1,6 @@
-import {forkJoin, Observable, of} from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 import {map, shareReplay, switchMap, take, tap} from "rxjs/operators";
+import {RxjsUtils} from "../../rxjs.utils";
 import {ObjectList} from "../lists";
 import {AbstractApiModel, Debuggable} from "../models";
 import {AbstractRepositoryService} from "../services/repository-service.model";
@@ -50,27 +51,29 @@ export class RelationManager<T extends AbstractApiModel> extends Debuggable impl
   }
 
   public rollbackForeignRelations = (object: T) => {
+    this.log("rollbackForeignRelations", this.service.name + ":" + this.oneToOneRelations.length);
     this.oneToOneRelations.forEach((relation) => {
       if (relation.unListenObject !== null) {
         relation.unListenObject(object);
       }
     });
+    object.lists = [];
     return object;
   };
 
   public fetchForeign$(object: T, json: any = null): Observable<T> {
-    const object$ = of(object);
+    this.log("RELATION MANAGER fetchForeign$ FOR " + object.constructorName + object.identifier + " start", this.oneToOneRelations.length);
+    const object$ = RxjsUtils.of(object);
     if (this.oneToOneRelations.length === 0) {
       return object$;
     }
-    this.log("fetchForeign$", object);
-    return object$.pipe(
+    return  object$.pipe(
       switchMap(() => {
         const getAllOneToOne$: Array<Observable<any>> = this.oneToOneRelations.map(
           (relation: OneToOneRelation<T, any>) => relation.fetchForeign$(object, json).pipe(
-            take(1),
-            tap((res) => this.log("FETCH FOREIGN DONE : ", relation.property)),
-          ),
+              take(1),
+              tap(() => this.log("FETCH FOREIGN DONE : ", relation.property)),
+            ),
         );
         this.log("FETCH FOREIGN CALLED", getAllOneToOne$.length);
         return forkJoin(getAllOneToOne$).pipe(
@@ -97,6 +100,7 @@ export class RelationManager<T extends AbstractApiModel> extends Debuggable impl
           shareReplay(1),
         );
       }
+      this.log("CreateChildrenList", childrenListDefinition.propertyName);
       const childrenList = this.createChildrenList(object, childrenListDefinition.propertyName, source$, childrenListDefinition.listConstructor);
       childrenList.list.debug = childrenListDefinition.debug;
     });

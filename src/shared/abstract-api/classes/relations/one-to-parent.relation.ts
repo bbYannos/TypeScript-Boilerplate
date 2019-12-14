@@ -13,9 +13,17 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
     super(property, service);
   }
 
+  protected propPrefix = "__bby_prop__";
+  protected callBacksPrefix = "__bby_cb_func__";
+
   public updateOnChange(object: T, previousParent: U, newParent: U) {
     if (previousParent !== null) {
-      ChildrenListFactory.getChildrenListForProperty(previousParent, (this.parentProperty as string)).list.delete(object);
+      const childrenList = ChildrenListFactory.getChildrenListForProperty(previousParent, (this.parentProperty as string));
+      if (childrenList) {
+        childrenList.list.delete(object);
+      } else {
+        throw new Error(object.constructorName + " " + this.property + " " + this.service.name);
+      }
     }
     if (newParent !== null) {
       this.log("OneToParentRelation : add to parent list ", newParent.identifier);
@@ -39,39 +47,49 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
     this.unListen(object, "deleted");
   }
 
+  protected setObjectPropertyInitialValue(object, value) {
+    object[this.propPrefix + this.property] = value;
+    object[this.callBacksPrefix + this.property].forEach((_cb) => _cb(object, null, value));
+  }
+
   protected listen<V>(object: T, property: keyof T, cb: (object: T, oldValue: V, newValue: V) => void) {
     if (cb === null) {
       return;
     }
-    let cbArray: Array<(object: T, oldValue: V, newValue: V) => void> = object["__" + property + "_cb_func_bby__"];
+    let cbArray: Array<(object: T, oldValue: V, newValue: V) => void> = object[this.callBacksPrefix + property];
     if (!cbArray) {
-      cbArray = object["__" + property + "_cb_func_bby__"] = [];
+      cbArray = object[this.callBacksPrefix + property] = [];
+    } else {
+      cbArray.push(cb);
+      return;
     }
-    cbArray.push(cb);
 
-    // noinspection JSUnusedGlobalSymbols
+    const protectedName = this.propPrefix + property;
     const attributes = {
       get: () => {
-        return object["_" + property];
+        return object[protectedName];
       },
       set: (_value: any) => {
         this.log("Listened relation : set " + property + " to ", _value);
-        const previous = object["_" + property];
-        object["_" + property] = value;
+        const previous = object[protectedName];
+        object[protectedName] = value;
         // set value before callBack chain
         cbArray.forEach((_cb) => _cb(object, previous, _value));
       },
     };
     const value = (object[property] !== undefined) ? object[property] : null;
-    Object.defineProperty(object, "_" + property, {value: value, writable: true, configurable: true});
+    Object.defineProperty(object, protectedName, {value: value, writable: true, configurable: true});
     Object.defineProperty(object, property, attributes);
   }
 
   protected unListen(object: T, property: keyof T) {
-    const value = (object["_" + property]) ? object["_" + property] : null;
+    if (!object[this.callBacksPrefix + property]) {
+      return;
+    }
+    const value = (object[this.propPrefix + property]) ? object[this.propPrefix + property] : null;
     Object.defineProperty(object, property, {value: value, writable: true});
-    delete object["_" + property];
-    delete object["__" + property + "_cb_func_bby__"];
+    delete object[this.propPrefix + property];
+    delete object[this.callBacksPrefix + property];
   }
 
   protected getParent(object: T): U {

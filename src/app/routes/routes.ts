@@ -29,7 +29,7 @@ const lazyRoutes: RouteConfig[] = [
   {
     path: "/speaker",
     component: SpeakerPageLayout,
-    meta: {authorize: [Roles.Speaker]}
+    meta: {authorize: [Roles.Speaker]},
   },
   // {path: "/admin", component:  import(/* webpackChunkName: "admin" */ "../admin/page.layout"), meta: {authorize: [Roles.Admin]}},
   // {path: "/admin", component:  import(/* webpackChunkName: "trainee" */ "../trainee/page.layout"), meta: {authorize: [Roles.Admin]}},

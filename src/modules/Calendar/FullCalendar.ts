@@ -16,7 +16,6 @@ export class FullCalendar {
   public calendar: Calendar = null;
   public service: EventSourceInterface<EventInterface> = null;
   public query: any = null;
-  public close$: Observable<void>;
   public $htmEl: HTMLElement;
 
   protected source$ = of([]);
@@ -68,8 +67,11 @@ export class FullCalendar {
     return event.extendedProps.apiObject;
   }
 
+  public constructor(public close$: Observable<void>) {}
+
   public setSource$(sources$: Observable<any[]>) {
     this.source$ = sources$.pipe(
+      takeUntil(this.close$),
       map((objects) => objects.map((object) =>
         FullCalendar.objectToEvent(object)).filter((event) => event !== null),
       ));

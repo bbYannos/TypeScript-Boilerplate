@@ -1,4 +1,4 @@
-import Api, {WpUserModel} from "modules/Api/login";
+import Api, {WpUserModel} from "modules/Api/Api.module";
 import {map, tap} from "rxjs/operators";
 import {AbstractInitService, ServiceFactory} from "shared/abstract-api";
 import {loginRoute, routes} from "./routes";

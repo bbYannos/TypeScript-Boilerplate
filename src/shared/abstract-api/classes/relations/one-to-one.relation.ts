@@ -34,9 +34,14 @@ export class OneToOneRelation<T extends AbstractApiModel, U extends AbstractApiM
     return this.service;
   }
 
+  protected setObjectPropertyInitialValue(object, value) {
+    object[this.property] = value;
+  }
+
   // Function called after json -> object
   // Fetch foreign objects for the new created object
   public fetchForeign$(object: T, json: any = null) {
+    this.log("RELATION FETCH FOREIGN START TO POPULATE " + this.service.name + " IN " + object.constructorName + " " + object.identifier);
     const foreignJson = this.getForeignJson(json);
     if (foreignJson !== null) {
       this.log("Foreign Json Found : ");
@@ -45,7 +50,7 @@ export class OneToOneRelation<T extends AbstractApiModel, U extends AbstractApiM
       this.log("Json Sent : ", foreignJson);
       return _service.repository.fromJson$(foreignJson).pipe(
         map((foreignObject: any) => {
-          object[this.property] = foreignObject;
+          this.setObjectPropertyInitialValue(object, foreignObject);
           return object;
         }),
       );
@@ -55,19 +60,23 @@ export class OneToOneRelation<T extends AbstractApiModel, U extends AbstractApiM
     if (identifiedObject === null) {
       return of(null);
     }
-    // set to null to remove incomplete object : { identifier: "api_xxx" }
+
     // Foreign properties are listened yet
-    object["_" + this.property] = null;
     const identifier = identifiedObject.identifier;
     const service = this.getServiceForForeign(object);
     this.log("Used Service : " + service.name);
     return service.getByIdentifier$(identifier).pipe(
-      tap((foreign: any) => {
-        if (foreign !== null) {
-          this.log(object.constructorName + " foreign found for : " + this.property, foreign);
-          object[this.property] = foreign;
+      tap((foreignObject: any) => {
+        if (foreignObject !== null) {
+          this.log(object.constructorName + " foreign found for : " + this.property, foreignObject);
+          // console.log("OBJECT " + object.constructorName, object);
+          // console.log("OBJECT _FOREIGN ", object["_" + this.property]);
+          // console.log("FOREIGN " + this.property, foreignObject);
+          // console.log("FOREIGN CURRENT VALUE IN OBJECT", object[this.property]);
+          this.setObjectPropertyInitialValue(object, foreignObject);
+          // console.log("FOREIGN VALUE AFTER SET", object[this.property]);
         } else {
-          this.log(object.constructorName + " foreign not found for : " + this.property, foreign);
+          this.log(object.constructorName + " foreign not found for : " + this.property, foreignObject);
           this.log("Seeking on : " + this.getServiceForForeign(object).name);
           this.log(service.repository.constructorName + " not found for " + object.constructorName + " : ", identifiedObject);
           object[this.property] = null;

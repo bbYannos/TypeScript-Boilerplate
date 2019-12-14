@@ -10,9 +10,11 @@ import {Module, moduleService} from "../Module";
 import {Speaker, speakerService} from "../Speaker/";
 import {Training, TrainingService} from "./Training.Service";
 
+const trainingRelation =  new OneToParentRelation<Training, Speaker>("speaker", "trainings$", speakerService);
+
 const trainingService = RelationManager.makeService(TrainingService, [
   new OneToParentRelation<Training, Formation>("formation", "trainings$", formationService),
-  new OneToParentRelation<Training, Speaker>("speaker", "trainings$", speakerService),
+  trainingRelation,
   new OneToOneRelation<Training, Module>("module", moduleService),
 ]);
 
@@ -22,7 +24,6 @@ formationService.repository.relationManager.childrenListDefinitions.push({
   jsonKey: "trainings",
   service: trainingService,
   listConstructor: PeriodList,
-  // debug: true
 } as ChildrenListDefinition<Formation, Training>);
 
 speakerService.repository.relationManager.childrenListDefinitions.push({
@@ -34,11 +35,5 @@ speakerService.repository.relationManager.childrenListDefinitions.push({
 } as ChildrenListDefinition<Speaker, Training>);
 
 export {Training, TrainingService, trainingService};
-
-/*
-formationRelation.debug = false;
-moduleRelation.debug = false;
-speakerRelation.debug = false;
-*/
 
 

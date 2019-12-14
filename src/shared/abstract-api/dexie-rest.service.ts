@@ -1,10 +1,10 @@
 import {combineLatest, Observable, of, timer} from "rxjs";
 import {filter, map, switchMap, take, tap} from "rxjs/operators";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {ObjectList} from "./classes/lists";
 import {AbstractApiModel} from "./classes/models";
 import {AbstractApiQuery} from "./classes/services";
 import {DexieService} from "./dexie";
-import {ObjectUtils} from "shared/utils/object.utils";
 import {ApiRequestService, RestApiTable} from "./rest/";
 
 export class DexieRestService<T extends AbstractApiModel> extends DexieService<T> {

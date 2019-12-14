@@ -1,5 +1,5 @@
 import {MessageComponent} from "components/forms/message";
-import Api from "modules/Api/login";
+import Api from "modules/Api/Api.module";
 import {of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import Vue from "vue";

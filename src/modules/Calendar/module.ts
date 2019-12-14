@@ -2,10 +2,8 @@
 import {OptionsInput as _OI} from "@fullcalendar/core";
 type OptionsInput = _OI;
 export {OptionsInput};
-import {CalendarFactoryOptions as _CFO} from "./Calendar.Factory";
-interface CalendarFactoryOptions extends _CFO {
-}
-export {CalendarFactoryOptions}
+
+
 
 
 import "@fullcalendar/core/main.css";

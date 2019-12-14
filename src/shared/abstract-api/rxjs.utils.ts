@@ -33,7 +33,7 @@ export class RxjsUtils {
    * after ...fromJson$(json)...
    * UserService response_ does not emit next value
    */
-  public static of<T>(value: any): Observable<T> {
+  public static of<T>(value: T): Observable<T> {
     return timer(0).pipe(map(() => value));
   }
 }
