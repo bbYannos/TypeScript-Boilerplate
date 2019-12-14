@@ -18,7 +18,6 @@ export class SpeakerPageLayout extends Vue {
   };
 
   public calendarComponent$ = () => from(import(/* webpackChunkName: "speaker" */ "./speaker-calendar"));
-
 }
 export default Vue.component("speaker-page-layout", SpeakerPageLayout);
 

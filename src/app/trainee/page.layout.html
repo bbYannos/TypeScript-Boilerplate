@@ -1,0 +1,46 @@
+<main-page>
+    <template slot="content">
+        <card-c :data="planningCard">
+            <template slot="card-body"><calendar-w :component$="calendarComponent$"/></template>
+        </card-c>
+        <card-c :data="absenceCard">
+            <template slot="card-header">
+                <h4 class="text-center">{{data.absences.length}} Absence(s) / {{data.delays.length}} Retard(s)  </h4>
+            </template>
+            <template slot="card-body">
+                <div class="row" v-if="data.unjustifiedAbsences.length > 1">
+                    <div class="col-12">
+                        <div class="alert alert-danger" role="alert">
+                            <h4>2 absences n’ont pas été justifiées à ce jour</h4>
+                            <p>Nous vous invitons donc à régulariser votre situation dans les plus brefs délais, en apportant vos justificatifs à Mme Poulain.</p>
+                            <p><b>Conformément au règlement intérieur, 3 absences injustifiées pourront entrainer votre non présentation aux examens.</b></p>
+                            <p>Merci pour votre attention.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6" v-for="absence in data.absences">
+                        <div class="alert alert-info" role="alert" v-if="absence.justified">
+                            <i class="fa fa-info mr-2" aria-hidden="true"></i>
+                            Absence justifiée du {{ absence.startTime.format(dateFormat) }}
+                        </div>
+                        <div class="alert alert-danger" role="alert" v-else>
+                            <i class="fa fa-exclamation-triangle mr-2" aria-hidden="true" ></i>
+                            Absence non justifiée du {{ absence.startTime.format(dateFormat) }}
+                        </div>
+                    </div>
+                    <template v-if="data.absences.length === 0">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="alert alert-success" role="alert">
+                                <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+                                Aucune absence
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </card-c>
+    </template>
+</main-page>
