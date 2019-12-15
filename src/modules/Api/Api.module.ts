@@ -12,12 +12,14 @@ import {speakerService} from "./Model/Speaker";
 import {traineeService} from "./Model/Trainee";
 import {trainingService} from "./Model/Training";
 import {UserService, WpUserModel} from "./Model/User/User.Service";
+import {downloadService} from "./Service/Download.Service";
 
 export {WpUserModel};
 export const Api = {
   absenceService: absenceService,
-  availabilityService : availabilityService,
-  examService : examService,
+  availabilityService: availabilityService,
+  downloadService: downloadService,
+  examService: examService,
   examScoreService: examScoreService,
   examTypeService: examTypeService,
   formationService: formationService,

@@ -1,3 +1,12 @@
-<div>
-    liste des formations
-</div>
+<card-c>
+    <template slot="card-header">
+        <div class="float-left mr-4">
+            Formations
+        </div>
+        <div class="float-left">
+            <a href="javascript:" ref="excelBtn" @click="exportExcel()" >
+                <i class="fa fa-file-excel-o" style="color: green" aria-hidden="true"></i>
+            </a>
+        </div>
+    </template>
+</card-c>

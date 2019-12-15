@@ -20,3 +20,4 @@
 .sidebar .nav .nav-item .nav-link[aria-expanded="true"]:hover,
 .sidebar .nav.sub-menu .nav-item .nav-link.active,
 .sidebar .nav .nav-item .nav-link[aria-expanded="true"] i.menu-arrow:before { color:$main-color; font-weight: bold;}
+.sidebar .nav .nav-item .nav-link i.menu-arrow.rotate {transform: rotateZ(+90deg)}

@@ -20,3 +20,5 @@ export class DownloadService extends AbstractInitService {
     this.rest = restApiRequestService;
   }
 }
+
+export const downloadService = new DownloadService();

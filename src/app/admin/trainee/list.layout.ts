@@ -6,5 +6,5 @@ import WithRender from "./list.layout.html";
 @Component({
   components: {},
 })
-export class SpeakersList extends Vue {}
+export class TraineesList extends Vue {}
 

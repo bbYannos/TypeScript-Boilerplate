@@ -1,10 +1,10 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import WithRender from "./list.layout.html";
+import WithRender from "./show.layout.html";
 
 @WithRender
 @Component({
   components: {},
 })
-export class SpeakersList extends Vue {}
+export class FormationShow extends Vue {}
 

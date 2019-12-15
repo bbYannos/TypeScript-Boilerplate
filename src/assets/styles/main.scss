@@ -4,3 +4,19 @@
 .page-body-wrapper {
   max-width: $max-width;
 }
+
+.loading {
+  display: inline-block;
+  -webkit-animation: blink 0.5s infinite ease-in-out;
+  opacity: 0.5;
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 1.0;
+  }
+  to {
+    opacity: 0.0;
+  }
+}
+

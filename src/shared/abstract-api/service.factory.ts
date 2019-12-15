@@ -19,7 +19,9 @@ export class ServiceFactory {
   protected static services: Service[] = [];
 
   public static initService<T extends Service>(service: T): T {
-    service.options.synchronize = this.connectedMode;
+    if (service.options) {
+      service.options.synchronize = this.connectedMode;
+    }
     if (service.dexie === null && service.initDexie) {
       service.initDexie(this.dexieDB);
     }
