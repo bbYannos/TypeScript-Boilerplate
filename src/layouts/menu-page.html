@@ -4,14 +4,13 @@
         <slot name="menu"></slot>
         <div class="main-panel">
             <div class="content-wrapper">
-                <div id="dynamicContent" class="col-12 grid-margin">
+                <slot name="content">
                     <div style="width: 50px; margin: 20% auto">
                         <div class="spinner-border text-dark" role="status">
                             <span class="sr-only">Loading...</span>
                         </div>
                     </div>
-                    <slot name="content"/>
-                </div>
+                </slot>
             </div>
         </div>
     </div>

@@ -5,9 +5,8 @@ import {afterLoginRoute, afterLogoutRoute, routes} from "./routes";
 /*
 * Preventing "NavigationDuplicated" errors in console in Vue-router >= 3.1.0
 * https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
-* */
+*/
 const routerMethods = ["push", "replace"];
-
 routerMethods.forEach((method: string) => {
   const originalCall = (Router.prototype as any)[method];
   (Router.prototype as any)[method] = function(location: any, onResolve: any, onReject: any): Promise<any> {
@@ -38,7 +37,9 @@ routerAuthService.userChange$.subscribe((user) => {
   }
 });
 
-router.beforeEach((to, from, next) => routerAuthService.checkAccessRights(to, from, next));
+router.beforeEach((to, from, next) => {
+  routerAuthService.checkAccessRights(to, from, next)
+});
 
 
 

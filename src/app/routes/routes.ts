@@ -40,9 +40,6 @@ const lazyRoutes: RouteConfig[] = [
     component: AdminPageLayout,
     meta: {authorize: [Roles.Admin]},
   },
-
-  // {path: "/admin", component:  import(/* webpackChunkName: "admin" */ "../admin/page.layout"), meta: {authorize: [Roles.Admin]}},
-  // {path: "/admin", component:  import(/* webpackChunkName: "trainee" */ "../trainee/page.layout"), meta: {authorize: [Roles.Admin]}},
 ];
 routes = routes.concat(lazyRoutes);
 
