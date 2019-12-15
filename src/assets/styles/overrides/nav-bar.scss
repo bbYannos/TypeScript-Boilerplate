@@ -1,0 +1,17 @@
+@import "../vars";
+.navbar.default-layout {
+  max-width: $max-width;
+  margin: 0 auto;
+  background: $main-color none;
+
+  .navbar-brand-wrapper {
+    background-color: $main-color;
+  }
+  .logo {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .img-fluid {
+    max-height: 100%;
+  }
+}

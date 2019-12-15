@@ -23,17 +23,22 @@ export const afterLoginRoute = homeRoute;
 export const afterLogoutRoute = homeRoute;
 let routes: RouteConfig[] = [homeRoute, loginRoute];
 
-export const SpeakerPageLayout = () => import(/* webpackChunkName: "speaker" */ "../speaker/page.layout");
-export const TraineePageLayout = () => import(/* webpackChunkName: "trainee" */ "../trainee/page.layout");
+const SpeakerPageLayout = () => import(/* webpackChunkName: "speaker" */ "../speaker/page.layout");
+const TraineePageLayout = () => import(/* webpackChunkName: "trainee" */ "../trainee/page.layout");
+const AdminPageLayout = () => import(/* webpackChunkName: "admin" */ "../admin/page.layout");
 const lazyRoutes: RouteConfig[] = [
   {
     path: "/speaker",
     component: SpeakerPageLayout,
     meta: {authorize: [Roles.Speaker]},
-  },{
+  }, {
     path: "/trainee",
     component: TraineePageLayout,
     meta: {authorize: [Roles.Trainee]},
+  }, {
+    path: "/admin",
+    component: AdminPageLayout,
+    meta: {authorize: [Roles.Admin]},
   },
 
   // {path: "/admin", component:  import(/* webpackChunkName: "admin" */ "../admin/page.layout"), meta: {authorize: [Roles.Admin]}},

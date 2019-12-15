@@ -1,0 +1,18 @@
+<div class="container-scroller">
+    <header-c></header-c>
+    <div class="container-fluid page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar"></nav>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div id="dynamicContent" class="col-12 grid-margin">
+                    <div style="width: 50px; margin: 20% auto">
+                        <div class="spinner-border text-dark" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <slot name="content"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

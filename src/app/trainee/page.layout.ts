@@ -1,7 +1,7 @@
 import "assets/_user";
 import {CalendarWrapper} from "components/calendar-wrapper";
 import {CardComponent} from "components/card";
-import {MainPageLayout} from "layouts/main-page";
+import {MainPageLayout} from "layouts/user-page";
 import {Absence} from "modules/Api/Model/Absence";
 import {forkJoin, from} from "rxjs";
 import {take} from "rxjs/operators";

@@ -1,3 +1,5 @@
-#app {
-  background-color: aquamarine;
+@import "vars";
+@import "./overrides/nav-bar";
+.page-body-wrapper {
+  max-width: $max-width;
 }

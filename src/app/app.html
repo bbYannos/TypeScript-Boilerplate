@@ -1,10 +1,7 @@
-<full-page>
-    <template slot="content">
-        <transition name="fade" mode="out-in">
-            <router-view v-if="$route.matched.length"></router-view>
-        </transition>
-    </template>
-</full-page>
+<transition name="fade" mode="out-in">
+    <router-view v-if="$route.matched.length"></router-view>
+</transition>
+
 
 
 

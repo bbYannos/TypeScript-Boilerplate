@@ -1,7 +1,7 @@
+import {HeaderComponent} from "components/header";
 import Vue from "vue";
 import Component from "vue-class-component";
-import {HeaderComponent} from "components/header";
-import WithRender from "./main-page.html";
+import WithRender from "./user-page.html";
 
 @WithRender
 @Component({components: {HeaderComponent}})

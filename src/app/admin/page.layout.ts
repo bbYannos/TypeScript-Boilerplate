@@ -1,23 +1,18 @@
-import "assets/_user";
+import "assets/_main";
 import {CalendarWrapper} from "components/calendar-wrapper";
 import {CardComponent} from "components/card";
-import {MainPageLayout} from "layouts/user-page";
-import {from} from "rxjs";
+import {AdminPageLayout} from "layouts/admin-page";
 import Vue from "vue";
 import Component from "vue-class-component";
 import WithRender from "./page.layout.html";
 
 @WithRender
 @Component({
-  components: {MainPageLayout, CardComponent, CalendarWrapper},
+  components: {AdminPageLayout, CardComponent, CalendarWrapper},
 })
 export class SpeakerPageLayout extends Vue {
-  public planningCard: CardComponent["data"] = {
-    label: "Planning",
-    loading: false,
-  };
-
-  public calendarComponent$ = () => from(import(/* webpackChunkName: "speaker" */ "./speaker-calendar"));
+  public mounted() {
+  }
 }
 export default Vue.component("speaker-page-layout", SpeakerPageLayout);
 
