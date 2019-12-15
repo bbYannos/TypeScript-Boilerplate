@@ -1,20 +1,18 @@
 import "assets/_main";
 import {CalendarWrapper} from "components/calendar-wrapper";
-import {CardComponent} from "components/card";
-import {AdminPageLayout} from "layouts/admin-page";
+import {MenuPageLayout} from "layouts/menu-page";
 import Vue from "vue";
 import Component from "vue-class-component";
+import {MainMenu} from "./main-menu";
 import WithRender from "./page.layout.html";
 
 @WithRender
 @Component({
-  components: {AdminPageLayout, CardComponent, CalendarWrapper},
+  components: {MenuPageLayout, MainMenu, CalendarWrapper},
 })
-export class SpeakerPageLayout extends Vue {
-  public mounted() {
-  }
+export class AdminPageLayout extends Vue {
 }
-export default Vue.component("speaker-page-layout", SpeakerPageLayout);
+export default Vue.component("admin-page-layout", AdminPageLayout);
 
 
 
