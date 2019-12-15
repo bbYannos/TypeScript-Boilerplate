@@ -1,6 +1,20 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <ul>
-        <li><router-link to="/formations">Formations</router-link></li>
-        <li><router-link to="/intervenants">Intervenants</router-link></li>
+    <ul class="nav hover-animate">
+        <li class="nav-item" v-for="route in routes" >
+            <router-link :to="route.path" class="nav-link">
+                <i v-if="route.meta && route.meta.icon" :class="'fa ' + route.meta.icon"> </i>
+                <span class="menu-title">{{route.name}}</span>
+                <i v-if="route.children && route.children.length" class="menu-arrow"></i>
+            </router-link>
+            <div :class="{'collapse': true, 'show': match(route)}" v-if="route.children && route.children[1] && route.children[1].meta.elements" >
+                <ul class="nav flex-column sub-menu" >
+                    <li class="nav-item" v-for="element in route.children[1].meta.elements" >
+                        <router-link :to="route.path + '/' + route.children[1].path.replace(':identifier', element.identifier)" class="nav-link">
+                            {{element.label}}
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
+        </li>
     </ul>
 </nav>

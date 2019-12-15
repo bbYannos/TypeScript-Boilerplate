@@ -1,3 +1,5 @@
+import "assets/_main";
+import "assets/styles/menu.scss";
 import {HeaderComponent} from "components/header";
 import Vue from "vue";
 import Component from "vue-class-component";

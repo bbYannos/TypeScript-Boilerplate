@@ -1,4 +1,4 @@
-import "assets/_main";
+
 import {MenuPageLayout} from "layouts/menu-page";
 import Vue from "vue";
 import Component from "vue-class-component";
@@ -14,14 +14,6 @@ import {adminRouter} from "./routes";
 })
 export class AdminPageLayout extends Vue {
 
-  public mounted() {
-    console.log(this.$router.getMatchedComponents(this.$router.currentRoute.path));
-    console.log(this.$route);
-  }
-
-  public changed() {
-    console.log(this.$route)
-  }
 }
 export default Vue.component("admin-page-layout", AdminPageLayout);
 

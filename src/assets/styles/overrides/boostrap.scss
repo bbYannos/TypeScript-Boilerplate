@@ -1,0 +1,77 @@
+@import "../vars.scss";
+.img-fluid {max-height: 100%;}
+.form-control:focus {border-color: rgba($main-color, 0.5)}
+.btn-secondary {
+  color:  #fff;
+  background-color:  rgba($main-color, 0.85);
+  border-color: $main-color;
+}
+
+.btn-secondary:hover {
+  color:  #fff;
+  background-color: $main-color ;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active,
+.btn-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle {
+  color:  #fff;
+  background-color: rgba($main-color, 0.5);
+}
+
+.navbar-light a.navbar-brand {font-weight: bold; color: $main-color}
+.sub-nav-bar .navbar-nav > .nav-item { padding-right: 5px; position: relative;}
+.sub-menu .navbar-nav > .nav-item.active > a { color: $main-color; font-weight: bold;}
+
+a.action-link {
+    color: #4a4a4a;
+  text-decoration: none;
+  }
+a.action-link:hover {
+  text-decoration: none;
+}
+
+.hover-animate > li > a > span,
+a.action-link {position: relative; display: inline-block; padding: 0 5px}
+
+.hover-animate > li> a > span:after,
+a.action-link:after {content: ""; display: block;
+  position: absolute; bottom:-10px;  width:0; left:75%;
+  height: 2px; background-color: rgba($main-color, 0.5);
+
+  -webkit-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+}
+
+.hover-animate li > a:hover > span:after, a.action-link:hover:after { left: 0; width:50%;}
+
+ul.hover-animate .show ul, ul.hover-animate .collapsing ul {
+  background: #fafbfc;
+  padding-bottom: 10px !important;
+}
+
+.breadcrumb {
+  padding: 0;
+}
+
+.breadcrumb li > a {
+  font-size: 12px;
+  color: $main-color;
+}
+
+.card-header {
+  background-color: #fff;
+  color: $main-color;
+
+  /** border-bottom: solid 1px $main-color; **/
+}
+.card {
+  border: solid 1px rgba($main-color, 0.3);
+  background-color: #fff;
+}
+.breadcrumb-item + .breadcrumb-item, .breadcrumb-item + .breadcrumb-item::before  {
+  padding-left: 0.2rem;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  padding-right: 0.2rem;
+}

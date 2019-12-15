@@ -1,0 +1,22 @@
+@import "./vars.scss";
+
+.sidebar { border-top: $main-color-2 5px solid;}
+.sidebar .nav {background: #fff; }
+
+.sidebar .nav .nav-item .nav-link{padding-left: 16px; }
+.sidebar  > ul.nav  > li.nav-item > a.nav-link > span.menu-title {font-size: 14px}
+.sidebar .nav.sub-menu {padding: 0}
+
+.sidebar  > ul.nav  > li.nav-item > a.nav-link > .fa {margin-right:5px; font-size: 20px}
+
+.nav-link{ color: #4a4a4a;}
+.nav-link:hover{ color:$main-color}
+.nav-link.active{ color:$main-color; font-weight: bold;}
+
+
+.sidebar .nav.sub-menu .nav-item .nav-link.active,
+.sidebar .nav:not(.sub-menu) > .nav-item:not(.nav-profile) > .nav-link.active,
+.sidebar .nav .nav-item .nav-link[aria-expanded="true"],
+.sidebar .nav .nav-item .nav-link[aria-expanded="true"]:hover,
+.sidebar .nav.sub-menu .nav-item .nav-link.active,
+.sidebar .nav .nav-item .nav-link[aria-expanded="true"] i.menu-arrow:before { color:$main-color; font-weight: bold;}
