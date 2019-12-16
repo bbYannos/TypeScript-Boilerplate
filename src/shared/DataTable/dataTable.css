@@ -1,0 +1,142 @@
+@import "~datatables.net-bs4/css/dataTables.bootstrap4.css";
+
+.dataTables_wrapper th.align-center {
+    text-align: center
+}
+
+.dataTables_wrapper td {
+    position: relative;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.dataTables_wrapper td.to_edit {
+    overflow: auto;
+}
+
+.dataTables_wrapper .dataTable-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 14px;
+    padding: 0;
+    z-index: 1000;
+}
+
+.dataTables_wrapper .dataTable-input input {
+    width: 100%;
+    padding-left: 9px;
+    padding-right: 5px;
+    margin-top: 0;
+}
+
+.dataTables_wrapper .dataTable-input select {
+
+    margin-top: 0;
+}
+
+.dataTables_wrapper .dataTable-input select {
+    height: auto !important;
+    padding: 5px;
+}
+
+.dataTable .align-center a {
+    display: block;
+    text-align: center
+}
+
+.dataTables_wrapper .table th, .dataTables_wrapper  .table td {
+    padding: 10px 10px;
+}
+
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    margin-top: 8px;
+}
+
+.bootstrap-datetimepicker-widget .datepicker table.table-condensed td span {
+    float: left;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.bootstrap-datetimepicker-widget .datepicker table.table-condensed td,
+.bootstrap-datetimepicker-widget .datepicker table.table-condensed th {
+    padding: 20px;
+}
+
+.bootstrap-datetimepicker-widget .timepicker table.table-condensed td,
+.bootstrap-datetimepicker-widget .timepicker table.table-condensed th {
+    padding: 0;
+}
+
+.bootstrap-datetimepicker-widget table td.day {
+    height: 25px;
+    line-height: 25px;
+    width: 25px;
+}
+
+.bootstrap-datetimepicker-widget .datepicker table.table-condensed td[colspan="7"] {
+    padding: 0;
+}
+
+.bootstrap-datetimepicker-widget table.table-condensed td span:nth-child(4n):after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.dataTable .color-display {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.colorpicker-component.colorpicker-element {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 25px;
+}
+
+.colorpicker-component.colorpicker-element input {
+    width: 25px;
+    overflow: hidden;
+    opacity: 0.2;
+    max-width: 0;
+}
+
+.container-fluid div.dataTables_wrapper div.dataTables_filter {
+    font-size: 14px;
+    text-align: left;
+    display: inline-block;
+    position: absolute;
+    top: -32px;
+}
+
+.container-fluid div.dataTables_wrapper div.dataTables_filter input[type="search"] {
+    border: 1px solid #993d45;
+    background-color: #f2f8f9;
+    border-radius: 4px;
+    padding: 5px;
+}
+.bootstrap-datetimepicker-widget.dropdown-menu{
+    width: auto !important;
+}
+.datepicker .table th, .datepicker .table td {
+    padding: 6px !important;
+}
+
+
+

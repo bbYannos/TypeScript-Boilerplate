@@ -2,7 +2,6 @@ import {Observable, Subject} from "rxjs";
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Prop} from "vue-property-decorator";
-import {Api} from "modules/Api/Api.module";
 import WithRender from "./calendar-wrapper.html";
 
 interface ComponentInterface {
