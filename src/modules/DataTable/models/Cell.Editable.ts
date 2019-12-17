@@ -1,39 +1,53 @@
-import {Observable, of} from "rxjs";
-import {map, share} from "rxjs/operators";
-import {CellClick} from "./CellClick.Base";
-import {EditableCellDefinition} from "./EditableCellDefinition";
-import {EditableContentManager} from "./EditableContent.manager";
+import $ from "jquery";
+import {Observable} from "rxjs";
+import {map, share, tap} from "rxjs/operators";
+import {Cell} from "./Cell";
+import {Column} from "./Column";
+import {closeAction} from "./Inputs/input.component";
 
-
-export class EditableCellClick extends CellClick {
-
-  public static fromRowAndColIndex(rowIndex, colIndex, dataTableApi): EditableCellClick {
+export class EditableCell extends Cell {
+  public static fromRowAndColIndex(rowIndex, colIndex, dataTableApi): EditableCell {
     const $row = this.get$RowAtIndex(rowIndex, dataTableApi);
     const $cell = $($row.find(" > td").toArray()[colIndex]);
     if ($cell.length > 0) {
-      return new EditableCellClick($cell, dataTableApi);
+      return new EditableCell($cell, dataTableApi);
     }
     return null;
   }
 
-  public definition: EditableCellDefinition = null;
+  public columnDef: Column = null;
 
   // Open input and return Observable of changes
-  public getCellUpdated$(definition: EditableCellDefinition): Observable<{dirty: boolean, cellClick: EditableCellClick, keyPressed?: string}> {
-    this.definition = definition;
-    let cellUpdated$: Observable<{dirty: boolean, cellClick: EditableCellClick}> = null;
+  public getCellUpdated$(columnDef: Column): Observable<{dirty: boolean, cell: EditableCell, action: closeAction}> {
+    this.columnDef = columnDef;
+    // let cellUpdated$: Observable<{dirty: boolean, cellClick: EditableCell}> = null;
     if (!this.editable) {
       return null;
     }
-
     if (this.pageNum !== null) {
       // noinspection TypeScriptValidateJSTypes
       this.dataTableApi.page(this.pageNum).draw(false);
     }
-    this.$td.addClass("to_edit");
-    const options = {value: this.value, object: this.object, params: this.definition.params};
-    const input = EditableContentManager.getInputByType(this.definition.type, options);
 
+    const input = this.columnDef.getInput(this.object);
+    if (input !== null) {
+      input.appendTo(this.$td, this.value);
+      this.$td.addClass("to_edit");
+      return input.close$.pipe(
+        tap(() => this.$td.removeClass("to_edit")),
+        map(({dirty: dirty, value: value, action: action}) => {
+          if (dirty) {
+            // Warning : DataTable updates object value
+            this.updateDisplayedValue(value);
+          }
+          return {dirty: dirty, cell: this, action: action};
+        }),
+        share(),
+      );
+    }
+
+
+    /*
     if (input !== null) {
       cellUpdated$ = input.appendTo$(this.$td).pipe(
         map(({dirty: dirty, value: value}: {dirty: boolean, value: any}) => {
@@ -53,12 +67,12 @@ export class EditableCellClick extends CellClick {
       this.updateDisplayedValue(value);
       cellUpdated$ = of({dirty: true, cellClick: this});
     }
-    return cellUpdated$;
+    return cellUpdated$;*/
   }
 
   protected get editable(): boolean {
     return (
-      (this.definition !== null) &&
+      (this.columnDef.type > -1) &&
       (!this.readOnly) &&
       (!this.$td.hasClass("to_edit"))
     );

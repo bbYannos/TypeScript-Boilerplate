@@ -1,14 +1,8 @@
 import InputMask from "inputmask";
 import moment from "shared/moment";
-// noinspection TypeScriptPreferShortImport
 import {AbstractDataTableInput} from "./DataTableInput";
 
 export class DataTableDurationInput extends AbstractDataTableInput<moment.Duration> {
-  protected njkParams: {
-    type: string,
-    value: moment.Duration,
-  } = {type: "duration", value: moment.duration(0)};
-
   public format = "HH:mm";
 
   public get mask() {

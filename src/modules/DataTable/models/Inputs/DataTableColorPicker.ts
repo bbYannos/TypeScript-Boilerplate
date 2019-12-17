@@ -1,11 +1,11 @@
-import "bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css";
-import "bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js";
+import $ from "jquery";
 import {Observable} from "rxjs";
-// noinspection TypeScriptPreferShortImport
+import "shared/colorpicker";
 import {DataTableTextInput} from "./DataTableInput";
 
 export class DataTableColorPicker extends DataTableTextInput {
 
+  // noinspection CssInvalidHtmlTagReference
   public $htmEl: JQuery =
     $('<div class="input-group colorpicker-component"></div>');
   public $btn: JQuery = $('<span class="input-group-append"><span class="input-group-text colorpicker-input-addon"><i></i></span></span>');

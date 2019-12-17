@@ -1,4 +1,3 @@
-
 import moment from "shared/moment";
 
 export interface PeriodInterface {

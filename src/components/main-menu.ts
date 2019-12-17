@@ -1,10 +1,10 @@
-import BootstrapVue, {CollapsePlugin} from "bootstrap-vue";
+import {CollapsePlugin} from "bootstrap-vue";
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import WithRender from "./main-menu.html";
 
-Vue.use(BootstrapVue);
+Vue.use(CollapsePlugin);
 
 @WithRender
 @Component({components: CollapsePlugin})

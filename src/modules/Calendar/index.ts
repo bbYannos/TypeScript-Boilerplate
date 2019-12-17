@@ -1,5 +1,5 @@
-import {from, timer} from "rxjs";
-import {shareReplay, switchMap} from "rxjs/operators";
+import {from} from "rxjs";
+import {shareReplay} from "rxjs/operators";
 
 
 // export const calendarModule$ = timer(2000).pipe(

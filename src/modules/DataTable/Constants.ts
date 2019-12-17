@@ -1,4 +1,9 @@
+import moment from "shared/moment";
+import {ObjectUtils} from "shared/utils/object.utils";
+import {IconsService} from "./Icons.Service";
+
 export const EDITABLE_TYPES = {
+  protected: -1,
   textInput: 0,
   dateTimeInput: 1,
   dateInput: 2,
@@ -13,15 +18,10 @@ export const EDITABLE_TYPES = {
 export const DATE_TIME_FORMAT = "DD/MM/Y HH:mm";
 export const DATE_FORMAT = "DD/MM/Y";
 export const TIME_FORMAT = "HH:mm";
-export const TIME_FULL_CALENDAR = "HH:mm:ss";
-export const DATE_FULL_CALENDAR = "Y-MM-DD";
-
-import moment from "shared/moment";
-import {ObjectUtils} from "shared/utils/object.utils";
-import {IconsService} from "./Icons.Service";
+export const MIDNIGHT = () => moment().startOf("day").clone();
 
 export const IconWrapper = (html) => '<div style="text-align:center">' + html + "</div>";
-export const MIDNIGHT = () => moment().startOf("day").clone();
+
 
 // todo: DATE: (title: string = null, data: string = null) =>
 export const COLUMNS = {

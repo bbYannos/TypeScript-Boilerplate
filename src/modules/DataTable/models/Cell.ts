@@ -1,4 +1,6 @@
-export class CellClick {
+import $ from "jquery";
+
+export class Cell {
   constructor(
     public $td: JQuery,
     protected dataTableApi: any,
@@ -59,16 +61,16 @@ export class CellClick {
     return (this.object.readOnly === true);
   }
 
-  public static fromRowIndex(index: number, dataTableApi): CellClick {
+  public static fromRowIndex(index: number, dataTableApi): Cell {
     const $row = this.get$RowAtIndex(index, dataTableApi);
     const $td = $row.find(" > td:first-child");
-    return new CellClick($td, dataTableApi);
+    return new Cell($td, dataTableApi);
   }
 
   public static fromRowAndColIndexes(rowIndex: number, colIndex: number, dataTableApi) {
     const $row = this.get$RowAtIndex(rowIndex, dataTableApi);
     const $td = $row.find(" > td").toArray()[colIndex];
-    return new CellClick($td, dataTableApi);
+    return new Cell($td, dataTableApi);
   }
 
   public static get$RowAtIndex(index: number, dataTableApi) {

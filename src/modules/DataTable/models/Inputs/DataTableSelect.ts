@@ -1,14 +1,13 @@
 import {Observable} from "rxjs";
 import {switchMap, take, tap} from "rxjs/operators";
-// noinspection TypeScriptPreferShortImport
 import {AbstractDataTableInput, DataTableSelectable} from "./DataTableInput";
 
 export class DataTableSelect extends AbstractDataTableInput<DataTableSelectable> {
   protected njkParams: {
     type: string,
     value: DataTableSelectable,
-    options: DataTableSelectable[]
-  } = {type: 'select', value: null, options: []};
+    options: DataTableSelectable[],
+  } = {type: "select", value: null, options: []};
 
   private options$: Observable<DataTableSelectable[]>;
   private _options: DataTableSelectable[] = [];
@@ -22,14 +21,14 @@ export class DataTableSelect extends AbstractDataTableInput<DataTableSelectable>
         this.$htmEl.append(this.$input);
       }),
       switchMap(() => super.appendTo$($cell)),
-    )
+    );
   }
 
-  setOptions$(options$: Observable<DataTableSelectable[]>) {
+  public setOptions$(options$: Observable<DataTableSelectable[]>) {
     this.options$ = options$;
   }
 
-  setValue(value: DataTableSelectable) {
+  public setValue(value: DataTableSelectable) {
     this.njkParams.value = this.originalValue = value;
   }
 

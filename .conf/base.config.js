@@ -110,7 +110,7 @@ configuration.optimization = {
     splitChunks: {
         minSize: 20000,
         cacheGroups: {
-            node_mod: {
+            abstract_api: {
                 test: /(lodash|moment|rxjs|axios)/,
                 chunks: 'all',
                 priority: -1,
@@ -120,18 +120,22 @@ configuration.optimization = {
                 chunks: 'all',
                 priority: -2,
             },
+            datatable: {
+                test: /(jquery|dataTables)/,
+                chunks: 'all',
+                priority: -3,
+            },
             abstract_api: {
                 test: /(abstract\-api|json2typescript|object\.utils|modules[\\/]Api)/,
                 chunks: 'all',
                 reuseExistingChunk: true,
-                enforce: true,
+                // enforce: true,
                 priority: -4,
             },
             nodes: {
                 test: path.resolve('node_modules'),
                 chunks: 'all',
                 priority: -6,
-
             },
             shared: {
                 test: path.resolve('src/shared'),

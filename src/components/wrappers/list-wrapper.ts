@@ -2,18 +2,17 @@ import {Observable, Subject} from "rxjs";
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Prop} from "vue-property-decorator";
-import WithRender from "./calendar-wrapper.html";
+import WithRender from "./component-wrapper.html";
 
 interface ComponentInterface {
   close$: Observable<any>;
   $htmEl: HTMLElement;
-
-  render(): void;
+  setDataSource$(source$: Observable<any>): void;
 }
 
 @WithRender
 @Component
-export class CalendarWrapper extends Vue {
+export class ListWrapper extends Vue {
   public $refs: { target?: HTMLElement } = {};
   public data: { loading: boolean } = {loading: true};
   @Prop({default: null})
@@ -28,7 +27,7 @@ export class CalendarWrapper extends Vue {
       const component = new CalendarComponent();
       component.$htmEl = this.$refs.target as HTMLElement;
       component.close$ = this.close_.asObservable();
-      component.render();
+      component.setDataSource$(null);
     });
   }
 
@@ -39,4 +38,4 @@ export class CalendarWrapper extends Vue {
   }
 }
 
-export default Vue.component("calendar-w", CalendarWrapper);
+export default Vue.component("calendar-w", ListWrapper);

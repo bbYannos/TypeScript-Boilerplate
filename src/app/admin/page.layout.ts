@@ -12,10 +12,6 @@ import {adminRouter, adminRoutes} from "./routes";
 })
 export class AdminPageLayout extends Vue {
   public routes = adminRoutes;
-
-  public mounted() {
-    console.log(this.routes);
-  }
 }
 
 export default Vue.component("admin-page-layout", AdminPageLayout);

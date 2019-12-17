@@ -1,7 +1,7 @@
 import {ObjectUtils} from "shared/utils/object.utils";
 import {Observable} from "rxjs";
 import moment, {EventInterface} from "shared/moment";
-import {DATE_TIME_FORMAT} from "../Constants";
+import {DATE_TIME_FORMAT} from "../../Constants";
 import {AbstractDataTableInput} from "./DataTableInput";
 
 export class DataTableDateTimeInput extends AbstractDataTableInput<moment.Moment> {
@@ -12,6 +12,8 @@ export class DataTableDateTimeInput extends AbstractDataTableInput<moment.Moment
     debug: this.debug,
     format: DATE_TIME_FORMAT,
     date: null,
+    minDate: null,
+    maxDate: null,
   };
   protected dateTimePicker: any;
 
