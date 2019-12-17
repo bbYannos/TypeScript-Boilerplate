@@ -3,11 +3,7 @@ import {switchMap, take, tap} from "rxjs/operators";
 import {AbstractDataTableInput, DataTableSelectable} from "./DataTableInput";
 
 export class DataTableSelect extends AbstractDataTableInput<DataTableSelectable> {
-  protected njkParams: {
-    type: string,
-    value: DataTableSelectable,
-    options: DataTableSelectable[],
-  } = {type: "select", value: null, options: []};
+
 
   private options$: Observable<DataTableSelectable[]>;
   private _options: DataTableSelectable[] = [];

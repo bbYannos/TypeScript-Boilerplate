@@ -1,5 +1,5 @@
-import {fromEvent, Observable, Subject} from "rxjs";
-import {map, take} from "rxjs/operators";
+import {Observable} from "rxjs";
+import {map, tap} from "rxjs/operators";
 import {closeAction, InputComponent} from "./input.component";
 
 export interface DataTableSelectable {
@@ -8,22 +8,23 @@ export interface DataTableSelectable {
 }
 
 export abstract class AbstractDataTableInput<T> {
-  public keyPressed: string = null;
   protected debug: boolean = false;
   protected value: T;
   protected input: InputComponent = new InputComponent();
-
-  protected close_: Subject<{ dirty: boolean, value: T }> = new Subject<{ dirty: boolean, value: T }>();
 
   public get close$(): Observable<{ dirty: boolean, value: T, action: closeAction }> {
     return this.input.close_.pipe(
       map((action) => ({
           dirty: this.checkInputValueChange(),
-          value: this.stringToValue(this.input.value),
+          value: this.stringToValue(this.inputValue),
           action: action,
         }),
       ),
     );
+  }
+
+  public get inputValue(): string {
+    return this.input.$refs.input.value;
   }
 
   public appendTo($td, value: T) {
@@ -34,12 +35,12 @@ export abstract class AbstractDataTableInput<T> {
     this.input.$refs.input.focus();
   }
 
-  protected abstract valueToString(value): string;
+  protected abstract valueToString(value: T): string;
 
   protected abstract stringToValue(value: string): T;
 
   protected checkInputValueChange() {
-    return (this.valueToString(this.value) !== this.valueToString(this.input.value));
+    return (this.valueToString(this.value) !== this.inputValue);
   }
 }
 
@@ -54,20 +55,11 @@ export class DataTableTextInput extends AbstractDataTableInput<string> {
 }
 
 export class DataTableNumberInput extends AbstractDataTableInput<number> {
-  public setValue(value: number) {
-    this.originalValue = value;
-    if (value) {
-      this.$input.val(value.toString());
-    } else {
-      this.$input.val('');
-    }
-    this.$htmEl.append(this.$input);
+  protected stringToValue(value: string): number {
+    return Number(value);
   }
 
-  protected getInputValue(): number {
-    if (this.$input.val().toString() === '') {
-      return null;
-    }
-    return Number(this.$input.val().toString());
+  protected valueToString(value): string {
+    return value.toString();
   }
 }

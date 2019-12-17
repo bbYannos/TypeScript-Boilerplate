@@ -1,19 +1,24 @@
-import {ObjectUtils} from "shared/utils/object.utils";
-import {Observable} from "rxjs";
+import $ from "jquery";
 import moment, {EventInterface} from "shared/moment";
+import {ObjectUtils} from "shared/utils/object.utils";
+import "tempusdominus-bootstrap-4";
+import "tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css";
 import {DATE_TIME_FORMAT} from "../../Constants";
 import {AbstractDataTableInput} from "./DataTableInput";
 
 export class DataTableDateTimeInput extends AbstractDataTableInput<moment.Moment> {
-  public $input: JQuery =
-    $('<input type="text" class="form-control datetimepicker-input" id="dateTimePicker" data-target="#dateTimePicker"/>');
-  public settings = {
+  public settings: {
+    locale: string,
+    debug: boolean,
+    format: string,
+    date: moment.Moment,
+    minDate?: moment.Moment,
+    maxDate?: moment.Moment,
+  } = {
     locale: "fr",
-    debug: this.debug,
+    debug: true,
     format: DATE_TIME_FORMAT,
     date: null,
-    minDate: null,
-    maxDate: null,
   };
   protected dateTimePicker: any;
 
@@ -22,38 +27,30 @@ export class DataTableDateTimeInput extends AbstractDataTableInput<moment.Moment
     this.settings.maxDate = event.endTime;
   }
 
-  public setValue(value: moment.Moment) {
-    if (!ObjectUtils.isValidMoment(value)) {
-      value = moment().startOf("day");
+  public appendTo($td, value: moment.Moment) {
+    super.appendTo($td, value);
+    this.input.$refs.input.setAttribute("data-target", "#dateTimePicker");
+    this.input.$refs.input.setAttribute("id", "dateTimePicker");
+    if (!(ObjectUtils.isValidMoment(value))) {
+      value = moment();
     }
-    this.originalValue = value.clone();
     this.settings.date = value.clone();
-    this.$input.val(this.settings.date.format(this.settings.format));
+    $(this.input.$refs.input).datetimepicker(this.settings);
+    $(this.input.$refs.input).data("datetimepicker").show();
   }
 
-  public appendTo$($cell): Observable<{dirty: boolean, value: moment.Moment}> {
-    this.$input.val(this.settings.date.format(this.settings.format));
-    this.$htmEl.append(this.$input);
-    this.$input.datetimepicker(this.settings);
-    const response$ = super.appendTo$($cell);
-    this.dateTimePicker = this.$input.data("datetimepicker");
-    this.dateTimePicker.show();
-    return response$;
-  }
-
-  protected getInputValue() {
-    const _date = this.$input.data("date");
-    let time = this.dateTimePicker.getMoment(_date);
-    if (!(ObjectUtils.isValidMoment(time) && time.isValid())) {
-      time = null;
+  protected stringToValue(value: string): moment.Moment {
+    const dateTime = moment(value, this.settings.format);
+    if (!(ObjectUtils.isValidMoment(dateTime))) {
+      return null;
     }
-    return time;
+    return dateTime;
   }
 
-  protected checkInputValueChange() {
-    if (this.getInputValue() === null) {
-      return true;
+  protected valueToString(value: moment.Moment): string {
+    if (!(ObjectUtils.isValidMoment(value))) {
+      return "";
     }
-    return (!(this.getInputValue().format(this.settings.format) === this.originalValue.format(this.settings.format)));
+    return value.format(this.settings.format);
   }
 }

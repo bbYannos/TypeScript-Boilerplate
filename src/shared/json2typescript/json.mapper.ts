@@ -1,5 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import moment from "moment";
+import {ObjectUtils} from "../utils/object.utils";
 import {JsonConvert} from "./json-convert";
 import {JsonConverter} from "./json-convert-decorators";
 import {OperationMode, ValueCheckingMode} from "./json-convert-enums";
@@ -10,10 +11,10 @@ export const TIME_FORMAT = "HH:mm:ss";
 @JsonConverter
 export class MomentConverter implements JsonCustomConvert<moment.Moment> {
     public serialize(time: moment.Moment): string {
-        if (moment.isMoment(time)) {
+        if (ObjectUtils.isValidMoment(time)) {
             return time.format();
         }
-        return "";
+        return null;
     }
     public deserialize(timeString: string): moment.Moment {
         return moment(timeString);
@@ -76,7 +77,7 @@ export class BooleanConverter implements JsonCustomConvert<boolean> {
 }
 
 export class JsonMapper<T> {
-    protected jsonConvert: JsonConvert = new JsonConvert();
+    public jsonConvert: JsonConvert = new JsonConvert();
 
     constructor() {
         this.jsonConvert.operationMode = OperationMode.ENABLE;

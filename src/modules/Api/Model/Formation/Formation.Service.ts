@@ -1,4 +1,5 @@
 import {MODULES_CONSTANTS} from "modules/modules.constants";
+import {Observable} from "rxjs";
 import {DexieRestService, Repository} from "shared/abstract-api";
 import moment from "shared/moment/moment";
 import {ObjectUtils} from "shared/utils/object.utils";

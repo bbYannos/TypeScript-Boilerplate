@@ -11,10 +11,10 @@ export interface PeriodInterface {
 
 @JsonObject("AbstractPeriod")
 export abstract class AbstractPeriod extends AbstractApiModel {
-  @JsonProperty("startTime", MomentConverter, true)
+  @JsonProperty("startTime", MomentConverter)
   public startTime: moment.Moment = null;
 
-  @JsonProperty("duration", DurationConverter, true)
+  @JsonProperty("duration", DurationConverter)
   public duration: moment.Duration = moment.duration(0);
 
   public get endTime(): moment.Moment {

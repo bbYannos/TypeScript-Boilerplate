@@ -1,8 +1,8 @@
 import Api from "modules/Api/Api.module";
-import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
+import {Formation} from "modules/Api/Model/Formation";
+import {COLUMNS, DATE_FORMAT, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column, DataTableEditable} from "modules/DataTable/module";
 import {Observable} from "rxjs";
-import {Formation} from "modules/Api/Model/Formation";
 
 export class List {
   public $htmlEl: HTMLElement;
@@ -12,6 +12,8 @@ export class List {
     const table = new DataTableEditable();
     table.columns = [
       new Column(COLUMNS.LABEL("Nom", "label", 80), EDITABLE_TYPES.textInput),
+      new Column(COLUMNS.DATE_TIME("Deb.", "startTime", DATE_FORMAT), EDITABLE_TYPES.dateInput),
+      new Column(COLUMNS.TIME("Cours", "defaultDuration"), EDITABLE_TYPES.durationInput),
     ];
 
     table.$htmEl = this.$htmlEl;

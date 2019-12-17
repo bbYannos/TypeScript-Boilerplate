@@ -2,7 +2,7 @@ import {MODULES_CONSTANTS} from "modules/modules.constants";
 import {Observable} from "rxjs";
 import {map, shareReplay, switchMap} from "rxjs/operators";
 import {AbstractPeriod, RxjsUtils} from "shared/abstract-api";
-import {DurationConverter, JsonObject, JsonProperty, TimeConverter} from "shared/json2typescript";
+import {DurationConverter, JsonObject, JsonProperty, MomentConverter, TimeConverter} from "shared/json2typescript";
 import moment from "shared/moment";
 import {Availability} from "../Availability/Availability.Model";
 import {Module} from "../Module/Module.Model";

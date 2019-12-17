@@ -15,25 +15,20 @@ export class DataTableDurationInput extends AbstractDataTableInput<moment.Durati
     }
   }
 
-  public setValue(value: moment.Duration) {
-    if (!moment.isDuration(value)) {
-      value = moment.duration(0);
-    }
-    this.originalValue = value;
-    this.$input.val(value.format(this.format));
+  public appendTo($td, value: moment.Duration) {
+    super.appendTo($td, value);
     const im = new InputMask(this.mask);
     // noinspection TypeScriptValidateJSTypes
-    im.mask(this.$input.get(0));
-    this.$htmEl.append(this.$input);
+    im.mask(this.input.$refs.input);
   }
 
-  protected getInputValue() {
+  protected stringToValue(value: string): moment.Duration {
     switch (this.format) {
       case "mm" :
-        return moment.duration(Number(this.$input.val()), "minute");
+        return moment.duration(Number(value), "minute");
       case "HH:mm":
-        const hours = this.$input.val().toString().split(":").shift();
-        const minutes = this.$input.val().toString().split(":").pop();
+        const hours = value.toString().split(":").shift();
+        const minutes = value.toString().split(":").pop();
         const start = moment().startOf("day");
         const end = start.clone().add(hours, "hour").add(minutes, "minute");
         return moment.duration(end.diff(start));
@@ -42,7 +37,10 @@ export class DataTableDurationInput extends AbstractDataTableInput<moment.Durati
     }
   }
 
-  protected checkInputValueChange() {
-    return (this.originalValue.format(this.format) !== this.getInputValue().format(this.format));
+  protected valueToString(value): string {
+    if (!moment.isDuration(value)) {
+      return "";
+    }
+    return value.format(this.format);
   }
 }

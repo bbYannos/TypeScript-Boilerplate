@@ -93,6 +93,13 @@ const CssConfig = require('./css.config');
 configuration.plugins.push(CssConfig.cssPlugin);
 configuration.module.rules = configuration.module.rules.concat(CssConfig.cssRules);
 
+configuration.plugins.push(
+    new webpack.ProvidePlugin({
+        jQuery: 'jquery',
+        moment: 'moment',
+    })
+);
+
 
 // TypeScript With Babel
 configuration.module.rules.push({
@@ -121,7 +128,7 @@ configuration.optimization = {
                 priority: -2,
             },
             datatable: {
-                test: /(jquery|dataTables)/,
+                test: /(jquery|dataTables|DataTable)/,
                 chunks: 'all',
                 priority: -3,
             },

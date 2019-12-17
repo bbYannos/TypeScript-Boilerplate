@@ -5,10 +5,10 @@ import {AbstractSortable} from "./sortable.model";
 
 @JsonObject("AbstractSortablePeriod")
 export abstract class AbstractSortablePeriod extends AbstractSortable implements PeriodInterface {
-  @JsonProperty("startTime", MomentConverter, true)
+  @JsonProperty("startTime", MomentConverter)
   public startTime: moment.Moment = null;
 
-  @JsonProperty("duration", DurationConverter, true)
+  @JsonProperty("duration", DurationConverter)
   public duration: moment.Duration = moment.duration(0);
 
   public endTime: moment.Moment;

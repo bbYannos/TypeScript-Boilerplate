@@ -85,7 +85,7 @@ export class RestApiTable<T extends AbstractApiModel> extends AbstractRepository
     return object;
   }
 
-  protected toJson(object: T): any {
+  public toJson(object: T): any {
     const json = this.repository.toJson(object);
     /* todo: manage if still dex_XXX */
     for (const propertyName of Object.keys(json)) {

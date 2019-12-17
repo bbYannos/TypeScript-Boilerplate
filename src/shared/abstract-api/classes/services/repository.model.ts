@@ -35,7 +35,7 @@ export abstract class AbstractRepository<T extends AbstractApiModel> extends Obj
   public perfDebug = false;
   public checkExisting = true;
 
-  protected jsonMapper = new JsonMapper<T>();
+  public jsonMapper = new JsonMapper<T>();
   public _relationManager: RelationManagerInterface<T> = null;
 
   public get constructorName(): string {
