@@ -7,18 +7,26 @@ import {DataTableExpandable} from "./DataTable.Expandable";
 import {closeAction} from "./Inputs/input.component";
 
 export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpandable<T> {
-  protected lastEdited: { col: number, row: number, action: closeAction } = null;
+  protected lastEdited: { col: number, row: T, action: closeAction } = null;
   protected currentObjects: T[] = null;
   protected goNext_: Subject<void> = new Subject();
   protected goNextSub: Subscription = null;
 
   public highlight(object: T) {
+    const cell = this.getObjectCell(object);
+    if (cell) {
+      this.animate(cell.$tr);
+    }
+  }
+  protected getObjectCell(object): EditableCell | null {
+    let cell: EditableCell = null;
     this.dataTableApi.rows().eq(0).each((index) => {
-      const cellClick = EditableCell.fromRowIndex(index, this.dataTableApi);
-      if (object.isSame(cellClick.object)) {
-        this.animate(cellClick.$tr);
+      const _cell = EditableCell.fromRowIndex(index, this.dataTableApi) as EditableCell;
+      if (object.isSame(_cell.object)) {
+        cell = _cell;
       }
     });
+    return cell;
   }
 
   public setDataSource$(dataSource$: Observable<T[]>) {
@@ -29,8 +37,15 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
     }
     this.goNextSub = this.goNext_.pipe(takeUntil(this.close$)).subscribe(() => {
       if (this.lastEdited !== null && ["Tab", "Enter"].indexOf(this.lastEdited.action) !== -1) {
-        const nextEditableCell = this.columnsCollection.getNextEditableCell(this.lastEdited);
-        this.manageCellClick(nextEditableCell);
+        const cell = this.getObjectCell(this.lastEdited.row);
+        console.log(this.lastEdited.row, cell.rowIndex);
+        if (cell) {
+          const nextEditableCell = this.columnsCollection.getNextEditableCell({
+            col: this.lastEdited.col,
+            row: cell.rowIndex,
+          });
+          this.manageCellClick(nextEditableCell);
+        }
       }
       this.lastEdited = null;
     });
@@ -67,6 +82,7 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
   }
 
   protected manageCellClick(cell: EditableCell) {
+    this.animate(cell.$tr);
     super.manageCellClick(cell);
     this.lastEdited = null;
     const cellUpdated$ = cell.getCellUpdated$(
@@ -75,13 +91,9 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
     // null if already edited or readOnly
     if (cellUpdated$ !== null) {
       cellUpdated$.subscribe((data: { dirty: boolean, cell: EditableCell, action: closeAction }) => {
-        this.lastEdited = {col: data.cell.colIndex, row: data.cell.rowIndex, action: data.action};
+        this.lastEdited = {col: data.cell.colIndex, row: data.cell.object, action: data.action};
         if (data.dirty) {
-          this.updateAction(cell.object).subscribe(() => {
-            this.highlight(cell.object);
-          }, (error) =>  {
-            console.log(error);
-          });
+          this.updateAction(cell.object).subscribe();
         } else {
           this.goNext_.next();
         }

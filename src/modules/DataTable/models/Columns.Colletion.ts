@@ -13,7 +13,11 @@ export class ColumnsCollection {
 
   public cellCanBeNext(editableCellDefinition: Column) {
     const excluded = [EDITABLE_TYPES.colorPicker];
-    return editableCellDefinition.type !== null && excluded.indexOf(editableCellDefinition.type) === -1;
+    return (
+      editableCellDefinition.type !== null &&
+      editableCellDefinition.type !== -1 &&
+      excluded.indexOf(editableCellDefinition.type) === -1
+    );
   }
 
   public getColumnAtIndex(index: number): Column {
