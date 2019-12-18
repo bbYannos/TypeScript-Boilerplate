@@ -12,7 +12,6 @@ export const adminRoutes: RouteConfig[] = [
   traineesRoute,
   formationsRoute,
   speakersRoute,
-
 ];
 
 export const adminRouter = new Router({

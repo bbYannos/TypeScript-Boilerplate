@@ -8,14 +8,19 @@ export class FormationListComponent extends ListComponent<Formation> {
   public data = {
     addButtonDisplayed: true,
   };
-
   protected service = Api.formationService;
   protected columns = [
     new Column(COLUMNS.LABEL("Nom", "label", 80), EDITABLE_TYPES.textInput),
     new Column(COLUMNS.DATE_TIME("Deb.", "startTime", DATE_FORMAT), EDITABLE_TYPES.dateInput),
+    new Column(COLUMNS.DATE_TIME("Fin", "endTime", DATE_FORMAT), EDITABLE_TYPES.dateInput),
     new Column(COLUMNS.TIME("Cours", "defaultDuration"), EDITABLE_TYPES.durationInput),
+    new Column(COLUMNS.EDIT),
     new Column(COLUMNS.DELETE),
   ];
+  
+  public editAction = (formation: Formation) => {
+    this.$router.push("/formations/" + formation.identifier);
+  }
 }
 
 export default FormationListComponent;

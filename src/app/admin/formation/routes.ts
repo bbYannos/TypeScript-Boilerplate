@@ -2,15 +2,31 @@ import Api from "modules/Api/Api.module";
 import {Formation} from "modules/Api/Model/Formation";
 import {FormationsList} from "./list.layout";
 import {FormationShow} from "./show.layout";
+import {formationRoutes} from "./show.routes";
 
-const formationRoute = {
-  path: ":identifier",
+
+// Cache on sub route
+let currentFormationRoutes = formationRoutes[0].path;
+formationRoutes.forEach((_route) => {
+  _route.beforeEnter = (to, from, next) => {
+    currentFormationRoutes = _route.path;
+    next();
+  };
+});
+
+export const formationRoute = {
+  path: ":identifier/",
   name: "Formation",
+  redirect: () => {
+    return ":identifier/" + currentFormationRoutes;
+  },
   component: FormationShow,
   meta: {
     elements: [],
   },
+  children: formationRoutes,
 };
+
 export const formationsRoute = {
   path: "/formations", name: "Formations", redirect: "/formations/list",
   meta: {icon: "fa-leanpub"},

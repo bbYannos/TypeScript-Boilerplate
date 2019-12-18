@@ -27,7 +27,6 @@ export const router = new Router({
 
 export const routerAuthService = new RouterAuthService();
 routerAuthService.userChange$.subscribe((user) => {
-  console.log(user);
   if (user === null) {
     // noinspection JSIgnoredPromiseFromCall
     router.push(afterLogoutRoute);

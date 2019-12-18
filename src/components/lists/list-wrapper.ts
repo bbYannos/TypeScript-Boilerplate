@@ -2,10 +2,12 @@ import {Observable, Subject} from "rxjs";
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Prop} from "vue-property-decorator";
+import Router from "vue-router";
 import WithRender from "./list-wrapper.html";
 
 interface ComponentInterface {
   data: any;
+  $router: Router;
   close$: Observable<any>;
   add$: Observable<any>;
   $htmEl: HTMLElement;
@@ -36,6 +38,7 @@ export class ListWrapper extends Vue {
       const component = new _Component();
       this.data = {...this.data, ...component.data};
       component.$htmEl = this.$refs.target;
+      component.$router = this.$router;
       component.close$ = this.close_.asObservable();
       component.add$ = this.add_.asObservable();
       component.render();

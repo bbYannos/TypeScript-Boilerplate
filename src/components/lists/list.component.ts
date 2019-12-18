@@ -3,6 +3,7 @@ import {Observable, of} from "rxjs";
 import {switchMap, takeUntil} from "rxjs/operators";
 import {AbstractApiModel} from "shared/abstract-api/classes/models";
 import {AbstractRepositoryService} from "shared/abstract-api/classes/services";
+import Router from "vue-router";
 
 /**
  * This component shows dataTable and add Button
@@ -23,6 +24,7 @@ export class ListComponent<T extends AbstractApiModel> {
   public $htmEl: HTMLElement;
   public close$: Observable<any>;
   public add$: Observable<any>;
+  public $router: Router;
 
   protected overrideOptions: DataTables.Settings = {};
   protected service: AbstractRepositoryService<T> = null;
