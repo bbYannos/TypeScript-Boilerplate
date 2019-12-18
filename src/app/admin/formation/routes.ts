@@ -22,5 +22,5 @@ export const formationsRoute = {
 };
 
 Api.formationService.fetchAll$.subscribe((formations: Formation[]) => {
-  formationRoute.meta.elements = formations;
+  formationRoute.meta.elements = formations.filter((formation) => formation.label !== "");
 });

@@ -1,8 +1,8 @@
 import {CardComponent} from "components/card";
+import {ListWrapper} from "components/lists/list-wrapper";
 import download from "downloadjs";
 import Api from "modules/Api/Api.module";
-import {from, Subject, timer} from "rxjs";
-import {switchMap} from "rxjs/operators";
+import {from} from "rxjs";
 import moment from "shared/moment";
 import Vue from "vue";
 import Component from "vue-class-component";
@@ -10,14 +10,13 @@ import WithRender from "./list.layout.html";
 
 
 @WithRender
-@Component({components: {CardComponent}})
+@Component({components: {CardComponent, ListWrapper}})
 export class FormationsList extends Vue {
   public $refs: {
-    excelBtn: HTMLElement,
-    table: HTMLElement,
-  } = {excelBtn: null, table: null};
-
-  protected close_: Subject<void> = new Subject<void>();
+    excelBtn: HTMLElement, table: HTMLElement,
+  } = {
+    excelBtn: null, table: null,
+  };
 
   public exportExcel() {
     this.$refs.excelBtn.classList.add("loading");
@@ -27,22 +26,5 @@ export class FormationsList extends Vue {
     });
   }
 
-  public listComponent$ = () => timer(0).pipe(
-    switchMap(() => from(import(/* webpackChunkName: "admin" */ "./list"))),
-  );
-  public mounted() {
-    this.listComponent$().subscribe((module) => {
-      const ListComponent = module.default.ListComponent;
-      const list = new ListComponent();
-      list.$htmlEl = this.$refs.table;
-      list.close$ = this.close_.asObservable();
-      list.render();
-    });
-  }
-
-  // noinspection JSUnusedGlobalSymbols
-  public beforeDestroy() {
-    this.close_.next();
-    this.close_.complete();
-  }
+  public listComponent$ = () =>  from(import(/* webpackChunkName: "admin" */ "./list.component"));
 }
