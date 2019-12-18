@@ -75,3 +75,5 @@ ul.hover-animate .show ul, ul.hover-animate .collapsing ul {
 .breadcrumb-item + .breadcrumb-item::before {
   padding-right: 0.2rem;
 }
+.tab-content .card { border-top: none; border-color: #dee2e6}
+.nav-tabs .nav-link.active {font-weight: normal; color: $main-color;}

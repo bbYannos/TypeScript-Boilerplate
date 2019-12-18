@@ -1,5 +1,5 @@
 import Router, {RouteConfig} from "vue-router";
-import {formationsRoute} from "./formation/routes";
+import {formationsRoute} from "./formation/_routes";
 import {speakersRoute} from "./speaker/routes";
 import {traineesRoute} from "./trainee/route";
 

@@ -4,7 +4,7 @@ import {Formation} from "modules/Api/Model/Formation";
 import {COLUMNS, DATE_FORMAT, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
 
-export class FormationListComponent extends ListComponent<Formation> {
+export class FormationList extends ListComponent<Formation> {
   public data = {
     addButtonDisplayed: true,
   };
@@ -23,4 +23,4 @@ export class FormationListComponent extends ListComponent<Formation> {
   }
 }
 
-export default FormationListComponent;
+export default FormationList;

@@ -12,6 +12,6 @@ export class SubNavBar extends Vue {
     label: string,
     routes: RouteConfig[],
   };
-
 }
+
 export default Vue.component("sub-nav-bar", SubNavBar);

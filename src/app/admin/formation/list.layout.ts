@@ -26,5 +26,5 @@ export class FormationsList extends Vue {
     });
   }
 
-  public listComponent$ = () =>  from(import(/* webpackChunkName: "admin" */ "./list.component"));
+  public listComponent$ = () =>  from(import(/* webpackChunkName: "admin" */ "./formation.list"));
 }
