@@ -8,10 +8,10 @@ import {
   DataTableDurationInput,
   DataTableNumberInput,
   DataTableSelect,
-  DataTableSelectable,
   DataTableTextInput,
   DataTableTimeInput,
 } from "./Inputs";
+import {SelectableInterface} from "./Inputs/select.component";
 
 export class Column {
   public input: AbstractDataTableInput<any> = null;
@@ -21,7 +21,7 @@ export class Column {
     public display: any,
     public type: number = -1,
     public params: {
-      options$?: Observable<DataTableSelectable[]>,
+      options$?: Observable<SelectableInterface[]>,
       emptyLabel?: string,
       max?: any,
       min?: any,
