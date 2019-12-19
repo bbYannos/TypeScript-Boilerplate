@@ -72,7 +72,7 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
       set: (_value: any) => {
         this.log("Listened relation : set " + property + " to ", _value);
         const previous = object[protectedName];
-        object[protectedName] = value;
+        object[protectedName] = _value;
         // set value before callBack chain
         cbArray.forEach((_cb) => _cb(object, previous, _value));
       },
