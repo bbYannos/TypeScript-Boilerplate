@@ -11,7 +11,6 @@ import {Speaker, speakerService} from "../Speaker/";
 import {Training, TrainingService} from "./Training.Service";
 
 const trainingRelation =  new OneToParentRelation<Training, Speaker>("speaker", "trainings$", speakerService);
-
 const trainingService = RelationManager.makeService(TrainingService, [
   new OneToParentRelation<Training, Formation>("formation", "trainings$", formationService),
   trainingRelation,

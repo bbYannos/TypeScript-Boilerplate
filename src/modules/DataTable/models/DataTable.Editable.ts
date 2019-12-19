@@ -30,6 +30,7 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
   }
 
   public setDataSource$(dataSource$: Observable<T[]>) {
+    this.currentObjects = null;
     super.setDataSource$(dataSource$);
     if (this.goNextSub !== null) {
       this.goNextSub.unsubscribe();
@@ -38,7 +39,7 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
     this.goNextSub = this.goNext_.pipe(takeUntil(this.close$)).subscribe(() => {
       if (this.lastEdited !== null && ["Tab", "Enter"].indexOf(this.lastEdited.action) !== -1) {
         const cell = this.getObjectCell(this.lastEdited.row);
-        console.log(this.lastEdited.row, cell.rowIndex);
+        // console.log(this.lastEdited.row, cell.rowIndex);
         if (cell) {
           const nextEditableCell = this.columnsCollection.getNextEditableCell({
             col: this.lastEdited.col,

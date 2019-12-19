@@ -33,6 +33,7 @@ export class EditableCell extends Cell {
     if (input !== null) {
       input.appendTo(this.$td, this.value);
       this.$td.addClass("to_edit");
+
       return input.close$.pipe(
         tap(() => this.$td.removeClass("to_edit")),
         map(({dirty: dirty, value: value, action: action}) => {

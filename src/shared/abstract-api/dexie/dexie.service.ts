@@ -110,6 +110,7 @@ export class DexieService<T extends AbstractApiModel> extends AbstractRepository
   }
 
   public getByIdentifier$(identifier: string): Observable<T> {
+    // this.repository.log("dexie getByIdentifier$", identifier, "dexie", this.dexie);
     if (this.dexie === null) {
       return super.getByIdentifier$(identifier);
     }

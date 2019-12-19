@@ -111,7 +111,9 @@ export class DexieRestService<T extends AbstractApiModel> extends DexieService<T
   }
 
   public getByIdentifier$(identifier: string): Observable<T> {
+    // this.repository.log("dexie Rest getByIdentifier$", identifier);
     return super.getByIdentifier$(identifier).pipe(
+      // tap((res) => this.repository.log("Found on repository", res)),
       switchMap((res) => {
         if (res === null && !this.options.fetchAllOnInit) {
           return this.list().pipe(

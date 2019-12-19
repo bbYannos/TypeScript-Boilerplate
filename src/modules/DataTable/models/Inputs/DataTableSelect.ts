@@ -1,41 +1,43 @@
 import {Observable} from "rxjs";
-import {switchMap, take, tap} from "rxjs/operators";
-import {AbstractDataTableInput, DataTableSelectable} from "./DataTableInput";
+import {map, take} from "rxjs/operators";
+import {closeAction} from "./input.component";
+import {SelectableInterface, SelectComponent} from "./select.component";
 
-export class DataTableSelect extends AbstractDataTableInput<DataTableSelectable> {
+export class DataTableSelect {
+  public options: SelectableInterface[] = null;
+  protected input = new SelectComponent();
+  protected identifier: string = null;
+  protected options$: Observable<SelectableInterface[]>;
 
-
-  private options$: Observable<DataTableSelectable[]>;
-  private _options: DataTableSelectable[] = [];
-
-  public appendTo$($cell): Observable<{dirty: boolean, value: DataTableSelectable}> {
-    return this.options$.pipe(
-      take(1),
-      tap((_options: DataTableSelectable[]) => {
-        this.njkParams.options = this._options = _options;
-        this.$input = $(this.njk.render(this.njkParams));
-        this.$htmEl.append(this.$input);
-      }),
-      switchMap(() => super.appendTo$($cell)),
-    );
-  }
-
-  public setOptions$(options$: Observable<DataTableSelectable[]>) {
+  public setOptions$(options$: Observable<SelectableInterface[]>) {
     this.options$ = options$;
   }
 
-  public setValue(value: DataTableSelectable) {
-    this.njkParams.value = this.originalValue = value;
+  public get close$(): Observable<{ dirty: boolean, value: SelectableInterface, action: closeAction }> {
+    return this.input.close_.pipe(
+      map((action) => ({
+          dirty: this.checkInputValueChange(),
+          value: this.input.value,
+          action: action,
+        }),
+      ),
+    );
   }
 
-  protected getInputValue() {
-    const _identifier = this.$input.children("option:selected").val();
-    let object = null;
-    this._options.forEach((_object: DataTableSelectable) => {
-      if (_object.identifier === _identifier) {
-        object = _object;
-      }
+  public appendTo($td, value: SelectableInterface) {
+    if (value) {
+      this.identifier = value.identifier;
+    }
+    this.options$.pipe(take(1)).subscribe((options: SelectableInterface[]) => {
+      this.input.value = (value) ? {identifier:  value.identifier, label: value.label} : null;
+      this.input.options = options;
+      this.input.$mount();
+      $td.append(this.input.$el);
+      this.input.$htmEl.focus();
     });
-    return object;
+  }
+
+  protected checkInputValueChange() {
+    return (this.input.value.identifier !== this.identifier);
   }
 }

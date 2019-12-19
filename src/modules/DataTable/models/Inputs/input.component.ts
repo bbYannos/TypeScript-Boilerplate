@@ -1,8 +1,9 @@
 import {fromEvent, Subject} from "rxjs";
-import {filter, takeUntil} from "rxjs/operators";
+import {takeUntil} from "rxjs/operators";
 import Vue from "vue";
 import Component from "vue-class-component";
 import WithRender from "./input.component.html";
+
 export type closeAction = ("Tab" | "Enter" | "Blur");
 
 @WithRender
@@ -15,6 +16,14 @@ export class InputComponent extends Vue {
   public fixed: boolean = false;
 
   public close_: Subject<closeAction> = new Subject<closeAction>();
+
+  public get $htmEl() {
+    return this.$refs.input;
+  }
+
+  public get $value() {
+    return this.$refs.input.value;
+  }
 
   public mounted() {
     fromEvent(this.$refs.input, "keydown").pipe(

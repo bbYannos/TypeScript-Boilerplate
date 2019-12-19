@@ -35,7 +35,7 @@ export class DataTableBase<T> {
   public setDataSource$(dataSource$: Observable<T[]>) {
     if (this._dataSource$ub !== null) {
       this._dataSource$ub.unsubscribe();
-      alert("SET DATA SOURCE$ MULTIPLE TIMES");
+      // alert("SET DATA SOURCE$ MULTIPLE TIMES");
     }
     this._dataSource$ub = this.prepareDataSource$(dataSource$).subscribe(() => {
       // console.log('Redraw Table' + this.constructorName);
@@ -68,7 +68,7 @@ export class DataTableBase<T> {
 
   protected prepareDataSource$(dataSource$: Observable<T[]>) {
     return dataSource$.pipe(
-      debounceTime(100),
+      debounceTime(0),
       takeUntil(this.close$),
       tap((objects: T[]) => {
         // console.log('From data Source', objects);

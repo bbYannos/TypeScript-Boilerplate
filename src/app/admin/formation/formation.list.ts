@@ -20,7 +20,7 @@ export class FormationList extends ListComponent<Formation> {
   
   public editAction = (formation: Formation) => {
     this.$router.push("/formations/" + formation.identifier);
-  }
+  };
 }
 
 export default FormationList;

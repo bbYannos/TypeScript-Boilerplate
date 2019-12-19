@@ -71,7 +71,7 @@ export class ObjectList<T extends AbstractIdentifiedObject> extends Debuggable {
   public getByIdentifier(identifier: string): T {
     identifier = identifier.toString();
     const identifiedObject = this._objects.find((_object: T) => (_object.hasIdentifier(identifier)));
-    return (identifiedObject) ? identifiedObject : null;
+    return identifiedObject || null;
   }
 
   // Do not set object.deleted = true
