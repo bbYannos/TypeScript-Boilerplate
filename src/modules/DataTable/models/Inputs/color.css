@@ -1,0 +1,5 @@
+.colorpicker.colorpicker-inline.colorpicker-visible {
+    position: absolute;
+    z-index: 100;
+    margin: 5px 0 0 -100%;
+}

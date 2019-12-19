@@ -1,23 +1,47 @@
-import $ from "jquery";
-import {Observable} from "rxjs";
+import {Subject, timer} from "rxjs";
 import "shared/colorpicker";
-import {DataTableTextInput} from "./DataTableInput";
+import {ColorComponent} from "./color.component";
+import "./color.css";
+import {closeAction} from "./input.component";
 
-export class DataTableColorPicker extends DataTableTextInput {
+export class DataTableColorPicker {
+  public close_: Subject<{ dirty: boolean, value: string, action: closeAction }> = new Subject<{dirty: boolean, value: string, action: closeAction}>();
+  protected input = new ColorComponent();
+  protected value: string = null;
+  protected $td: JQuery<HTMLElement> = null;
+  public get close$() {
+    return this.close_.asObservable();
+  }
 
-  // noinspection CssInvalidHtmlTagReference
-  public $htmEl: JQuery =
-    $('<div class="input-group colorpicker-component"></div>');
-  public $btn: JQuery = $('<span class="input-group-append"><span class="input-group-text colorpicker-input-addon"><i></i></span></span>');
-  public $input: JQuery =
-    $('<input class="form-control" />').attr({type: "text", value: ""});
+  public appendTo($td, value: string) {
+    this.value = value;
+    this.$td = $td;
+    const options = {
+      fallbackColor: "#000000",
+      inline: true,
+      container: true,
+      color: value,
+      format: "hex",
+      useAlpha: false,
+    };
+    const display = $td.find(".color-display");
+    $td.colorpicker(options).on("colorpickerChange", (event: any) => {
+      display.css("background-color", event.color.string("hex"));
+    });
+    $td.find(".colorpicker").on("click", (e) => {
+      e.stopPropagation();
+    });
+    $td.colorpicker("show");
+    timer(100).subscribe(() => {
+      document.addEventListener("click", this.manageClick);
+    });
+  }
 
-  public appendTo$($cell): Observable<{ dirty: boolean, value: string }> {
-    this.$htmEl.append(this.$input);
-    const response$ = super.appendTo$($cell);
-    this.$input.off("blur");
-    this.$htmEl.colorpicker({}).on("colorpickerHide", () => this.onClose());
-    this.$input.trigger("focus");
-    return response$;
+  public manageClick = (e) => {
+    document.removeEventListener("click", this.manageClick);
+    const value = this.$td.colorpicker("getValue", this.value);
+    this.$td.colorpicker("destroy");
+    this.close_.next({dirty: value !== this.value, value: value, action: "Blur"});
+    this.close_.complete();
   }
 }

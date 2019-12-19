@@ -6,6 +6,7 @@ interface BootstrapColorpickerOptionsSlider {
 }
 
 interface BootstrapColorpickerOptions {
+    popover?: boolean;
     /**
      * If not false, forces the color format to be hex, rgb or rgba, otherwise the format is automatically detected.
      */
@@ -137,7 +138,7 @@ interface JQuery {
     /**
      * Gets the value from the input or the data attribute (if has no input), otherwise returns the default value, which defaults to #000000 if not specified.
      */
-    colorpicker(method: 'getValue', defaultValue: string): String;
+    colorpicker(method: 'getValue', defaultValue: string): string;
     /**
      * Set a new value for the color picker (also updates everything).Triggers 'changeColor' event.
      */

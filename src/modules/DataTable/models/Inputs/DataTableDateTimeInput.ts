@@ -29,8 +29,8 @@ export class DataTableDateTimeInput extends AbstractDataTableInput<moment.Moment
 
   public appendTo($td, value: moment.Moment) {
     super.appendTo($td, value);
-    this.input.$refs.input.setAttribute("data-target", "#dateTimePicker");
-    this.input.$refs.input.setAttribute("id", "dateTimePicker");
+    (this.input.$refs.input as HTMLElement).setAttribute("data-target", "#dateTimePicker");
+    (this.input.$refs.input as HTMLElement).setAttribute("id", "dateTimePicker");
     if (!(ObjectUtils.isValidMoment(value))) {
       value = moment();
     }

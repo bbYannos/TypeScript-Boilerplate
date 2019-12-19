@@ -13,8 +13,6 @@ export class InputComponent extends Vue {
     input?: HTMLInputElement,
   } = {};
   public value: string = "";
-  public fixed: boolean = false;
-
   public close_: Subject<closeAction> = new Subject<closeAction>();
 
   public get $htmEl() {
