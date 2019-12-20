@@ -22,7 +22,7 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
       if (childrenList) {
         childrenList.list.delete(object);
       } else {
-        throw new Error(object.constructorName + " " + this.property + " " + this.service.name);
+        console.error(object.constructorName + " " + this.property + " " + this.service.name);
       }
     }
     if (newParent !== null) {
@@ -56,13 +56,12 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
     if (cb === null) {
       return;
     }
-    let cbArray: Array<(object: T, oldValue: V, newValue: V) => void> = object[this.callBacksPrefix + property];
-    if (!cbArray) {
-      cbArray = object[this.callBacksPrefix + property] = [];
-    } else {
-      cbArray.push(cb);
+    const cbArrayExist: boolean = Array.isArray(object[this.callBacksPrefix + property]);
+    if (cbArrayExist) {
+      object[this.callBacksPrefix + property].push(cb);
       return;
     }
+    object[this.callBacksPrefix + property] = [cb];
 
     const protectedName = this.propPrefix + property;
     const attributes = {
@@ -72,9 +71,10 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
       set: (_value: any) => {
         this.log("Listened relation : set " + property + " to ", _value);
         const previous = object[protectedName];
-        object[protectedName] = _value;
         // set value before callBack chain
-        cbArray.forEach((_cb) => _cb(object, previous, _value));
+        object[protectedName] = _value;
+        this.log("Relation Callbacks " + object[this.callBacksPrefix + property].length);
+        object[this.callBacksPrefix + property].forEach((_cb) => _cb(object, previous, _value));
       },
     };
     const value = (object[property] !== undefined) ? object[property] : null;
