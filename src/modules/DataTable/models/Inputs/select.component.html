@@ -1,7 +1,7 @@
 <div class="dataTable-input">
     <select class="form-control" ref="select" v-model="selected" @blur="close()" @keydown="onKeyDown($event)">
-        <option value="null">{{defaultLabel}}</option>
-        <option v-for="option in options" :value="option.identifier">
+        <option value="null"  @click="close()">{{defaultLabel}}</option>
+        <option v-for="option in options" :value="option.identifier" @click="close()">
             {{ option.label }}
         </option>
     </select>
