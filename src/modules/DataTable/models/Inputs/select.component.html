@@ -1,4 +1,4 @@
-<div class="dataTable-input">
+<div class="dataTable-input" @click="$event.stopPropagation()">
     <select class="form-control" ref="select" v-model="selected" @blur="close()" @keydown="onKeyDown($event)">
         <option value="null"  @click="close()">{{defaultLabel}}</option>
         <option v-for="option in options" :value="option.identifier" @click="close()">

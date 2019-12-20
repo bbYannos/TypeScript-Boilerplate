@@ -10,5 +10,6 @@ Vue.use(CardPlugin);
 @WithRender
 @Component
 export class TrainingsLayout extends Vue {
-  public trainingListComponent$ = () =>  from(import(/* webpackChunkName: "admin" */ "./training.list"));
+  public trainingList$ = () =>  from(import(/* webpackChunkName: "admin" */ "./training.list"));
+  // public moduleList$ = () =>  from(import(/* webpackChunkName: "admin" */ "./module.list"));
 }
