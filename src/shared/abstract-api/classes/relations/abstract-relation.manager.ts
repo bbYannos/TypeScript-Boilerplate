@@ -31,11 +31,10 @@ export class RelationManager<T extends AbstractApiModel> extends Debuggable impl
 
   public static makeService<U extends AbstractApiModel, V extends AbstractRepositoryService<U>>(
     Service: new () => V,
-    relations: Array<OneToOneRelation<U, any>> = [],
-    RelationManagerCtor: new (...param) => RelationManager<U> = RelationManager,
+    relations: Array<OneToOneRelation<U, any>> = []
   ): V {
     const service = new Service();
-    const relationManager = new RelationManagerCtor(service);
+    const relationManager = new RelationManager(service);
     relationManager.oneToOneRelations = relations;
     service.repository.relationManager = relationManager;
     return service;

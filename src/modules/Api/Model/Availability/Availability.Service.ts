@@ -1,11 +1,11 @@
-import {Observable} from "rxjs";
+import {Observable, pipe} from "rxjs";
 import {map} from "rxjs/operators";
 import {AbstractApiQuery, DexieRestService, Repository} from "shared/abstract-api";
 import moment from "shared/moment/moment";
 import {ObjectUtils} from "shared/utils/object.utils";
-import {Availability} from "./Availability.Model";
 import {Formation} from "../Formation/Formation.Model";
 import {Speaker} from "../Speaker/Speaker.Model";
+import {Availability} from "./Availability.Model";
 
 export {Availability};
 export class AvailabilityQuery extends AbstractApiQuery<Availability> {
@@ -27,19 +27,8 @@ export class AvailabilityQuery extends AbstractApiQuery<Availability> {
 
 // tslint:disable-next-line:max-classes-per-file
 export class AvailabilityService extends DexieRestService<Availability> {
-
-  /* return only globals vacations **/
-  public get globalVacations$(): Observable<Availability[]> {
-    return this.fetchAll$.pipe(
-      map((availabilities: Availability[]) =>
-        availabilities.filter((availability: Availability) =>  availability.global && !availability.open),
-      ),
-    );
-  }
-
-
-  public static sortAvailabilities(periods: Availability[]): Availability[] {
-    return periods.sort((period1, period2) => {
+  public defaultSort = () => pipe(map((objects: Availability[]) =>
+    objects.sort((period1, period2) => {
       if (!ObjectUtils.isValidMoment(period1.startTime)) {
         return -1;
       }
@@ -47,9 +36,19 @@ export class AvailabilityService extends DexieRestService<Availability> {
         return 1;
       }
       return (period1.startTime.isAfter(period2.startTime)) ? 1 : -1;
-    });
-  }
+    }),
+  ));
+
   public repository: Repository<Availability> = new Repository(Availability);
+
+  // return only globals vacations
+  public get globalVacations$(): Observable<Availability[]> {
+    return this.fetchAll$.pipe(
+      map((availabilities: Availability[]) =>
+        availabilities.filter((availability: Availability) =>  availability.global && !availability.open),
+      ),
+    );
+  }
 
   public createByQuery(query: AvailabilityQuery): Observable<Availability> {
     // todo: Generic createByQuery: makeNew then set properties then set foreign
@@ -62,13 +61,6 @@ export class AvailabilityService extends DexieRestService<Availability> {
     availability.parentClass = query.parentClass;
     availability.parent = query.parent;
     return this.create(availability);
-  }
-
-  public list(request?: any): Observable<Availability[]> {
-    return super.list(request).pipe(
-      // tap((res) => console.log(res)),
-      map((availabilities: Availability[]) => AvailabilityService.sortAvailabilities(availabilities)),
-    );
   }
 
   public getByFormation(formation: Formation): Observable<Availability[]> {

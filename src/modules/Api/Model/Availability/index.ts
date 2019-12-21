@@ -19,15 +19,13 @@ formationService.repository.relationManager.childrenListDefinitions.push({
   listConstructor: PeriodList,
 } as ChildrenListDefinition<Formation, Availability>);
 
-/**
- * Return combine Formation.vacations$ end globalVacations$
- * WRAPPED IN A FUNCTION TO AVOID DIRECT CALL ON CONSTRUCTION
- */
+
 formationService.repository.relationManager.finalizeFunctions.push(
   (formation) => {
     formation.allVacations$ = combineLatest([formation.vacations$, availabilityService.globalVacations$]).pipe(
       auditTime(10),
       map((vacationsArray: Availability[][]) => vacationsArray.flat()),
+      availabilityService.defaultSort(),
       shareReplay(1),
     );
   },

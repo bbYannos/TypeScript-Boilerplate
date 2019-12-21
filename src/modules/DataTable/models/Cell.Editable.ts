@@ -1,5 +1,5 @@
 import $ from "jquery";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {map, share, tap} from "rxjs/operators";
 import {Cell} from "./Cell";
 import {Column} from "./Column";
@@ -46,29 +46,11 @@ export class EditableCell extends Cell {
         share(),
       );
     }
-
-
-    /*
-    if (input !== null) {
-      cellUpdated$ = input.appendTo$(this.$td).pipe(
-        map(({dirty: dirty, value: value}: {dirty: boolean, value: any}) => {
-          this.$td.removeClass("to_edit");
-          if (dirty) {
-            // Warning : DataTable updates object value and launch list updates !
-            this.updateDisplayedValue(value);
-          }
-          return {dirty: dirty, cellClick: this, keyPressed: input.keyPressed};
-        }),
-        share(),
-      );
-    } else {
-      // no input: direct update value
-      const value = !this.object[this.property];
-      this.$td.removeClass("to_edit");
-      this.updateDisplayedValue(value);
-      cellUpdated$ = of({dirty: true, cellClick: this});
-    }
-    return cellUpdated$;*/
+    // Direct click
+    const value = !this.object[this.property];
+    this.$td.removeClass("to_edit");
+    this.updateDisplayedValue(value);
+    return of({dirty: true, cell: this, action: null});
   }
 
   protected get editable(): boolean {
