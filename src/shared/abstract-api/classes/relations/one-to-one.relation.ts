@@ -41,7 +41,7 @@ export class OneToOneRelation<T extends AbstractApiModel, U extends AbstractApiM
   // Function called after json -> object
   // Fetch foreign objects for the new created object
   public fetchForeign$(object: T, json: any = null) {
-    this.log("RELATION FETCH FOREIGN START TO POPULATE " + this.service.name + " IN " + object.constructorName + " " + object.identifier);
+    this.log("RELATION FETCH FOREIGN START TO POPULATE " + this.getServiceForForeign(object).name + " IN " + object.constructorName + " " + object.identifier);
     const foreignJson = this.getForeignJson(json);
     if (foreignJson !== null) {
       this.log("Foreign Json Found : ");
@@ -102,5 +102,4 @@ export class OneToOneRelation<T extends AbstractApiModel, U extends AbstractApiM
     }
     return property;
   }
-
 }

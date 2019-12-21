@@ -7,11 +7,11 @@ import {DataTableExpandable} from "./DataTable.Expandable";
 import {closeAction} from "./Inputs/input.component";
 
 export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpandable<T> {
+  public propertiesUpdatingList: Array<keyof T> = [];
   protected lastEdited: { col: number, row: T, action: closeAction } = null;
   protected currentObjects: T[] = null;
   protected goNext_: Subject<void> = new Subject();
   protected goNextSub: Subscription = null;
-  protected propertiesUpdatingList: Array<keyof T> = [];
 
   public highlight(object: T) {
     const cell = this.getObjectCell(object);

@@ -10,5 +10,5 @@ Vue.use(CardPlugin);
 @WithRender
 @Component
 export class InfosLayout extends Vue {
-
+  public vacationList$ = () =>  from(import(/* webpackChunkName: "admin" */ "./vacation.list"));
 }

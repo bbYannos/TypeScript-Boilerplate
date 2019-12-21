@@ -19,8 +19,8 @@ export class PeriodToGenericParentRelation<T extends PeriodWithGenericParent, U 
 
   public listenObject(object: T) {
     super.listenObject(object);
-    this.listen(object, "duration", this.updateParent);
-    this.listen(object, "startTime", this.updateParent);
+    this.listen(object, "duration", (_object) => this.updateParent(_object));
+    this.listen(object, "startTime", (_object) => this.updateParent(_object));
   }
 
   public unListenObject(object: T) {

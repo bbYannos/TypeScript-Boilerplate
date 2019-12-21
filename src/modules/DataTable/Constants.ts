@@ -73,13 +73,14 @@ export const COLUMNS = {
     width: "10px",
   },
   IDENTIFIER: {name: "identifier", data: "identifier", visible: false},
-  CHECK_BOX: {
+  CHECK_BOX: (title: string, propertyName: string) => ({
+    title: title, data: propertyName,
     name: "checkBox", orderable: false, width: "40px", className: "align-center",
     render: (data, type, row) => {
       const icon = (data) ? IconsService.glopIcon : IconsService.notGlopIcon;
       return IconsService.nullLink(icon, "", row.readOnly);
     },
-  },
+  }),
   MAIL: (title: string, propertyName: string) => {
     return {
       title: title, data: propertyName,

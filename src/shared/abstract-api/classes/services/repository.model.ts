@@ -11,6 +11,7 @@ import {ChildrenListDefinition} from "../relations/children-list.definition";
 export interface RelationManagerInterface<T extends AbstractApiModel> {
   debug: boolean;
   childrenListDefinitions: Array<ChildrenListDefinition<T, any>>;
+  finalizeFunctions: Array<(object: T, json) => void>;
   manageForeignRelations(object: T, json: any): void;
   rollbackForeignRelations(object: T): void;
   fetchForeign$(object: T, json: any): Observable<T>;

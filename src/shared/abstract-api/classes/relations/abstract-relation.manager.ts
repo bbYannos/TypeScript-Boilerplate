@@ -21,6 +21,7 @@ import {OneToOneRelation} from "./index";
 export class RelationManager<T extends AbstractApiModel> extends Debuggable implements RelationManagerInterface<T> {
   public childrenListDefinitions: Array<ChildrenListDefinition<T, any>> = [];
   public oneToOneRelations: Array<OneToOneRelation<T, any>> = [];
+  public finalizeFunctions: Array<(object: T, json) => void> = [];
 
   constructor(
     protected service: AbstractRepositoryService<T>,
@@ -47,6 +48,7 @@ export class RelationManager<T extends AbstractApiModel> extends Debuggable impl
       }
     });
     this.manageChildrenLists(object, json);
+    this.finalize(object, json);
     return object;
   }
 
@@ -82,6 +84,12 @@ export class RelationManager<T extends AbstractApiModel> extends Debuggable impl
         );
       }),
     );
+  }
+
+  protected finalize(object: T, json: any) {
+    this.finalizeFunctions.forEach((func) => {
+      func(object, json);
+    });
   }
 
   protected manageChildrenLists(object: T, json: any) {
