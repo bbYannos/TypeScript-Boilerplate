@@ -11,6 +11,7 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
   protected currentObjects: T[] = null;
   protected goNext_: Subject<void> = new Subject();
   protected goNextSub: Subscription = null;
+  protected propertiesUpdatingList: Array<keyof T> = [];
 
   public highlight(object: T) {
     const cell = this.getObjectCell(object);
@@ -94,7 +95,11 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
       cellUpdated$.subscribe((data: { dirty: boolean, cell: EditableCell, action: closeAction }) => {
         this.lastEdited = {col: data.cell.colIndex, row: data.cell.object, action: data.action};
         if (data.dirty) {
-          this.updateAction(cell.object).subscribe();
+          this.updateAction(cell.object).subscribe(() => {
+            if (this.propertiesUpdatingList.indexOf(cell.property as keyof T) === -1) {
+              this.goNext_.next();
+            }
+          });
         } else {
           this.goNext_.next();
         }

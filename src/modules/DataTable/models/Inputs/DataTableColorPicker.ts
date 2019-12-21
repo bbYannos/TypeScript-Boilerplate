@@ -1,12 +1,10 @@
 import {Subject, timer} from "rxjs";
 import "shared/colorpicker";
-import {ColorComponent} from "./color.component";
 import "./color.css";
 import {closeAction} from "./input.component";
 
 export class DataTableColorPicker {
   public close_: Subject<{ dirty: boolean, value: string, action: closeAction }> = new Subject<{dirty: boolean, value: string, action: closeAction}>();
-  protected input = new ColorComponent();
   protected value: string = null;
   protected $td: JQuery<HTMLElement> = null;
   public get close$() {
