@@ -37,7 +37,7 @@ export class EventMapper {
     };
   }
 
-  public static eventToObject(event): EventInterface {
+  public static eventToObject<T extends EventInterface>(event): T {
     return event.extendedProps.apiObject;
   }
 

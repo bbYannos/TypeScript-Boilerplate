@@ -36,17 +36,17 @@ export class EditableCell extends Cell {
 
       return input.close$.pipe(
         tap(() => this.$td.removeClass("to_edit")),
-        map(({dirty: dirty, value: value, action: action}) => {
+        map(({dirty: dirty, value: _value, action: action}) => {
           if (dirty) {
             // Warning : DataTable updates object value
-            this.updateDisplayedValue(value);
+            this.updateDisplayedValue(_value);
           }
           return {dirty: dirty, cell: this, action: action};
         }),
         share(),
       );
     }
-    // Direct click
+    // Direct click on-off
     const value = !this.object[this.property];
     this.$td.removeClass("to_edit");
     this.updateDisplayedValue(value);

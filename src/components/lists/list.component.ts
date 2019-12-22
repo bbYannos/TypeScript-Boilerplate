@@ -1,6 +1,6 @@
 import {Column, DataTableEditable} from "modules/DataTable/module";
 import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
-import {switchMap, takeUntil} from "rxjs/operators";
+import {switchMap, takeUntil, tap} from "rxjs/operators";
 import {AbstractApiModel} from "shared/abstract-api/classes/models";
 import {AbstractRepositoryService} from "shared/abstract-api/classes/services";
 import Router from "vue-router";
@@ -47,17 +47,21 @@ export class ListComponent<T extends AbstractApiModel> {
   }
 
   public get dataSource$(): Observable<T[]> {
-    if (this._dataSource$ !== null) {
-      return this._dataSource$;
+    let dataSource$ = this._dataSource$;
+    if (dataSource$ === null && this.service !== null) {
+      dataSource$ = (this.service as any).fetchAll$;
     }
-    if (this.service !== null) {
-      return (this.service as any).fetchAll$;
+    if (dataSource$ === null) {
+      dataSource$ = of([]);
     }
-    return of([]);
+    return dataSource$.pipe(
+      takeUntil(this.close$),
+      tap(() => this.loading_.next(false)),
+    );
   }
 
   public set dataSource$(dataSource$) {
-    this._dataSource$ = dataSource$.pipe(takeUntil(this.close$));
+    this._dataSource$ = dataSource$;
   }
 
   protected get dataTable(): DataTableEditable<T> {

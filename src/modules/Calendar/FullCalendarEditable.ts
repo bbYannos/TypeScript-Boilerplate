@@ -1,49 +1,69 @@
 import {OptionsInput} from "@fullcalendar/core/types/input-types";
-import _ from "lodash";
+import {Observable} from "rxjs";
 import moment from "shared/moment";
-import {IconsUtils} from "../../shared/utils/icons.utils";
+import {IconsUtils} from "shared/utils/icons.utils";
 import {EventMapper} from "./EventMapper";
 import {FullCalendar} from "./FullCalendar";
 import {EventInterface} from "./Interface/Event.Interface";
 
-export class EditableFullCalendar extends FullCalendar {
+export class EditableFullCalendar<T extends EventInterface> extends FullCalendar<T> {
+  public editAction: (object: T) => void = null;
   protected constructorName = "EditableFullCalendar";
 
-  protected get calendarParams(): OptionsInput {
+  protected getCalendarParams(): OptionsInput {
     // tslint:disable-next-line
-    return Object.assign(super.calendarParams, {
+    return {
       defaultView: "timeGridWeek",
       header: {left: "", center: "", right: ""},
       selectable: true,
       editable: true,
       columnHeaderText: (date) => moment(date).format("dddd"),
-      // minTime:  APP_CONST.SCHEDULE.OPENING.format(TIME_FULL_CALENDAR),
-      // maxTime:  APP_CONST.SCHEDULE.CLOSING.format(TIME_FULL_CALENDAR),
       select: (args) => {
-        this.createEvent(moment(args.start), moment(args.end));
+        this.createAction(moment(args.start), moment(args.end)).subscribe();
       },
       eventRender: (info) => this.eventAfterRender(info),
       eventResize: (data: any) => {
-        const object: EventInterface = EventMapper.eventToObject(data.event);
+        const object = EventMapper.eventToObject<T>(data.event);
         if (data.startDelta.milliseconds) {
           object.moveStartTime(data.startDelta.milliseconds);
         }
         if (data.endDelta.milliseconds) {
           object.moveEndTime(data.endDelta.milliseconds);
         }
-        this.service.update(object).subscribe();
+        this.updateAction(object).subscribe();
       },
       eventDrop: (data: any) => {
-        const object: EventInterface = data.event.extendedProps.apiObject;
+        const object = EventMapper.eventToObject<T>(data.event);
         object.startTime = moment(data.event.start);
-        this.service.update(object).subscribe();
+        this.updateAction(object).subscribe();
       },
-    });
+    };
+  }
+
+  public render(calendarParams: OptionsInput = {}) {
+    super.render({...this.getCalendarParams(), ...calendarParams});
+  }
+
+  public createAction(startTime: moment.Moment, endTime: moment.Moment): Observable<T> {
+    if (this.service !== null && this.query !== null) {
+      this.query.startTime = startTime;
+      this.query.endTime = endTime;
+      return this.service.createByQuery(this.query);
+    }
+    return null;
+  }
+
+  public deleteAction(object: T): Observable<boolean> {
+    return (this.service !== null) ? this.service.delete(object) : null;
+  }
+
+  public updateAction(object: T): Observable<T> {
+    return (this.service !== null) ? this.service.update(object) : null;
   }
 
   protected addDeleteIcon(data: any) {
     const html: HTMLElement = data.el;
-    const object: EventInterface = FullCalendar.eventToObject(data.event);
+    const object = EventMapper.eventToObject<T>(data.event);
     const $body = html.querySelector(".fc-content");
     const $deleteLink = document.createElement("div");
     $deleteLink.classList.add("fc-delete");
@@ -53,20 +73,12 @@ export class EditableFullCalendar extends FullCalendar {
       e.preventDefault();
       e.stopPropagation();
       data.event.remove();
-      this.service.delete(object).subscribe();
+      this.deleteAction(object).subscribe();
     });
   }
 
   protected eventAfterRender(data) {
     this.addDeleteIcon(data);
-  }
-
-  protected createEvent(startTime: moment.Moment, endTime: moment.Moment) {
-    const query = _.clone(this.query);
-    query.startTime = startTime;
-    query.endTime = endTime;
-    const response = this.service.createByQuery(query);
-    response.subscribe();
   }
 }
 

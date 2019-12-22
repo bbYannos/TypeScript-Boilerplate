@@ -6,7 +6,7 @@ import {Formation} from "modules/Api/Model/Formation";
 import {COLUMNS, DATE_FORMAT, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
 import {switchMap, takeUntil, tap} from "rxjs/operators";
-import {Store} from "./_store";
+import {Store} from "../_store";
 
 export class VacationList extends ListComponent<Availability> {
   public data = {
@@ -35,7 +35,6 @@ export class VacationList extends ListComponent<Availability> {
         this.query.setParentAndClass(formation);
       }),
       switchMap((formation) => formation.allVacations$),
-      tap(() => this.loading_.next(false)),
     );
     this.createAction = () => Api.availabilityService.createByQuery(this.query);
 

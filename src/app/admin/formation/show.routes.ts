@@ -1,6 +1,6 @@
 import {RouteConfig} from "vue-router";
-import {InfosLayout} from "./infos.layout";
-import {TrainingsLayout} from "./trainings.layout";
+import {InfosLayout} from "./infos/infos.layout";
+import {TrainingsLayout} from "./trainings/trainings.layout";
 
 const Foo = {template: "<h1>{{$route.name}}</h1>"};
 export const formationRoutes: RouteConfig[] = [{

@@ -2,21 +2,21 @@
     <b-tabs>
         <b-tab title="Dates et heures" active>
             <b-card>
-
+                <formation-form />
             </b-card>
         </b-tab>
-        <b-tab title="Cours Hebdomadaires">
-            <b-card>
-
+        <b-tab title="Cours Hebdomadaires" lazy>
+            <b-card class="card-rounded">
+                <calendar-w :component$="weekCalendar$" />
             </b-card>
         </b-tab>
         <b-tab title="Périodes off" lazy>
             <b-card class="card-rounded">
                 <list-w :component$="vacationList$" />
             </b-card>
-            <b-card class="mt-3 card-rounded"  header="Calendrier prévisionnel">
-                <calendar-w :component$="provisionalCalendar$" />
-            </b-card>
         </b-tab>
     </b-tabs>
+    <b-card class="mt-3 card-rounded"  header="Calendrier prévisionnel">
+        <calendar-w :component$="provisionalCalendar$" />
+    </b-card>
 </div>

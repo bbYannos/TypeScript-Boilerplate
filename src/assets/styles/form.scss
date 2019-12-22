@@ -1,0 +1,19 @@
+@import "vars.scss";
+.editableValue {
+  cursor: pointer;
+  display: block;
+  min-width: 50px;
+  position: relative;
+  font-size: 12px;
+  padding: 10px 10px 10px 12px;
+  line-height: 1.0;
+  border: 1px solid $main-color;
+}
+.editableValue .dataTable-input {
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  border: none;
+}
+

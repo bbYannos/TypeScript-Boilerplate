@@ -5,7 +5,7 @@ import {Training, TrainingQuery} from "modules/Api/Model/Training/Training.Servi
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
 import {switchMap, tap} from "rxjs/operators";
-import {Store} from "./_store";
+import {Store} from "../_store";
 
 // noinspection JSUnusedGlobalSymbols
 export class TrainingList extends ListComponent<Training> {
@@ -52,7 +52,6 @@ export class TrainingList extends ListComponent<Training> {
         this.query.formation = formation;
       }),
       switchMap((formation) => formation.trainings$),
-      tap(() => this.loading_.next(false)),
     );
     this.createAction = () => Api.trainingService.createByQuery(this.query);
     super.render();

@@ -6,15 +6,15 @@ import momentPlugin from "@fullcalendar/moment";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import {Observable, of, Subject, Subscription} from "rxjs";
 import {auditTime, map, shareReplay, switchMap, take, takeUntil, tap} from "rxjs/operators";
-
 import {ObjectUtils} from "shared/utils/object.utils";
 import {TIME_FORMAT} from "./Constants";
 import {EventInterface} from "./Interface/Event.Interface";
 import {EventSourceInterface} from "./Interface/EventSource.Interface";
 
-export class FullCalendar {
+
+export class FullCalendar<T extends EventInterface> {
   public calendar: Calendar = null;
-  public service: EventSourceInterface<EventInterface> = null;
+  public service: EventSourceInterface<T> = null;
   public query: any = null;
   public $htmEl: HTMLElement;
 

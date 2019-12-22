@@ -37,7 +37,6 @@ export class ModuleList extends ListComponent<Module> {
         this.query.formation = formation;
       }),
       switchMap((formation) => formation.modules$),
-      tap(() => this.loading_.next(false)),
     );
     this.createAction = () => Api.moduleService.createByQuery(this.query);
     super.render();
