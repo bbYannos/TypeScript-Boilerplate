@@ -5,15 +5,16 @@ import {AvailabilityQuery} from "modules/Api/Model/Availability/Availability.Ser
 import {Formation} from "modules/Api/Model/Formation";
 import {COLUMNS, DATE_FORMAT, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
-import {takeUntil} from "rxjs/operators";
+import {switchMap, takeUntil, tap} from "rxjs/operators";
 import {Store} from "./_store";
 
 export class VacationList extends ListComponent<Availability> {
   public data = {
     addButtonDisplayed: true,
   };
-  protected formation: Formation = null;
   protected service = Api.availabilityService;
+  protected query = new AvailabilityQuery();
+
   protected columns = [
     new Column(COLUMNS.LABEL("Titre", "label"), EDITABLE_TYPES.textInput),
     new Column(COLUMNS.DATE_TIME("Deb.", "startTime", DATE_FORMAT), EDITABLE_TYPES.dateInput),
@@ -23,16 +24,23 @@ export class VacationList extends ListComponent<Availability> {
   ];
 
   public render() {
-    Store.formation_.pipe(takeUntil(this.close$)).subscribe((formation: Formation) => {
-      this.formation = formation;
-      const query = new AvailabilityQuery();
-      query.setParentAndClass(formation);
-      query.open = false;
-      this.dataSource$ = formation.allVacations$;
-      this.createAction = () => Api.availabilityService.createByQuery(query);
-      super.render();
-      this._dataTable.propertiesUpdatingList = ["label", "startTime", "endTime", "global"];
-    });
+    this.dataSource$ = Store.formation_.pipe(
+      tap((formation: Formation) => {
+        // avoid highlight of all rows
+        if (this._dataTable) {
+          this._dataTable.currentObjects = null;
+        }
+        this.loading_.next(true);
+        this.query.open = false;
+        this.query.setParentAndClass(formation);
+      }),
+      switchMap((formation) => formation.allVacations$),
+      tap(() => this.loading_.next(false)),
+    );
+    this.createAction = () => Api.availabilityService.createByQuery(this.query);
+
+    super.render();
+    this._dataTable.propertiesUpdatingList = ["label", "startTime", "endTime", "global"];
   }
 }
 

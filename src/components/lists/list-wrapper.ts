@@ -1,21 +1,24 @@
 import {Observable, Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import Router from "vue-router";
+import {LoaderComponent} from "../loader";
 import WithRender from "./list-wrapper.html";
 
 interface ComponentInterface {
   data: any;
   $router: Router;
   close$: Observable<any>;
+  loading_: Observable<boolean>;
   add$: Observable<any>;
   $htmEl: HTMLElement;
   render(): void;
 }
 
 @WithRender
-@Component
+@Component({components: {LoaderComponent}})
 export class ListWrapper extends Vue {
   public $refs: { target?: HTMLElement } = {};
   public data: {
@@ -37,6 +40,7 @@ export class ListWrapper extends Vue {
     this.component$().subscribe(({default: _Component}) => {
       const component = new _Component();
       this.data = {...this.data, ...component.data};
+      component.loading_.pipe(takeUntil(this.close_)).subscribe((loading: boolean) => this.data.loading = loading);
       component.$htmEl = this.$refs.target;
       component.$router = this.$router;
       component.close$ = this.close_.asObservable();

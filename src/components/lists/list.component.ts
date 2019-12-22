@@ -1,5 +1,5 @@
 import {Column, DataTableEditable} from "modules/DataTable/module";
-import {Observable, of, Subscription} from "rxjs";
+import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
 import {switchMap, takeUntil} from "rxjs/operators";
 import {AbstractApiModel} from "shared/abstract-api/classes/models";
 import {AbstractRepositoryService} from "shared/abstract-api/classes/services";
@@ -25,6 +25,8 @@ export class ListComponent<T extends AbstractApiModel> {
   public close$: Observable<any>;
   public add$: Observable<any>;
   public $router: Router;
+
+  public loading_: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   protected add$ub: Subscription = null;
   protected overrideOptions: DataTables.Settings = {};
@@ -55,7 +57,7 @@ export class ListComponent<T extends AbstractApiModel> {
   }
 
   public set dataSource$(dataSource$) {
-    this._dataSource$ = dataSource$;
+    this._dataSource$ = dataSource$.pipe(takeUntil(this.close$));
   }
 
   protected get dataTable(): DataTableEditable<T> {

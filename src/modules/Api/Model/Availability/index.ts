@@ -22,12 +22,16 @@ formationService.repository.relationManager.childrenListDefinitions.push({
 
 formationService.repository.relationManager.finalizeFunctions.push(
   (formation) => {
-    formation.allVacations$ = combineLatest([formation.vacations$, availabilityService.globalVacations$]).pipe(
-      auditTime(10),
-      map((vacationsArray: Availability[][]) => vacationsArray.flat()),
-      availabilityService.defaultSort(),
-      shareReplay(1),
-    );
+    const property = "allVacations$";
+    const value = () => {
+      return combineLatest([formation.vacations$, availabilityService.globalVacations$]).pipe(
+        auditTime(10),
+        map((vacationsArray: Availability[][]) => vacationsArray.flat()),
+        availabilityService.defaultSort(),
+        shareReplay(1),
+      );
+    };
+    Object.defineProperty(formation, property, {get: value});
   },
 );
 

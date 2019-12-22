@@ -4,7 +4,7 @@ import {Formation} from "modules/Api/Model/Formation";
 import {Module, ModuleQuery} from "modules/Api/Model/Module";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
-import {takeUntil} from "rxjs/operators";
+import {switchMap, tap} from "rxjs/operators";
 import {Store} from "./_store";
 
 // noinspection JSUnusedGlobalSymbols
@@ -17,26 +17,30 @@ export class ModuleList extends ListComponent<Module> {
 
   protected formation: Formation = null;
   protected service = Api.moduleService;
+  protected query = new ModuleQuery();
 
-  protected getColumns() {
-    return [
-      new Column(COLUMNS.LABEL("Intitulé", "label"), EDITABLE_TYPES.textInput),
-      new Column(COLUMNS.NUMBER("Coeff.", "coefficient"), EDITABLE_TYPES.numberInput),
-      new Column(COLUMNS.COLOR("color"), EDITABLE_TYPES.colorPicker),
-      new Column(COLUMNS.DELETE),
-    ];
-  }
+  protected columns = [
+    new Column(COLUMNS.LABEL("Intitulé", "label"), EDITABLE_TYPES.textInput),
+    new Column(COLUMNS.NUMBER("Coeff.", "coefficient"), EDITABLE_TYPES.numberInput),
+    new Column(COLUMNS.COLOR("color"), EDITABLE_TYPES.colorPicker),
+    new Column(COLUMNS.DELETE),
+  ];
 
   public render() {
-    Store.formation_.pipe(takeUntil(this.close$)).subscribe((formation: Formation) => {
-      this.formation = formation;
-      this.columns = this.getColumns();
-      const query = new ModuleQuery();
-      query.formation = formation;
-      this.dataSource$ = formation.modules$;
-      this.createAction = () => Api.moduleService.createByQuery(query);
-      super.render();
-    });
+    this.dataSource$ = Store.formation_.pipe(
+      tap((formation: Formation) => {
+        // avoid highlight of all rows
+        if (this._dataTable) {
+          this._dataTable.currentObjects = null;
+        }
+        this.loading_.next(true);
+        this.query.formation = formation;
+      }),
+      switchMap((formation) => formation.modules$),
+      tap(() => this.loading_.next(false)),
+    );
+    this.createAction = () => Api.moduleService.createByQuery(this.query);
+    super.render();
   }
 }
 

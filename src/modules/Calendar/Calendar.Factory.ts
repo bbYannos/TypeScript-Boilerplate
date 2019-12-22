@@ -5,6 +5,8 @@ import {Trainee} from "modules/Api/Model/Trainee/Trainee.Model";
 import {combineLatest, Observable, of} from "rxjs";
 import {auditTime, map} from "rxjs/operators";
 import moment from "shared/moment";
+import {ObjectUtils} from "../../shared/utils/object.utils";
+import {Formation, FormationService} from "../Api/Model/Formation";
 import {TIME_FULL_CALENDAR} from "./Constants";
 import {EventMapper, EventMapperOptions} from "./EventMapper";
 
@@ -131,6 +133,37 @@ export class CalendarFactory {
       defaultDate: defaultStartTime.toDate(),
       minTime: trainee.formation.hourMin.format(TIME_FULL_CALENDAR),
       maxTime: trainee.formation.hourMax.format(TIME_FULL_CALENDAR),
+      validRange: {
+        start: validRangeStartTime.toDate(),
+        end: validRangeEndTime.toDate(),
+      },
+    };
+  }
+
+  public static getCalendarRangeForFormation(formation: Formation, formationService: FormationService): OptionsInput {
+    let validRangeStartTime = (ObjectUtils.isValidMoment(formation.startTime)) ? formation.startTime : null;
+    let validRangeEndTime = (ObjectUtils.isValidMoment(formation.endTime)) ? formation.endTime : null;
+    const todayTime = moment();
+    let defaultStartTime = todayTime.clone();
+
+    if (validRangeStartTime !== null) {
+      if (validRangeStartTime.isAfter(todayTime)) {
+        defaultStartTime = validRangeStartTime.clone();
+      }
+    } else {
+      validRangeStartTime = defaultStartTime.clone();
+    }
+    if (validRangeEndTime === null) {
+      validRangeEndTime = validRangeStartTime.clone().add(1, "week");
+    }
+
+    const hourMin = (formation.hourMin) || formationService.hourMin;
+    const hourMax = (formation.hourMax) || formationService.hourMax;
+
+    return {
+      defaultDate: defaultStartTime.toDate(),
+      minTime: hourMin.format(TIME_FULL_CALENDAR),
+      maxTime: hourMax.format(TIME_FULL_CALENDAR),
       validRange: {
         start: validRangeStartTime.toDate(),
         end: validRangeEndTime.toDate(),

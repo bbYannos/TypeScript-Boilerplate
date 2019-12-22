@@ -22,7 +22,7 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
       if (childrenList) {
         childrenList.list.delete(object);
       } else {
-        console.error(object.constructorName + " " + this.property + " " + this.service.name);
+        // console.error(object.constructorName + " " + this.property + " " + this.service.name);
       }
     }
     if (newParent !== null) {

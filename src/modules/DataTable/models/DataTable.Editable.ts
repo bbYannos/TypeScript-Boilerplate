@@ -8,8 +8,9 @@ import {closeAction} from "./Inputs/input.component";
 
 export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpandable<T> {
   public propertiesUpdatingList: Array<keyof T> = [];
+  // list used to detected newly created objects after source update
+  public currentObjects: T[] = null;
   protected lastEdited: { col: number, row: T, action: closeAction } = null;
-  protected currentObjects: T[] = null;
   protected goNext_: Subject<void> = new Subject();
   protected goNextSub: Subscription = null;
 

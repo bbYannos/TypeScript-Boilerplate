@@ -1,16 +1,18 @@
 <div class="row">
-    <div class="col-12">
+    <div class="col-12" v-show="data.loading">
+        <loader-c/>
+    </div>
+    <div class="col-12" v-show="!data.loading">
         <div class="row">
             <div class="col-md-12">
-                <button v-if="data.addButtonDisplayed" type="button" class="btn btn-secondary btn-rounded btn-fw pull-right" @click="add_.next()">
+                <button v-if="data.addButtonDisplayed" type="button"
+                        class="btn btn-secondary btn-rounded btn-fw pull-right" @click="add_.next()">
                     <i class="mdi mdi-plus"></i> {{ data.addButtonLabel }}
                 </button>
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                <div class="col-md-12" ref="target"></div>
-            </div>
+            <div class="col-12" ref="target"></div>
         </div>
     </div>
 </div>
