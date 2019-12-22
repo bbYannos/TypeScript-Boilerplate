@@ -13,6 +13,7 @@ export class DataTableBase<T> {
   public close$: Observable<void> = null;
   public $htmEl: HTMLElement = null;
   public cssClasses = "table table-striped ";
+  public overrideOptions: DataTables.Settings = {};
 
   protected options: DataTables.Settings = {
     info: false,
@@ -25,7 +26,7 @@ export class DataTableBase<T> {
   };
   protected columnsCollection: ColumnsCollection;
 
-  protected overrideOptions: DataTables.Settings = {};
+
   protected _dataSource$ub: Subscription = null;
   protected dataTableApi: DataTables.Api = null;
   protected $table: JQuery<HTMLElement>;
@@ -50,8 +51,8 @@ export class DataTableBase<T> {
     this.$htmEl.innerHTML = '<table class="' + this.cssClasses + '" width="100%"></table>';
     this.$table = $(this.$htmEl).find(" > table");
     if (this.$table) {
-      this.options.columns = this.columnsCollection.columns.map((column: Column) => column.display);
       this.options = {...this.options, ...this.overrideOptions};
+      this.options.columns = this.columnsCollection.columns.map((column: Column) => column.display);
       this.options.language = language.fr;
       this.$table.addClass("display");
       this.dataTableApi = this.$table.DataTable(this.options);

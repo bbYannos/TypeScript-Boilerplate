@@ -1,7 +1,7 @@
 import Router, {RouteConfig} from "vue-router";
 import {formationsRoute} from "./formation/_routes";
-import {speakersRoute} from "./speaker/routes";
-import {traineesRoute} from "./trainee/route";
+import {speakersRoute} from "./speaker/_routes";
+import {traineesRoute} from "./trainee/_routes";
 
 const Foo = {template: `<div class="foo"><h1>foo</h1></div>`};
 

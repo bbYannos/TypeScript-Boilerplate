@@ -5,6 +5,7 @@ import {Training, TrainingQuery} from "modules/Api/Model/Training/Training.Servi
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
 import {switchMap, tap} from "rxjs/operators";
+import {Speaker} from "../../../../modules/Api/Model/Speaker";
 import {Store} from "../../_store";
 
 // noinspection JSUnusedGlobalSymbols
@@ -21,20 +22,12 @@ export class TrainingList extends ListComponent<Training> {
   protected columns = [
     new Column(COLUMNS.LABEL("Intitulé", "label"), EDITABLE_TYPES.textInput),
     new Column({
-      title: "Intervenant", data: "speaker", render: (speaker) => {
-        return (speaker !== null) ? speaker.label : "";
+      title: "Formation", data: "formation", render: (formation) => {
+        return (formation !== null) ? formation.label : "";
       },
     }, EDITABLE_TYPES.select, {
-      options$: Api.speakerService.fetchAll$,
-      emptyLabel: "-- intervenant --",
-    }),
-    new Column({
-      title: "Module", data: "module", render: (module) => {
-        return (module !== null) ? module.label : "";
-      },
-    }, EDITABLE_TYPES.select, {
-      options$: Store.formation_.pipe(switchMap((formation) => formation.modules$)),
-      emptyLabel: "-- module --",
+      options$: Api.formationService.fetchAll$,
+      emptyLabel: "-- formation --",
     }),
     new Column(COLUMNS.TIME("Durée", "duration"), EDITABLE_TYPES.durationInput),
     new Column(COLUMNS.COLOR("color"), EDITABLE_TYPES.colorPicker),
@@ -42,16 +35,16 @@ export class TrainingList extends ListComponent<Training> {
   ];
 
   public render() {
-    this.dataSource$ = Store.formation_.pipe(
-      tap((formation: Formation) => {
+    this.dataSource$ = Store.speaker_.pipe(
+      tap((speaker: Speaker) => {
         // avoid highlight of all rows
         if (this._dataTable) {
           this._dataTable.currentObjects = null;
         }
         this.loading_.next(true);
-        this.query.formation = formation;
+        this.query.speaker = speaker;
       }),
-      switchMap((formation) => formation.trainings$),
+      switchMap((speaker) => speaker.trainings$),
     );
     this.createAction = () => Api.trainingService.createByQuery(this.query);
     super.render();

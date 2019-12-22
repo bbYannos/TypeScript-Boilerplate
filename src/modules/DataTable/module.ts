@@ -5,7 +5,7 @@ import {ObjectUtils} from "shared/utils/object.utils";
 import {Column} from "./models/Column";
 import {DataTableBase} from "./models/DataTable.Base";
 import {DataTableEditable} from "./models/DataTable.Editable";
-import "./style.css";
+import "./style.scss";
 
 // moment columns sorting
 $.fn.dataTable.ext.order["dom-moment"] = function(settings, col) {

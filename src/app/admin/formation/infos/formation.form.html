@@ -1,32 +1,30 @@
-<b-card header=" Dates et heures de formation" class="card-rounded">
-    <div class="row" v-if="data.formation">
-        <div class="col-md-3">
-            <p><i>Date début des cours : </i>
-                <form-editable
-                        :data="{value: data.formation.startTime, type: data.EDITABLE_TYPES.dateInput}"
-                        @valueChange="update('startTime', $event)"/>
-            </p>
-        </div>
-        <div class="col-md-3">
-            <p><i>Date fin des cours : </i>
-                <form-editable
-                        :data="{value: data.formation.endTime, type: data.EDITABLE_TYPES.dateInput}"
-                        @valueChange="update('endTime', $event)"/>
-            </p>
-        </div>
-        <div class="col-md-3">
-            <p><i>Heure début de journée : </i>
-                <form-editable
-                        :data="{value: data.formation.hourMin, type: data.EDITABLE_TYPES.timeInput}"
-                        @valueChange="update('hourMin', $event)"/>
-            </p>
-        </div>
-        <div class="col-md-3">
-            <p><i>Heure fin de journée : </i>
-                <form-editable
-                        :data="{value: data.formation.hourMax, type: data.EDITABLE_TYPES.timeInput}"
-                        @valueChange="update('hourMax', $event)"/>
-            </p>
-        </div>
+<div class="row" v-if="formation">
+    <div class="col-md-3">
+        <p><i>Date début des cours : </i>
+            <form-editable
+                    :value="formation.startTime" :type="data.EDITABLE_TYPES.dateInput"
+                    @valueChange="update('startTime', $event)"/>
+        </p>
     </div>
-</b-card>
+    <div class="col-md-3">
+        <p><i>Date fin des cours : </i>
+            <form-editable
+                           :value="formation.endTime" :type="data.EDITABLE_TYPES.dateInput"
+                           @valueChange="update('endTime', $event)"/>
+        </p>
+    </div>
+    <div class="col-md-3">
+        <p><i>Heure début de journée : </i>
+            <form-editable
+                           :value="formation.hourMin" :type="data.EDITABLE_TYPES.timeInput"
+                    @valueChange="update('hourMin', $event)"/>
+        </p>
+    </div>
+    <div class="col-md-3">
+        <p><i>Heure fin de journée : </i>
+            <form-editable
+                           :value="formation.hourMax" :type="data.EDITABLE_TYPES.timeInput"
+                    @valueChange="update('hourMax', $event)"/>
+        </p>
+    </div>
+</div>

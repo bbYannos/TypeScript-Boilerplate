@@ -4,9 +4,9 @@ import {Formation} from "modules/Api/Model/Formation";
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Watch} from "vue-property-decorator";
-import {Store} from "./_store";
+import {Store} from "../_store";
+import {formationRoutes} from "./_routes.show";
 import WithRender from "./show.layout.html";
-import {formationRoutes} from "./show.routes";
 
 export {formationRoutes};
 

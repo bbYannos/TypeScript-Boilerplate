@@ -1,4 +1,4 @@
-import {CardComponent} from "components/card";
+import {CardPlugin} from "bootstrap-vue";
 import {ListWrapper} from "components/lists/list-wrapper";
 import download from "downloadjs";
 import Api from "modules/Api/Api.module";
@@ -8,9 +8,10 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import WithRender from "./list.layout.html";
 
+Vue.use(CardPlugin);
 
 @WithRender
-@Component({components: {CardComponent, ListWrapper}})
+@Component({components: {ListWrapper}})
 export class FormationsList extends Vue {
   public $refs: {
     excelBtn: HTMLElement, table: HTMLElement,

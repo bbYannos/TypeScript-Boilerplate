@@ -1,3 +1,4 @@
+import {from} from "rxjs";
 import Vue from "vue";
 import Component from "vue-class-component";
 import WithRender from "./list.layout.html";
@@ -6,5 +7,7 @@ import WithRender from "./list.layout.html";
 @Component({
   components: {},
 })
-export class SpeakersList extends Vue {}
+export class SpeakersList extends Vue {
+  public listComponent$ = () =>  from(import(/* webpackChunkName: "admin" */ "./speaker.list"));
+}
 

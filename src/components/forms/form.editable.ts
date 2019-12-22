@@ -10,14 +10,16 @@ import WithRender from "./form.editable.html";
 export class FormEditable extends Vue {
 
   @Prop({default: null})
-  public data: {
-    value: any,
-    type: number,
-  };
+  public value: any;
 
-  public displayedValue: string = "";
-  public created() {
-    this.displayedValue = EditableContentManager.getFormattedValue(this.data.value, this.data.type);
+  @Prop({default: null})
+  public type: number;
+
+  public get displayedValue(): string {
+    if (this.value !== null && this.type !== null) {
+      return EditableContentManager.getFormattedValue(this.value, this.type);
+    }
+    return null;
   }
 
   public injectInput() {
@@ -26,12 +28,10 @@ export class FormEditable extends Vue {
     }
     this.$el.classList.add("to_edit");
     const $el = $(this.$el);
-    const input = EditableContentManager.getInputByType(this.data.type);
-    input.appendTo($el, this.data.value);
+    const input = EditableContentManager.getInputByType(this.type);
+    input.appendTo($el, this.value);
     input.close$.subscribe((res) => {
       if (res.dirty) {
-        this.data.value = res.value;
-        this.displayedValue = EditableContentManager.getFormattedValue(this.data.value, this.data.type);
         this.$emit("valueChange", res.value);
       }
       this.$el.classList.remove("to_edit");

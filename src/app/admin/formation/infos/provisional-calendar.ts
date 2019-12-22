@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import moment from "shared/moment";
 import {ObjectUtils} from "shared/utils/object.utils";
-import {Store} from "../_store";
+import {Store} from "../../_store";
 
 export class ProvisionalCalendar {
   public close$: Observable<any> = null;

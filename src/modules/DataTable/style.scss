@@ -1,0 +1,458 @@
+.dataTables_wrapper th.align-center {
+    text-align: center
+}
+
+.dataTables_wrapper td {
+    position: relative;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.dataTables_wrapper td.to_edit {
+    overflow: auto;
+}
+
+.dataTables_wrapper .dataTable-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 14px;
+    padding: 0;
+    z-index: 1000;
+}
+
+.dataTables_wrapper .dataTable-input input {
+    width: 100%;
+    padding-left: 9px;
+    padding-right: 5px;
+    margin-top: 0;
+}
+
+.dataTables_wrapper .dataTable-input select {
+
+    margin-top: 0;
+}
+
+.dataTables_wrapper .dataTable-input select {
+    height: auto !important;
+    padding: 5px;
+}
+
+.dataTable .align-center a {
+    display: block;
+    text-align: center
+}
+
+.dataTables_wrapper .table th, .dataTables_wrapper  .table td {
+    padding: 10px 10px;
+}
+
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    margin-top: 8px;
+}
+
+.bootstrap-datetimepicker-widget .datepicker table.table-condensed td span {
+    float: left;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.bootstrap-datetimepicker-widget .datepicker table.table-condensed td,
+.bootstrap-datetimepicker-widget .datepicker table.table-condensed th {
+    padding: 20px;
+}
+
+.bootstrap-datetimepicker-widget .timepicker table.table-condensed td,
+.bootstrap-datetimepicker-widget .timepicker table.table-condensed th {
+    padding: 0;
+}
+
+.bootstrap-datetimepicker-widget table td.day {
+    height: 25px;
+    line-height: 25px;
+    width: 25px;
+}
+
+.bootstrap-datetimepicker-widget .datepicker table.table-condensed td[colspan="7"] {
+    padding: 0;
+}
+
+.bootstrap-datetimepicker-widget table.table-condensed td span:nth-child(4n):after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.dataTable .color-display {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.colorpicker-component.colorpicker-element {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 25px;
+}
+
+.colorpicker-component.colorpicker-element input {
+    width: 25px;
+    overflow: hidden;
+    opacity: 0.2;
+    max-width: 0;
+}
+
+.container-fluid div.dataTables_wrapper div.dataTables_filter {
+    font-size: 14px;
+    text-align: left;
+    display: inline-block;
+    position: absolute;
+    top: -32px;
+}
+
+.container-fluid div.dataTables_wrapper div.dataTables_filter input[type="search"] {
+    border: 1px solid #993d45;
+    background-color: #f2f8f9;
+    border-radius: 4px;
+    padding: 5px;
+}
+.bootstrap-datetimepicker-widget.dropdown-menu{
+    width: auto !important;
+}
+.datepicker .table th, .datepicker .table td {
+    padding: 6px !important;
+}
+
+.animate {
+    -webkit-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+}
+
+
+
+
+table.dataTable {
+    clear: both;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+    max-width: none !important;
+    border-collapse: separate !important;
+    border-spacing: 0;
+
+td,
+th {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+
+&.dataTables_empty {
+     text-align: center;
+ }
+}
+
+// Style options for the table. Foundation provides its own, but it is also
+// useful to have a few more for DataTables
+  &.nowrap {
+th,
+td {
+    white-space: nowrap;
+}
+}
+}
+
+
+// DataTables' built in feature elements
+div.dataTables_wrapper {
+div.dataTables_length {
+label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+}
+
+select {
+    width: auto;
+    display: inline-block;
+}
+}
+
+div.dataTables_filter {
+    text-align: right;
+
+label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: left;
+}
+
+input {
+    margin-left: 0.5em;
+    display: inline-block;
+    width: auto;
+}
+}
+
+div.dataTables_info {
+    padding-top: 0.85em;
+    white-space: nowrap;
+}
+
+div.dataTables_paginate {
+    margin: 0;
+    white-space: nowrap;
+    text-align: right;
+
+ul.pagination {
+    margin: 2px 0;
+    white-space: nowrap;
+    justify-content: flex-end;
+}
+}
+
+div.dataTables_processing {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    margin-left: -100px;
+    margin-top: -26px;
+    text-align: center;
+    padding: 1em 0;
+}
+}
+
+
+// Sorting - using :before and :after with UTF8 characters
+             table.dataTable thead {
+> tr > th,
+> tr > td {
+&.sorting_asc,
+&.sorting_desc,
+&.sorting {
+     padding-right: 30px;
+ }
+
+&:active {
+     outline: none;
+ }
+}
+
+.sorting,
+.sorting_asc,
+.sorting_desc,
+.sorting_asc_disabled,
+.sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+
+&:before,
+&:after {
+     position: absolute;
+     bottom: 0.9em;
+     display: block;
+     opacity: 0.3;
+ }
+
+&:before {
+     right: 1em;
+     content: "\2191"; // up arrow - ascending
+ }
+
+&:after {
+     right: 0.5em;
+     content: "\2193"; // down arrow - descending
+ }
+}
+
+.sorting_asc:before,
+.sorting_desc:after {
+    opacity: 1;
+}
+
+.sorting_asc_disabled:before,
+.sorting_desc_disabled:after {
+    opacity: 0;
+}
+}
+
+
+// Scrolling
+   div.dataTables_scrollHead table.dataTable {
+       margin-bottom: 0 !important;
+   }
+
+div.dataTables_scrollBody {
+table {
+    border-top: none;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+thead { // Hide sort icons
+           .sorting:before,
+           .sorting_asc:before,
+           .sorting_desc:before,
+           .sorting:after,
+           .sorting_asc:after,
+           .sorting_desc:after {
+               display: none;
+           }
+}
+
+tbody tr:first-child th,
+tbody tr:first-child td {
+    border-top: none;
+}
+}
+}
+
+div.dataTables_scrollFoot {
+> .dataTables_scrollFootInner {
+    box-sizing: content-box;
+
+> table {
+    margin-top: 0 !important;
+    border-top: none;
+}
+}
+}
+
+
+// Responsive
+@media screen and (max-width: 767px) {
+    div.dataTables_wrapper {
+    div.dataTables_length,
+    div.dataTables_filter,
+    div.dataTables_info,
+    div.dataTables_paginate {
+        text-align: center;
+    }
+}
+}
+
+
+//
+// Bootstrap provides a range of styling options for table's via class name
+// that we want to full support. They sometimes require some customisations
+//
+
+// Condensed
+   table.dataTable.table-sm {
+> thead > tr > th {
+    padding-right: 20px;
+}
+
+.sorting,
+.sorting_asc,
+.sorting_desc {
+&:before {
+     top: 5px;
+     right: 0.85em;
+ }
+
+&:after {
+     top: 5px;
+ }
+}
+}
+
+
+// Frustratingly the border-collapse:collapse used by Bootstrap makes the column
+// width calculations when using scrolling impossible to align columns. We have
+// to use `border-collapse: separate`
+   table.table-bordered.dataTable {
+th,
+td {
+    border-left-width: 0;
+
+&:last-child,
+&:last-child {
+     border-right-width: 0;
+ }
+}
+
+tbody th,
+tbody td {
+    border-bottom-width: 0;
+}
+}
+
+// Bordered table
+   div.dataTables_scrollHead table.table-bordered {
+       border-bottom-width: 0;
+   }
+
+// Responsive tables. We use rows inside the Bootstrap responsive wrapper,
+// so they need to have their margin and padding removed
+   div.table-responsive > div.dataTables_wrapper > div.row {
+       margin: 0;
+
+> div[class^="col-"] {
+&:first-child {
+     padding-left: 0;
+ }
+&:last-child {
+     padding-right: 0;
+ }
+}
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    float:right;
+    text-align:right;
+    padding-top:0.25em
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    box-sizing:border-box;
+    display:inline-block;
+    min-width:1.5em;
+    padding:0 0.3em;
+    margin-left:2px;
+    text-align:center;
+    text-decoration:none !important;
+    cursor:pointer;
+    *cursor:hand;
+    color:#333 !important;
+    border:1px solid transparent;
+    border-radius:2px;
+    font-size:14px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color:#333 !important;
+    border:1px solid #979797;
+    background-color:#fff;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+    cursor:default;
+    color:#666 !important;
+    border:1px solid transparent;
+    background:transparent;
+    box-shadow:none
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color:white !important;
+    border:1px solid #111;
+    background-color:#585858;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+    outline:none;
+    background-color:#2b2b2b;
+    box-shadow:inset 0 0 3px #111
+}
+.dataTables_wrapper .dataTables_paginate .ellipsis {
+    padding:0 1em
+}

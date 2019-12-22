@@ -30,6 +30,14 @@ export class ListComponent<T extends AbstractApiModel> {
 
   protected add$ub: Subscription = null;
   protected overrideOptions: DataTables.Settings = {};
+  protected defaultPagingOptions = {
+    searching: true,
+    paging: true,
+    pageLength: 20,
+    lengthChange: false,
+    pagingType: "numbers",
+  };
+
   protected service: AbstractRepositoryService<T> = null;
   protected columns: Column[] = [];
   protected _dataSource$ = null;
@@ -67,6 +75,7 @@ export class ListComponent<T extends AbstractApiModel> {
   protected get dataTable(): DataTableEditable<T> {
     if (this._dataTable === null) {
       this._dataTable = new DataTableEditable();
+      this._dataTable.overrideOptions = this.overrideOptions;
       this._dataTable.columns = this.columns;
       this._dataTable.close$ = this.close$;
       this._dataTable.$htmEl = this.$htmEl;

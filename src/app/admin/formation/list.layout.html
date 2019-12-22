@@ -1,15 +1,13 @@
-<card-c>
-    <template slot="card-header">
+<b-card>
+    <template slot="header">
         <div class="float-left mr-4">
             Formations
         </div>
         <div class="float-left">
-            <a href="javascript:" ref="excelBtn" @click="exportExcel()" >
+            <a href="javascript:" ref="excelBtn" @click="exportExcel()">
                 <i class="fa fa-file-excel-o" style="color: green" aria-hidden="true"></i>
             </a>
         </div>
     </template>
-    <template slot="card-body" >
-        <list-w :component$="listComponent$" />
-    </template>
-</card-c>
+    <list-w :component$="listComponent$"/>
+</b-card>

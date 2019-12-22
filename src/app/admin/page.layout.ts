@@ -2,8 +2,8 @@ import {MainMenu} from "components/main-menu";
 import {MenuPageLayout} from "layouts/menu-page";
 import Vue from "vue";
 import Component from "vue-class-component";
+import {adminRouter, adminRoutes} from "./_routes";
 import WithRender from "./page.layout.html";
-import {adminRouter, adminRoutes} from "./routes";
 
 @WithRender
 @Component({
