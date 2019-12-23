@@ -1,16 +1,14 @@
 <div class="col-12">
     <b-tabs>
         <b-tab title="Absences" active>
-            <b-card>
+            <b-card class="card-rounded">
                 <list-w :component$="absenceList$"/>
             </b-card>
         </b-tab>
         <b-tab title="Retards">
-            <b-card>
+            <b-card class="card-rounded">
                <list-w :component$="delayList$"/>
             </b-card>
         </b-tab>
     </b-tabs>
 </div>
-
-

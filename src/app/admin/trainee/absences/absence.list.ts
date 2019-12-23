@@ -7,12 +7,6 @@ import {Column} from "modules/DataTable/models/Column";
 import {switchMap, tap} from "rxjs/operators";
 import {Store} from "../../_store";
 
-const UNJUSTIFIED_ABSENCES = {
-  title: "Non just.", data: "trainee.unjustifiedAbsences.length",
-  render: (data) => (Number(data) < 2) ? data : '<b class="text-danger">' + data + "</b>",
-  width: "40px", className: "align-center",
-};
-
 export class AbsenceList extends ListComponent<Absence> {
   public data: {
     addButtonDisplayed: boolean,
@@ -28,12 +22,9 @@ export class AbsenceList extends ListComponent<Absence> {
     new Column(COLUMNS.DATE_TIME("Date", "startTime"), EDITABLE_TYPES.dateTimeInput),
     new Column(COLUMNS.DATE_TIME("Fin", "endTime"), EDITABLE_TYPES.dateTimeInput),
     new Column(COLUMNS.CHECK_BOX("Just.", "justified"), EDITABLE_TYPES.checkBox),
-    new Column(COLUMNS.NUMBER("Abs. total", "trainee.absences.length")),
-    new Column(UNJUSTIFIED_ABSENCES),
+    new Column({title: "Justification", data: "justification"}, EDITABLE_TYPES.textInput),
     new Column(COLUMNS.DELETE),
   ];
-
-
 
   public render() {
     this.query.delay = false;
@@ -49,7 +40,6 @@ export class AbsenceList extends ListComponent<Absence> {
       switchMap((trainee) => trainee.absences$),
     );
     super.render();
-    this._dataTable.propertiesUpdatingList = ["justified"];
   }
 }
 

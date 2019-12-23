@@ -1,13 +1,12 @@
 import Api from "modules/Api/Api.module";
 import {Formation} from "modules/Api/Model/Formation";
-import {speakerRoutes} from "../speaker/_routes.show";
 import {formationRoutes} from "./_routes.show";
 import {FormationsList} from "./list.layout";
 import {FormationShow} from "./show.layout";
 
 // Cache on sub route
-let currentRoute = speakerRoutes[0].path;
-speakerRoutes.forEach((_route) => {
+let currentRoute = formationRoutes[0].path;
+formationRoutes.forEach((_route) => {
   _route.beforeEnter = (to, from, next) => {
     currentRoute = _route.path;
     next();
