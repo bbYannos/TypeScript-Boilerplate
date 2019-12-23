@@ -1,4 +1,5 @@
 import {RouteConfig} from "vue-router";
+import {AbsencesLayout} from "./absences/absences.layout";
 
 const Foo = {template: "<h1>{{$route.name}}</h1>"};
 
@@ -9,6 +10,6 @@ export const traineeRoutes: RouteConfig[] = [{
 }, {
   path: "absences", name: "Absences",
   meta: {icon: "fa-clock-o"},
-  component: Foo,
+  component: AbsencesLayout,
 },
 ];

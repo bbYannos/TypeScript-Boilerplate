@@ -5,6 +5,10 @@ import {ChildrenListFactory} from "./children-list.factory";
 import {OneToOneRelation} from "./one-to-one.relation";
 
 export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractApiModel> extends OneToOneRelation<T, U> {
+  public watchedProperties: Array<keyof T> = [];
+  protected propPrefix = "__bby_prop__";
+  protected callBacksPrefix = "__bby_cb_func__";
+
   constructor(
     public property: keyof T = null,
     public parentProperty: keyof U = null,
@@ -12,9 +16,6 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
   ) {
     super(property, service);
   }
-
-  protected propPrefix = "__bby_prop__";
-  protected callBacksPrefix = "__bby_cb_func__";
 
   public updateOnChange(object: T, previousParent: U, newParent: U) {
     if (previousParent !== null) {
@@ -40,11 +41,24 @@ export class OneToParentRelation<T extends AbstractApiModel, U extends AbstractA
   public listenObject(object: T) {
     this.listen(object, this.property, (_object: T, previousParent: U, newParent: U) => this.updateOnChange(_object, previousParent, newParent));
     this.listen(object, "deleted", (_object: T, previousValue: boolean, newValue: boolean) => this.updateOnDelete(_object, previousValue, newValue));
+    this.watchedProperties.forEach((property: keyof T) => {
+      this.listen(object, property, (_object) => this.updateParent(_object));
+    });
   }
 
   public unListenObject(object: T) {
     this.unListen(object, this.property);
     this.unListen(object, "deleted");
+    this.watchedProperties.forEach((property: keyof T) => {
+      this.unListen(object, property);
+    });
+  }
+
+  protected updateParent(object: T) {
+    if (this.getParent(object)) {
+      this.log(this.getParent(object));
+      this.getParentList(object).emitChange();
+    }
   }
 
   protected setObjectPropertyInitialValue(object, value) {

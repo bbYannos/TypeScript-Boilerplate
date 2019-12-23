@@ -10,7 +10,6 @@ export class DataTableSelect {
   protected options$: Observable<SelectableInterface[]>;
 
   public setOptions$(options$: Observable<SelectableInterface[]>) {
-    console.log('SET OPTIONS');
     this.options$ = options$;
   }
 

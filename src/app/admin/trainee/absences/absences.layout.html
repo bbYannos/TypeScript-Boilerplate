@@ -1,0 +1,16 @@
+<div class="col-12">
+    <b-tabs>
+        <b-tab title="Absences" active>
+            <b-card>
+                <list-w :component$="absenceList$"/>
+            </b-card>
+        </b-tab>
+        <b-tab title="Retards">
+            <b-card>
+               <list-w :component$="delayList$"/>
+            </b-card>
+        </b-tab>
+    </b-tabs>
+</div>
+
+

@@ -5,7 +5,7 @@ import {Module, ModuleQuery} from "modules/Api/Model/Module";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
 import {switchMap, tap} from "rxjs/operators";
-import {Store} from "../_store";
+import {Store} from "../../_store";
 
 // noinspection JSUnusedGlobalSymbols
 export class ModuleList extends ListComponent<Module> {
@@ -15,7 +15,6 @@ export class ModuleList extends ListComponent<Module> {
     addButtonDisplayed: true,
   };
 
-  protected formation: Formation = null;
   protected service = Api.moduleService;
   protected query = new ModuleQuery();
 

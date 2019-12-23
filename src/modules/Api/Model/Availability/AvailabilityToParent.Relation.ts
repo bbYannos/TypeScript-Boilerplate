@@ -21,8 +21,8 @@ export class AvailabilityToParentRelation extends PeriodToGenericParentRelation<
     this.listen(object, "global", (_object) => this.updateParent(_object));
   }
 
-  public unListen(object: Availability, property: keyof Availability) {
-    super.unListen(object, property);
+  public unListenObject(object: Availability) {
+    super.unListenObject(object);
     super.unListen(object, "global");
   }
 }

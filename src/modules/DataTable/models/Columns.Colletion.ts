@@ -12,7 +12,7 @@ export class ColumnsCollection {
   }
 
   public cellCanBeNext(editableCellDefinition: Column) {
-    const excluded = [EDITABLE_TYPES.colorPicker];
+    const excluded = [EDITABLE_TYPES.colorPicker, EDITABLE_TYPES.checkBox];
     return (
       editableCellDefinition.type !== null &&
       editableCellDefinition.type !== -1 &&
