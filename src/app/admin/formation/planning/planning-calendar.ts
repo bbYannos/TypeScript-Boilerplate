@@ -42,7 +42,6 @@ export class PlanningCalendar {
           availableSessions$: this.speaker$.pipe(
             tap((speaker) => (speaker) ? console.log(speaker.label) : console.log(speaker)),
             switchMap((speaker: Speaker) => formation.availableSessions$(moment(info.start), moment(info.end), speaker)),
-            shareReplay(1),
           ),
         };
         return CalendarFactory.makeSessionsCalendarSource$(options);

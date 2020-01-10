@@ -105,20 +105,18 @@ export class FullCalendar<T extends EventInterface> {
     this.calendarCallback$ub = this.calendarCallback$.pipe(
       takeUntil(this.close$),
       switchMap(({info, cb}) => {
+        // console.log("calendarCallback$ub");
         return this.getAllEvents$(info).pipe(
           auditTime(50),
-          // first one for Cb / Second one to launch re fetch Events
-          // Could be Optimise by keeping results fro next re fetch
-          take(2),
+          // first one for Cb / Second one populate with results
+          // take(2),
           tap((results) => {
             if (cb !== null) {
-              // console.log('callBack Calendar', results);
-              cb(results);
+              cb([]);
               cb = null;
-            } else {
-              // console.log('getAllEvents$ reFetch Events');
-              this.calendar.refetchEvents();
             }
+            this.calendar.removeAllEvents();
+            this.calendar.addEventSource(results);
           }),
         );
       }),
