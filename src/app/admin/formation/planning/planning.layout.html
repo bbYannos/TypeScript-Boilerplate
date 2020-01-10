@@ -1,0 +1,17 @@
+<div class="col-12">
+    <b-card class="card-rounded" header="Planning Annuel">
+        <div class="row">
+            <div class="col-3">
+                <p>Cours à plannifier :</p>
+                <training-draggable-list ref="trainingList" @speaker="speaker_.next($event)"/>
+            </div>
+            <div class="col-9">
+                <calendar-w :component$="planning$" :params="{speaker$: speaker$}"/>
+            </div>
+        </div>
+    </b-card>
+</div>
+
+
+
+

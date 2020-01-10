@@ -18,6 +18,8 @@ export class CalendarWrapper extends Vue {
   public data: { loading: boolean } = {loading: true};
   @Prop({default: null})
   public component$: () => Observable<{ default: new () => ComponentInterface }>;
+  @Prop({default: null})
+  public params: any;
   protected close_: Subject<void> = new Subject<void>();
 
   // noinspection JSUnusedGlobalSymbols
@@ -28,6 +30,9 @@ export class CalendarWrapper extends Vue {
       const component = new CalendarComponent();
       component.$htmEl = this.$refs.target as HTMLElement;
       component.close$ = this.close_.asObservable();
+      for (const key in this.params) {
+        component[key] = this.params[key];
+      }
       component.render();
     });
   }

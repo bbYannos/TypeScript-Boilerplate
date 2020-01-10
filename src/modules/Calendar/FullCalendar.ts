@@ -125,7 +125,9 @@ export class FullCalendar<T extends EventInterface> {
     ).subscribe();
   }
 
-  public getAllEvents$: (...params) => Observable<any[]> = (...params) => this.source$;
+  public getAllEvents$(...params): Observable<any[]> {
+    return this.source$;
+  }
 }
 
 

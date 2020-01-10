@@ -1,0 +1,10 @@
+<div id="external-events" ref="wrapper" @mouseup="changeSpeaker(null)">
+    <div class="fc-event external" v-for="training in trainings"
+         :data-training="training.identifier"
+         :style="'background-color: ' + training.color + '; border-color: ' + training.color"
+         @mousedown="changeSpeaker(training.speaker)"
+    >
+        <span>{{ training.label }} ({{ training.remainingDuration.format('HH:mm') }})</span>
+    </div>
+    <div id="draggableContainer" ref="container"></div>
+</div>

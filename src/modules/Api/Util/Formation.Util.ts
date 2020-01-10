@@ -1,5 +1,5 @@
-import {combineLatest, Observable, of} from "rxjs";
-import {map, share, switchMap} from "rxjs/operators";
+import {forkJoin, Observable, of} from "rxjs";
+import {map, take} from "rxjs/operators";
 import moment from "shared/moment";
 import {Availability} from "../Model/Availability/Availability.Model";
 import {Formation} from "../Model/Formation/Formation.Model";
@@ -9,30 +9,25 @@ import {AvailabilityInstanceUtil} from "./AvailabilityInstance.Util";
 
 export class FormationUtil {
   public static getAvailableSessions$(formation: Formation, startTime: moment.Moment = null, endTime: moment.Moment = null, speaker: Speaker = null): Observable<Session[]> {
-    const availableSessions$ = AvailabilityInstanceUtil.getByFormationExcludingVacations$(formation, startTime, endTime).pipe(
-      // tap((session) => console.log('FormationUtil SESSIONS :', session )),
-      switchMap((availabilities: Availability[]) => {
-        if (speaker !== null) {
-          return speaker.availabilities$.pipe(
-            map((speakerAvailabilities) => AvailabilityInstanceUtil.filterAvailabilitiesForSpeaker(availabilities, speakerAvailabilities)),
-          );
-        } else {
-          return of(availabilities);
-        }
-      }),
-      map((availabilities: Availability[]) => {
-        return AvailabilityInstanceUtil.toSessions(availabilities);
-      }),
+    const speakerAvailabilities$ = (speaker !== null) ? speaker.availabilities$.pipe(take(1)) : of([]);
+    const speakerSessions$ = (speaker !== null) ? speaker.sessions$.pipe(take(1)) : of([]);
+
+    const formationAvailabilities$ = forkJoin([formation.availabilities$.pipe(take(1)), speakerAvailabilities$]).pipe(
+      map(([formationAvailabilities, speakerAvailabilities]: [Availability[], Availability[]]) =>
+        AvailabilityInstanceUtil.getCommonAvailabilities(formationAvailabilities, speakerAvailabilities),
+      ),
     );
 
-    if (speaker === null) {
-      return availableSessions$;
-    }
+    const formationSessions$ = forkJoin([formationAvailabilities$, formation.allVacations$.pipe(take(1))]).pipe(
+      map(([availabilities, vacations]: [Availability[], Availability[]]) =>
+        AvailabilityInstanceUtil.toSessions(
+          AvailabilityInstanceUtil.getInstancesExcludingVacations(availabilities, startTime, endTime, vacations)
+        ),
+      ),
+    );
 
-    /* tiens compte des cours déjà attribués */
-    return combineLatest([availableSessions$, speaker.sessions$]).pipe(
-      map(([availableSessions, speakerSessions]) => {
-        return availableSessions.filter((availableSession: Session) => {
+    return forkJoin([formationSessions$, speakerSessions$]).pipe(
+      map(([formationSessions, speakerSessions]) => formationSessions.filter((availableSession: Session) => {
           let response = true;
           speakerSessions.forEach((speakerSession: Session) => {
             if (availableSession.startTime.isBefore(speakerSession.endTime) && availableSession.endTime.isAfter(speakerSession.startTime)) {
@@ -40,9 +35,8 @@ export class FormationUtil {
             }
           });
           return response;
-        });
-      }),
-      share(),
+        }),
+      ),
     );
   }
 }

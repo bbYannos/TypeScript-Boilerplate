@@ -14,7 +14,6 @@ export class SpeakerCalendar {
   public render() {
     const planningComponent = new FullCalendar(this.close$);
     planningComponent.$htmEl = this.$htmEl as HTMLElement;
-    planningComponent.close$ = this.close$;
     const calendarParams = CalendarFactory.getCalendarRangeForSpeaker(Api.formationService);
     calendarParams.header = {left: "prev,next", center: "title", right: ""};
     calendarParams.eventRender = (info) => CalendarFactory.formatSession(info, (session: Session) => {

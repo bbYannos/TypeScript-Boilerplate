@@ -10,6 +10,27 @@ export class EditableFullCalendar<T extends EventInterface> extends FullCalendar
   public editAction: (object: T) => void = null;
   protected constructorName = "EditableFullCalendar";
 
+  public render(calendarParams: OptionsInput = {}) {
+    super.render({...this.getCalendarParams(), ...calendarParams});
+  }
+
+  public createAction(startTime: moment.Moment, endTime: moment.Moment): Observable<T> {
+    if (this.service !== null && this.query !== null) {
+      this.query.startTime = startTime;
+      this.query.endTime = endTime;
+      return this.service.createByQuery(this.query);
+    }
+    return null;
+  }
+
+  public deleteAction(object: T): Observable<boolean> {
+    return (this.service !== null) ? this.service.delete(object) : null;
+  }
+
+  public updateAction(object: T): Observable<T> {
+    return (this.service !== null) ? this.service.update(object) : null;
+  }
+
   protected getCalendarParams(): OptionsInput {
     // tslint:disable-next-line
     return {
@@ -33,32 +54,12 @@ export class EditableFullCalendar<T extends EventInterface> extends FullCalendar
         this.updateAction(object).subscribe();
       },
       eventDrop: (data: any) => {
+        console.log("Event Dropped");
         const object = EventMapper.eventToObject<T>(data.event);
         object.startTime = moment(data.event.start);
         this.updateAction(object).subscribe();
       },
     };
-  }
-
-  public render(calendarParams: OptionsInput = {}) {
-    super.render({...this.getCalendarParams(), ...calendarParams});
-  }
-
-  public createAction(startTime: moment.Moment, endTime: moment.Moment): Observable<T> {
-    if (this.service !== null && this.query !== null) {
-      this.query.startTime = startTime;
-      this.query.endTime = endTime;
-      return this.service.createByQuery(this.query);
-    }
-    return null;
-  }
-
-  public deleteAction(object: T): Observable<boolean> {
-    return (this.service !== null) ? this.service.delete(object) : null;
-  }
-
-  public updateAction(object: T): Observable<T> {
-    return (this.service !== null) ? this.service.update(object) : null;
   }
 
   protected addDeleteIcon(data: any) {
@@ -78,7 +79,9 @@ export class EditableFullCalendar<T extends EventInterface> extends FullCalendar
   }
 
   protected eventAfterRender(data) {
-    this.addDeleteIcon(data);
+    if (data.event._def.rendering !== "background") {
+      this.addDeleteIcon(data);
+    }
   }
 }
 

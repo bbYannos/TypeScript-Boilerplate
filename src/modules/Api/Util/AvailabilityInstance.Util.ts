@@ -35,16 +35,14 @@ export class AvailabilityInstanceUtil {
     );
   }
 
-  public static filterAvailabilitiesForSpeaker(availabilities: Availability[], speakerAvailabilities: Availability[]): Availability[] {
-    return availabilities.filter((availability: Availability) => {
+  public static getCommonAvailabilities(availabilities1: Availability[], availabilities2: Availability[]): Availability[] {
+    return availabilities1.filter((availability1: Availability) => {
       let available = false;
-      if (speakerAvailabilities.length === 0) {
+      if (availabilities2.length === 0) {
         return true;
       }
-      speakerAvailabilities.forEach((speakerAvailability: Availability) => {
-        const speakerAvailabilityStartTime = adjustWeekOfMomentToOtherMoment(speakerAvailability.startTime, availability.startTime);
-        const speakerAvailabilityEndTime = adjustWeekOfMomentToOtherMoment(speakerAvailability.endTime, availability.endTime);
-        if (!speakerAvailabilityStartTime.isAfter(availability.startTime) && !speakerAvailabilityEndTime.isBefore(availability.endTime)) {
+      availabilities2.forEach((availability2: Availability) => {
+        if (!availability2.startTime.isAfter(availability1.startTime) && !availability2.endTime.isBefore(availability1.endTime)) {
           available = true;
         }
       });
