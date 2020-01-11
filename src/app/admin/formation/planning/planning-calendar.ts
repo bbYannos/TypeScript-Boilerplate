@@ -8,7 +8,7 @@ import {CalendarFactoryOptions} from "modules/Calendar/Calendar.Factory";
 import {TIME_FULL_CALENDAR} from "modules/Calendar/Constants";
 import {CalendarFactory, EditableFullCalendar} from "modules/Calendar/module";
 import {Observable} from "rxjs";
-import {map, share, shareReplay, switchMap, take, tap} from "rxjs/operators";
+import {distinctUntilChanged, map, share, shareReplay, switchMap, take, takeUntil, tap} from "rxjs/operators";
 import moment from "shared/moment";
 import {ObjectUtils} from "shared/utils/object.utils";
 import {Store} from "../../_store";
@@ -26,7 +26,7 @@ export class PlanningCalendar {
     planningComponent.query = new SessionQuery();
 
     let firstRender: boolean = true;
-    Store.formation_.subscribe((formation) => {
+    Store.formation_.pipe(takeUntil(this.close$)).pipe(distinctUntilChanged()).subscribe((formation: Formation) => {
       const calendarParams = this.getCalendarParams(formation);
       if (!firstRender) {
         delete calendarParams.defaultDate;
@@ -46,6 +46,7 @@ export class PlanningCalendar {
         };
         return CalendarFactory.makeSessionsCalendarSource$(options);
       };
+      console.warn("render planning");
       planningComponent.render(calendarParams);
     });
   }
@@ -86,6 +87,7 @@ export class PlanningCalendar {
         return;
       },
       eventReceive: (info) => {
+        console.log("eventReceived");
         this.addExternalEvent(info);
         info.event.remove();
       },
@@ -98,11 +100,14 @@ export class PlanningCalendar {
     const droppedStartTime = moment(info.event.start);
     const droppedEndTime = droppedStartTime.clone().add(1, "second");
 
-    Store.formation_.getValue().availableSessions$().pipe(take(1)).subscribe((sessions: Session[]) => {
+    Store.formation_.getValue().availableSessions$(droppedStartTime, droppedEndTime).pipe(take(1)).subscribe((sessions: Session[]) => {
       console.log("Available Sessions", sessions);
+
+      /*
       const availableSession = sessions.find(
         (session: Session) => session.startTime.isBefore(droppedEndTime) && session.endTime.isAfter(droppedStartTime)
       );
+
       if (training && availableSession) {
         const query = Object.assign(new SessionQuery(), {
           training: training,
@@ -111,7 +116,9 @@ export class PlanningCalendar {
         });
         Api.sessionService.createByQuery(query).subscribe();
       }
+       */
     });
+
   }
 }
 

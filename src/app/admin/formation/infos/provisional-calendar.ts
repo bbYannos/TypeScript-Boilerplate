@@ -1,45 +1,30 @@
 import {OptionsInput} from "@fullcalendar/core/types/input-types";
+import {CalendarComponent} from "components/wrappers/calendar.component";
+import {Availability} from "modules/Api/Model/Availability";
 import {Formation} from "modules/Api/Model/Formation";
 import {CalendarFactoryOptions} from "modules/Calendar/Calendar.Factory";
 import {TIME_FULL_CALENDAR} from "modules/Calendar/Constants";
-import {CalendarFactory, FullCalendar} from "modules/Calendar/module";
+import {CalendarFactory} from "modules/Calendar/module";
 import {MODULES_CONSTANTS} from "modules/modules.constants";
-import {Observable} from "rxjs";
-import {takeUntil} from "rxjs/operators";
+import {switchMap, tap} from "rxjs/operators";
 import moment from "shared/moment";
 import {ObjectUtils} from "shared/utils/object.utils";
 import {Store} from "../../_store";
 
-export class ProvisionalCalendar {
-  public close$: Observable<any> = null;
-  public $htmEl: HTMLElement = null;
+export class ProvisionalCalendar extends CalendarComponent<Availability> {
 
-  protected getCalendarParams(formation: Formation): OptionsInput {
-    const formationStart = (ObjectUtils.isValidMoment(formation.startTime)) ? formation.startTime : null;
-    const formationEnd = (ObjectUtils.isValidMoment(formation.endTime)) ? formation.endTime : null;
-    let start = formationStart;
-    if (moment().isAfter(formationStart)) {
-      start = moment();
-    }
-    return {
-      defaultView: "timeGridWeek",
-      defaultDate: start.toDate(),
-      minTime: ((ObjectUtils.isValidMoment(formation.hourMin)) ? formation.hourMin : MODULES_CONSTANTS.SCHEDULE.OPENING).format(TIME_FULL_CALENDAR),
-      maxTime: ((ObjectUtils.isValidMoment(formation.hourMax)) ? formation.hourMax : MODULES_CONSTANTS.SCHEDULE.CLOSING).format(TIME_FULL_CALENDAR),
-      header: {left: "prev,next", center: "title", right: ""},
-      validRange: {
-        start: formationStart.toDate(),
-        end: formationEnd.toDate(),
-      },
-    };
-  }
+  protected overrideOptions: OptionsInput = {
+    defaultView: "timeGridWeek",
+    header: {left: "prev,next", center: "title", right: ""},
+  };
 
+  protected formation: Formation = null;
   public render() {
-    const planningComponent = new FullCalendar(this.close$);
-    planningComponent.$htmEl = this.$htmEl as HTMLElement;
-    planningComponent.close$ = this.close$;
-    Store.formation_.pipe(takeUntil(this.close$)).subscribe((formation: Formation) => {
-      planningComponent.getAllEvents$ = (info: any) => {
+    this.component.getAllEvents$ = (info: any) => Store.formation_.pipe(
+      tap((formation: Formation) => {
+        this.component.mutateOptions(this.getRange(formation));
+      }),
+      switchMap((formation: Formation) => {
         const startTime = moment(info.start).startOf("week");
         const endTime = moment(info.start).clone().endOf("week");
         const options: CalendarFactoryOptions = {
@@ -48,10 +33,25 @@ export class ProvisionalCalendar {
           availableSessions$: formation.availableSessions$(startTime, endTime),
           vacations$: formation.allVacations$,
         };
-        return CalendarFactory.makeSessionsCalendarSource$(options);
-      };
-      planningComponent.render(this.getCalendarParams(formation));
-    });
+        return CalendarFactory.makeSessionsCalendarSource$(options).pipe(
+          tap(() => this.loading_.next(false)),
+        );
+      }),
+    );
+    super.render();
+  }
+
+  protected getRange(formation: Formation): OptionsInput {
+    const formationStart = (ObjectUtils.isValidMoment(formation.startTime)) ? formation.startTime : null;
+    const formationEnd = (ObjectUtils.isValidMoment(formation.endTime)) ? formation.endTime : null;
+    return {
+      minTime: ((ObjectUtils.isValidMoment(formation.hourMin)) ? formation.hourMin : MODULES_CONSTANTS.SCHEDULE.OPENING).format(TIME_FULL_CALENDAR),
+      maxTime: ((ObjectUtils.isValidMoment(formation.hourMax)) ? formation.hourMax : MODULES_CONSTANTS.SCHEDULE.CLOSING).format(TIME_FULL_CALENDAR),
+      validRange: {
+        start: formationStart.toDate(),
+        end: formationEnd.toDate(),
+      },
+    };
   }
 }
 

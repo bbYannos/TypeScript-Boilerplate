@@ -1,35 +1,30 @@
+import {CalendarComponent} from "components/wrappers/calendar.component";
 import Api from "modules/Api/Api.module";
 import {Session} from "modules/Api/Model/Session";
-import {CalendarFactory, FullCalendar} from "modules/Calendar/module";
-import {Observable} from "rxjs";
+import {CalendarFactory} from "modules/Calendar/module";
 import moment from "shared/moment";
 import {routerAuthService} from "../routes/router";
 
-export class SpeakerCalendar {
-  public close$: Observable<any> = null;
-  public $htmEl: HTMLElement = null;
-
+export class SpeakerCalendar extends CalendarComponent<Session> {
   public render() {
-    const planningComponent = new FullCalendar(this.close$);
-    const calendarParams = CalendarFactory.getCalendarRangeForSpeaker(Api.formationService);
-    calendarParams.header = {left: "prev,next", center: "title", right: ""};
-    calendarParams.eventRender = (info) => CalendarFactory.formatSession(info, (session: Session) => {
+    const speaker = routerAuthService.user.speaker;
+    this.overrideOptions = CalendarFactory.getCalendarRangeForSpeaker(Api.formationService);
+    this.overrideOptions.header = {left: "prev,next", center: "title", right: ""};
+    this.overrideOptions.eventRender = (info) => CalendarFactory.formatSession(info, (session: Session) => {
       if (session.training.formation) {
         return session.training.formation.label;
       }
       return session.apiId.toString();
     });
-    planningComponent.getAllEvents$ = (info) => {
+    this.component.getAllEvents$ = (info) => {
       const options = {
         startTime: moment(info.start),
         endTime: moment(info.end),
-        sessions$: routerAuthService.user.speaker.sessions$,
+        sessions$: speaker.sessions$,
       };
       return CalendarFactory.makeSessionsCalendarSource$(options);
     };
-    planningComponent.$htmEl = this.$htmEl as HTMLElement;
-    planningComponent.close$ = this.close$;
-    planningComponent.render(calendarParams);
+    super.render();
   }
 }
 

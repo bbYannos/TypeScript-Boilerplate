@@ -2,7 +2,6 @@ import {CardPlugin} from "bootstrap-vue";
 import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
 import {Speaker} from "modules/Api/Model/Speaker";
 import {BehaviorSubject, from, Observable} from "rxjs";
-import {share} from "rxjs/operators";
 import {Component, Vue, VueComponent} from "shared/vue";
 import WithRender from "./planning.layout.html";
 import {TrainingDraggableList} from "./training-draggable.list";

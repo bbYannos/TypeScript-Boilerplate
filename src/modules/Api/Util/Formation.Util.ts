@@ -14,7 +14,7 @@ export class FormationUtil {
 
     const formationAvailabilities$ = forkJoin([formation.availabilities$.pipe(take(1)), speakerAvailabilities$]).pipe(
       map(([formationAvailabilities, speakerAvailabilities]: [Availability[], Availability[]]) =>
-        AvailabilityInstanceUtil.getCommonAvailabilities(formationAvailabilities, speakerAvailabilities),
+        AvailabilityInstanceUtil.getAvailabilitiesIntersection(formationAvailabilities, speakerAvailabilities),
       ),
     );
 

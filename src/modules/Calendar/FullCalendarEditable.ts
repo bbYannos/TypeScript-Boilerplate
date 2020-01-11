@@ -7,81 +7,74 @@ import {FullCalendar} from "./FullCalendar";
 import {EventInterface} from "./Interface/Event.Interface";
 
 export class EditableFullCalendar<T extends EventInterface> extends FullCalendar<T> {
+
+  public deleteAction: (object: T) => Observable<boolean> = null;
+  public updateAction: (object: T) => Observable<T> = null;
   public editAction: (object: T) => void = null;
-  protected constructorName = "EditableFullCalendar";
+  public createAction: (startTime: moment.Moment, endTime: moment.Moment) => Observable<T> = null;
 
-  public render(calendarParams: OptionsInput = {}) {
-    super.render({...this.getCalendarParams(), ...calendarParams});
-  }
-
-  public createAction(startTime: moment.Moment, endTime: moment.Moment): Observable<T> {
-    if (this.service !== null && this.query !== null) {
-      this.query.startTime = startTime;
-      this.query.endTime = endTime;
-      return this.service.createByQuery(this.query);
-    }
-    return null;
-  }
-
-  public deleteAction(object: T): Observable<boolean> {
-    return (this.service !== null) ? this.service.delete(object) : null;
-  }
-
-  public updateAction(object: T): Observable<T> {
-    return (this.service !== null) ? this.service.update(object) : null;
-  }
-
-  protected getCalendarParams(): OptionsInput {
-    // tslint:disable-next-line
-    return {
+  // noinspection ES6ClassMemberInitializationOrder
+  protected options: OptionsInput = {...this.options, ...{
       defaultView: "timeGridWeek",
-      header: {left: "", center: "", right: ""},
       selectable: true,
       editable: true,
       columnHeaderText: (date) => moment(date).format("dddd"),
       select: (args) => {
-        this.createAction(moment(args.start), moment(args.end)).subscribe();
+        if (this.createAction !== null) {
+          this.createAction(moment(args.start), moment(args.end)).subscribe();
+        }
       },
-      eventRender: (info) => this.eventAfterRender(info),
+      eventRender: (info) => {
+        this.addDeleteIcon(info);
+        this.eventAfterRender(info);
+      },
       eventResize: (data: any) => {
-        const object = EventMapper.eventToObject<T>(data.event);
-        if (data.startDelta.milliseconds) {
-          object.moveStartTime(data.startDelta.milliseconds);
+        if (this.updateAction !== null) {
+          const object = EventMapper.eventToObject<T>(data.event);
+          if (data.startDelta.milliseconds) {
+            object.moveStartTime(data.startDelta.milliseconds);
+          }
+          if (data.endDelta.milliseconds) {
+            object.moveEndTime(data.endDelta.milliseconds);
+          }
+          this.updateAction(object).subscribe();
         }
-        if (data.endDelta.milliseconds) {
-          object.moveEndTime(data.endDelta.milliseconds);
-        }
-        this.updateAction(object).subscribe();
       },
       eventDrop: (data: any) => {
-        console.log("Event Dropped");
-        const object = EventMapper.eventToObject<T>(data.event);
-        object.startTime = moment(data.event.start);
-        this.updateAction(object).subscribe();
+        if (this.updateAction !== null) {
+          const object = EventMapper.eventToObject<T>(data.event);
+          object.startTime = moment(data.event.start);
+          this.updateAction(object).subscribe();
+        }
       },
-    };
+    }};
+
+  protected initCalendar() {
+    this.options.selectable = (this.createAction !== null);
+    this.options.editable = (this.updateAction !== null);
+    super.initCalendar();
   }
 
   protected addDeleteIcon(data: any) {
-    const html: HTMLElement = data.el;
-    const object = EventMapper.eventToObject<T>(data.event);
-    const $body = html.querySelector(".fc-content");
-    const $deleteLink = document.createElement("div");
-    $deleteLink.classList.add("fc-delete");
-    $deleteLink.innerHTML = IconsUtils.deleteIcon();
-    $body.prepend($deleteLink);
-    $deleteLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      data.event.remove();
-      this.deleteAction(object).subscribe();
-    });
+    if (this.deleteAction !== null && data.event._def.rendering !== "background") {
+      const html: HTMLElement = data.el;
+      const object = EventMapper.eventToObject<T>(data.event);
+      const $body = html.querySelector(".fc-content");
+      const $deleteLink = document.createElement("div");
+      $deleteLink.classList.add("fc-delete");
+      $deleteLink.innerHTML = IconsUtils.deleteIcon();
+      $body.prepend($deleteLink);
+      $deleteLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        data.event.remove();
+        this.deleteAction(object).subscribe();
+      });
+    }
   }
 
   protected eventAfterRender(data) {
-    if (data.event._def.rendering !== "background") {
-      this.addDeleteIcon(data);
-    }
+    return;
   }
 }
 

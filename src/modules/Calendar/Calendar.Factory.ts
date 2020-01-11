@@ -1,12 +1,12 @@
 import {OptionsInput} from "@fullcalendar/core/types/input-types";
 import {Availability} from "modules/Api/Model/Availability/Availability.Model";
+import {Formation, FormationService} from "modules/Api/Model/Formation";
 import {Session} from "modules/Api/Model/Session/Session.Model";
 import {Trainee} from "modules/Api/Model/Trainee/Trainee.Model";
 import {combineLatest, Observable, of} from "rxjs";
 import {auditTime, map} from "rxjs/operators";
 import moment from "shared/moment";
-import {ObjectUtils} from "../../shared/utils/object.utils";
-import {Formation, FormationService} from "../Api/Model/Formation";
+import {ObjectUtils} from "shared/utils/object.utils";
 import {TIME_FULL_CALENDAR} from "./Constants";
 import {EventMapper, EventMapperOptions} from "./EventMapper";
 
@@ -129,7 +129,6 @@ export class CalendarFactory {
       validRangeEndTime = formationsEndTime.clone();
     }
     return {
-      defaultView: "timeGridWeek",
       defaultDate: defaultStartTime.toDate(),
       minTime: trainee.formation.hourMin.format(TIME_FULL_CALENDAR),
       maxTime: trainee.formation.hourMax.format(TIME_FULL_CALENDAR),

@@ -8,34 +8,7 @@ import {Session} from "../Model/Session/Session.Model";
 
 
 export class AvailabilityInstanceUtil {
-  /* return all instances - Vacations are excluded **/
-  public static getByFormationExcludingVacations$(
-    formation: Formation,
-    startTime: moment.Moment = null,
-    endTime: moment.Moment = null,
-  ): Observable<Availability[]> {
-    if (startTime === null && ObjectUtils.isValidMoment(formation.startTime)) {
-      startTime = formation.startTime.clone();
-    }
-    if (endTime === null && ObjectUtils.isValidMoment(formation.endTime)) {
-      endTime = formation.endTime.clone();
-    }
-    if (startTime === null || endTime === null) {
-      return of([]);
-    }
-    // console.log(startTime.format(), endTime.format());
-    return combineLatest([formation.availabilities$, formation.allVacations$]).pipe(
-      debounceTime(10),
-      map(([availabilities, vacations]: [Availability[], Availability[]]) => {
-        return this.getInstancesExcludingVacations(availabilities, startTime, endTime, vacations);
-        // console.log('AVAILABILITIES : ', availabilities);
-        // console.log('VACATIONS : ', vacations);
-        // console.log('INSTANCES : ', instances);
-      }),
-    );
-  }
-
-  public static getCommonAvailabilities(availabilities1: Availability[], availabilities2: Availability[]): Availability[] {
+  public static getAvailabilitiesIntersection(availabilities1: Availability[], availabilities2: Availability[]): Availability[] {
     return availabilities1.filter((availability1: Availability) => {
       let available = false;
       if (availabilities2.length === 0) {

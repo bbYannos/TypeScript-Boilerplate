@@ -1,9 +1,12 @@
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
+import {AbstractExpandableContent} from "../AbstractExpandableContent";
 import {Cell} from "./Cell";
 import {DataTableBase} from "./DataTable.Base";
 
 export class DataTableExpandable<T> extends DataTableBase<T> {
+
+  protected expandable: AbstractExpandableContent = null;
 
   public showAll() {
     this.dataTableApi.columns().search("").draw(false);

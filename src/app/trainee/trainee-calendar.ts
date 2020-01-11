@@ -1,21 +1,16 @@
-import {OptionsInput} from "@fullcalendar/core/types/input-types";
+import {CalendarComponent} from "components/wrappers/calendar.component";
 import {Session} from "modules/Api/Model/Session";
-import {CalendarFactory, FullCalendar} from "modules/Calendar/module";
-import {Observable} from "rxjs";
+import {CalendarFactory} from "modules/Calendar/module";
 import moment from "shared/moment";
 import {routerAuthService} from "../routes/router";
 
-export class TraineeCalendar {
-  public close$: Observable<any> = null;
-  public $htmEl: HTMLElement = null;
-
+export class TraineeCalendar extends CalendarComponent<Session> {
   public render() {
-    const planningComponent = new FullCalendar(this.close$);
     const trainee = routerAuthService.user.trainee;
-    const calendarParams: OptionsInput =  CalendarFactory.getCalendarRangeForTrainee(trainee);
-    calendarParams.header = {left: "prev,next", center: "title", right: ""};
-    calendarParams.eventRender = (info) => CalendarFactory.formatSession(info, (session: Session) => session.training.formation.label);
-    planningComponent.getAllEvents$ = (info) => {
+    this.overrideOptions = CalendarFactory.getCalendarRangeForTrainee(trainee);
+    this.overrideOptions.header = {left: "prev,next", center: "title", right: ""};
+    this.overrideOptions.eventRender = (info) => CalendarFactory.formatSession(info, (session: Session) => session.training.formation.label);
+    this.component.getAllEvents$ = (info) => {
       const options = {
         startTime: moment(info.start),
         endTime: moment(info.end),
@@ -23,10 +18,8 @@ export class TraineeCalendar {
       };
       return CalendarFactory.makeSessionsCalendarSource$(options);
     };
-    planningComponent.$htmEl = this.$htmEl as HTMLElement;
-    planningComponent.close$ = this.close$;
-    planningComponent.render(calendarParams);
+    super.render();
   }
 }
 
-export default {CalendarComponent: TraineeCalendar};
+export default TraineeCalendar;

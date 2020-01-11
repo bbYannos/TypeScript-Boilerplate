@@ -37,17 +37,6 @@ export class EventMapper {
     };
   }
 
-  public static eventToObject<T extends EventInterface>(event): T {
-    return event.extendedProps.apiObject;
-  }
-
-  public static filterEvents$ByPeriod<T extends EventInterface>(event$: Observable<T[]>, startTime: moment.Moment, endTime: moment.Moment): Observable<T[]> {
-    return event$.pipe(map(
-      (events: T[]) => events.filter(
-        (event: T) => (!endTime.isBefore(event.startTime) && !startTime.isAfter(event.endTime)),
-      )));
-  }
-
   public static objectToBackgroundEvent(object: EventInterface, options: EventMapperOptions) {
     if (!ObjectUtils.isValidMoment(object.startTime) || !ObjectUtils.isValidMoment(object.endTime)) {
       return null;
@@ -60,5 +49,16 @@ export class EventMapper {
       className: (options.open) ? "fc-bg-event-availability" : "fc-bg-event-vacancy",
       overlap: options.open,
     };
+  }
+
+  public static eventToObject<T extends EventInterface>(event): T {
+    return event.extendedProps.apiObject;
+  }
+
+  public static filterEvents$ByPeriod<T extends EventInterface>(event$: Observable<T[]>, startTime: moment.Moment, endTime: moment.Moment): Observable<T[]> {
+    return event$.pipe(map(
+      (events: T[]) => events.filter(
+        (event: T) => (!endTime.isBefore(event.startTime) && !startTime.isAfter(event.endTime)),
+      )));
   }
 }

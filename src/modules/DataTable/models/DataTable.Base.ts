@@ -2,19 +2,17 @@ import "datatables.net";
 import $ from "jquery";
 import {Observable, Subscription} from "rxjs";
 import {debounceTime, takeUntil, tap} from "rxjs/operators";
-import {AbstractExpandableContent} from "../AbstractExpandableContent";
 import {language} from "../Constants";
 import {Cell} from "./Cell";
 import {Column} from "./Column";
 import {ColumnsCollection} from "./Columns.Colletion";
 
-
 export class DataTableBase<T> {
   public close$: Observable<void> = null;
   public $htmEl: HTMLElement = null;
+
   public cssClasses = "table table-striped ";
   public overrideOptions: DataTables.Settings = {};
-
   protected options: DataTables.Settings = {
     info: false,
     autoWidth: false,
@@ -24,13 +22,12 @@ export class DataTableBase<T> {
     columns: [],
     order: [],
   };
-  protected columnsCollection: ColumnsCollection;
 
+  protected columnsCollection: ColumnsCollection;
 
   protected _dataSource$ub: Subscription = null;
   protected dataTableApi: DataTables.Api = null;
   protected $table: JQuery<HTMLElement>;
-  protected expandable: AbstractExpandableContent = null;
   protected currentPage: number = null;
 
   public setDataSource$(dataSource$: Observable<T[]>) {

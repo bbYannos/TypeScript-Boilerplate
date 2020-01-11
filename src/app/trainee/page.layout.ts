@@ -1,12 +1,11 @@
 import "assets/_user";
-import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
 import {CardComponent} from "components/card";
+import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
 import {MainPageLayout} from "layouts/user-page";
 import {Absence} from "modules/Api/Model/Absence";
 import {forkJoin, from} from "rxjs";
 import {take} from "rxjs/operators";
-import Vue from "vue";
-import Component from "vue-class-component";
+import {Component, Vue, VueComponent} from "shared/vue";
 import {routerAuthService} from "../routes/router";
 import WithRender from "./page.layout.html";
 
@@ -14,7 +13,7 @@ import WithRender from "./page.layout.html";
 @Component({
   components: {MainPageLayout, CardComponent, CalendarWrapper},
 })
-export class SpeakerPageLayout extends Vue {
+export class SpeakerPageLayout extends Vue implements VueComponent{
   public planningCard: CardComponent["data"] = {
     label: "Planning",
     loading: false,

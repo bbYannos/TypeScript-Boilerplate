@@ -44,7 +44,7 @@ export class ListComponent<T extends AbstractApiModel> {
   protected _dataTable: DataTableEditable<T> = null;
 
   public render() {
-    this.dataTable.setDataSource$(this.dataSource$.pipe(takeUntil(this.close$)));
+    this.dataTable.setDataSource$(this.dataSource$);
     if (this.add$ub !== null) {
       this.add$ub.unsubscribe();
       this.add$ub = null;
