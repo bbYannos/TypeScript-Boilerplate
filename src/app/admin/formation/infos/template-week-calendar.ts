@@ -3,24 +3,24 @@ import {CalendarComponent} from "components/wrappers/calendar.component";
 import Api from "modules/Api/Api.module";
 import {Availability, AvailabilityQuery} from "modules/Api/Model/Availability/Availability.Service";
 import {Formation} from "modules/Api/Model/Formation";
+import {CalendarFactoryOptions} from "modules/Calendar/Calendar.Factory";
 import {TIME_FULL_CALENDAR} from "modules/Calendar/Constants";
-import {CalendarFactory, EditableFullCalendar} from "modules/Calendar/module";
+import {CalendarFactory} from "modules/Calendar/module";
 import {MODULES_CONSTANTS} from "modules/modules.constants";
-import {Observable} from "rxjs";
-import {switchMap, takeUntil, tap} from "rxjs/operators";
-import {getTemplateDay} from "shared/moment";
+import {switchMap, tap} from "rxjs/operators";
+import moment, {getTemplateDay} from "shared/moment";
 import {ObjectUtils} from "shared/utils/object.utils";
-import {CalendarFactoryOptions} from "../../../../modules/Calendar/Calendar.Factory";
-import moment from "../../../../shared/moment";
 import {Store} from "../../_store";
 
-export class ProvisionalCalendar extends CalendarComponent<Availability> {
+export class TemplateWeekCalendar extends CalendarComponent<Availability> {
   protected overrideOptions: OptionsInput = {
     defaultView: "timeGridWeek",
-    header: {left: "prev,next", center: "title", right: ""},
+    header: {left: "", center: "", right: ""},
   };
 
-  protected getTemplateRangeByFormation(formation: Formation): OptionsInput {
+  protected query: AvailabilityQuery = null;
+
+  protected static getTemplateRangeByFormation(formation: Formation): OptionsInput {
     return {
       minTime: ((ObjectUtils.isValidMoment(formation.hourMin)) ? formation.hourMin : MODULES_CONSTANTS.SCHEDULE.OPENING).format(TIME_FULL_CALENDAR),
       maxTime: ((ObjectUtils.isValidMoment(formation.hourMax)) ? formation.hourMax : MODULES_CONSTANTS.SCHEDULE.CLOSING).format(TIME_FULL_CALENDAR),
@@ -33,12 +33,13 @@ export class ProvisionalCalendar extends CalendarComponent<Availability> {
 
   public render() {
     this.service = Api.availabilityService;
-    const query = new AvailabilityQuery();
-    query.open = true;
+    this.query = new AvailabilityQuery();
+    this.query.open = true;
 
     this.component.getAllEvents$ = (info: any) => Store.formation_.pipe(
       tap((formation: Formation) => {
-        this.component.mutateOptions(this.getTemplateRangeByFormation(formation));
+        this.query.setParentAndClass(formation);
+        this.component.mutateOptions(TemplateWeekCalendar.getTemplateRangeByFormation(formation));
       }),
       switchMap((formation: Formation) => {
         const startTime = moment(info.start).startOf("week");
@@ -57,4 +58,4 @@ export class ProvisionalCalendar extends CalendarComponent<Availability> {
   }
 }
 
-export default ProvisionalCalendar;
+export default TemplateWeekCalendar;

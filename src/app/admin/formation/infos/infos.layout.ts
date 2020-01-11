@@ -15,5 +15,5 @@ Vue.use(CardPlugin);
 export class InfosLayout extends Vue {
   public vacationList$ = () =>  from(import(/* webpackChunkName: "admin" */ "./vacation.list"));
   public provisionalCalendar$ = () => from(import(/* webpackChunkName: "admin" */ "./provisional-calendar"));
-  public weekCalendar$ = () => from(import(/* webpackChunkName: "admin" */ "./week-calendar"));
+  public weekCalendar$ = () => from(import(/* webpackChunkName: "admin" */ "./template-week-calendar"));
 }

@@ -1,3 +1,4 @@
+import {EventApi, View} from "@fullcalendar/core";
 import {OptionsInput} from "@fullcalendar/core/types/input-types";
 import {EditableFullCalendar} from "modules/Calendar/FullCalendarEditable";
 import {BehaviorSubject, Observable, of} from "rxjs";
@@ -6,8 +7,8 @@ import {AbstractRepositoryService} from "shared/abstract-api/classes/services";
 import moment from "shared/moment";
 
 interface EventQueryInterface {
-  startTime: moment.Moment;
-  endTime: moment.Moment;
+  startTime?: moment.Moment;
+  endTime?: moment.Moment;
 }
 
 interface QueryService<T extends AbstractApiModel> extends AbstractRepositoryService<T> {
@@ -39,11 +40,12 @@ export class CalendarComponent<T extends AbstractPeriod> {
       this._component.updateAction = this.updateAction;
       this._component.deleteAction = this.deleteAction;
       this._component.createAction = this.createAction;
+      this._component.addExternalEvent = this.addExternalEvent;
     }
     return this._component;
   }
 
-  public createAction: (startTime: moment.Moment, endTime: moment.Moment) => Observable<T> = (startTime, endTime) => {
+  protected createAction: (startTime: moment.Moment, endTime: moment.Moment) => Observable<T> = (startTime, endTime) => {
     if (this.service !== null && this.query !== null) {
       this.query.startTime = startTime;
       this.query.endTime = endTime;
@@ -52,7 +54,7 @@ export class CalendarComponent<T extends AbstractPeriod> {
     return of(null);
   };
 
-  public deleteAction: (object: T) => Observable<boolean> = (object: T) => {
+  protected deleteAction: (object: T) => Observable<boolean> = (object: T) => {
     if (this.service !== null) {
       return this.service.delete(object);
     }
@@ -66,7 +68,9 @@ export class CalendarComponent<T extends AbstractPeriod> {
     return of(object);
   };
 
-  public editAction: (object: T) => void = (object: T) => {
+  protected editAction: (object: T) => void = (object: T) => {
     return;
   };
+
+  protected addExternalEvent: (info: { event: EventApi; draggedEl: HTMLElement; view: View; }) => void = null;
 }

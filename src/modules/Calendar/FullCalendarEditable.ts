@@ -1,3 +1,4 @@
+import {EventApi, View} from "@fullcalendar/core";
 import {OptionsInput} from "@fullcalendar/core/types/input-types";
 import {Observable} from "rxjs";
 import moment from "shared/moment";
@@ -12,6 +13,7 @@ export class EditableFullCalendar<T extends EventInterface> extends FullCalendar
   public updateAction: (object: T) => Observable<T> = null;
   public editAction: (object: T) => void = null;
   public createAction: (startTime: moment.Moment, endTime: moment.Moment) => Observable<T> = null;
+  public addExternalEvent: (info: { event: EventApi; draggedEl: HTMLElement; view: View; }) => void = null;
 
   // noinspection ES6ClassMemberInitializationOrder
   protected options: OptionsInput = {...this.options, ...{
@@ -45,6 +47,11 @@ export class EditableFullCalendar<T extends EventInterface> extends FullCalendar
           const object = EventMapper.eventToObject<T>(data.event);
           object.startTime = moment(data.event.start);
           this.updateAction(object).subscribe();
+        }
+      },
+      eventReceive: (info) => {
+        if (this.addExternalEvent !== null) {
+          this.addExternalEvent(info);
         }
       },
     }};
