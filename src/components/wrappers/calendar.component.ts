@@ -11,7 +11,7 @@ interface EventQueryInterface {
 }
 
 interface QueryService<T extends AbstractApiModel> extends AbstractRepositoryService<T> {
-  createByQuery(query: EventQueryInterface): Observable<T>;
+  createByQuery(query: any): Observable<T>;
 }
 
 export class CalendarComponent<T extends AbstractPeriod> {

@@ -1,14 +1,16 @@
 import {OptionsInput} from "@fullcalendar/core/types/input-types";
 import {Availability} from "modules/Api/Model/Availability/Availability.Model";
-import {Formation, FormationService} from "modules/Api/Model/Formation";
+import {Formation} from "modules/Api/Model/Formation";
 import {Session} from "modules/Api/Model/Session/Session.Model";
 import {Trainee} from "modules/Api/Model/Trainee/Trainee.Model";
 import {combineLatest, Observable, of} from "rxjs";
 import {auditTime, map} from "rxjs/operators";
 import moment from "shared/moment";
 import {ObjectUtils} from "shared/utils/object.utils";
+import {MODULES_CONSTANTS} from "../modules.constants";
 import {TIME_FULL_CALENDAR} from "./Constants";
 import {EventMapper, EventMapperOptions} from "./EventMapper";
+import {EventInterface} from "./Interface/Event.Interface";
 
 interface FormationServiceInterface {
   startTime: moment.Moment;
@@ -20,7 +22,7 @@ interface FormationServiceInterface {
 export interface CalendarFactoryOptions {
   startTime?: moment.Moment;
   endTime?: moment.Moment;
-  sessions$?: Observable<Session[]>;
+  sessions$?: Observable<EventInterface[]>;
   vacations$?: Observable<Availability[]>;
   availableSessions$?: Observable<Session[]>;
 }
@@ -83,6 +85,18 @@ export class CalendarFactory {
     );
   }
 
+  public static getRangeByFormation(formation: Formation): OptionsInput {
+    const formationStart = (ObjectUtils.isValidMoment(formation.startTime)) ? formation.startTime : null;
+    const formationEnd = (ObjectUtils.isValidMoment(formation.endTime)) ? formation.endTime : null;
+    return {
+      minTime: ((ObjectUtils.isValidMoment(formation.hourMin)) ? formation.hourMin : MODULES_CONSTANTS.SCHEDULE.OPENING).format(TIME_FULL_CALENDAR),
+      maxTime: ((ObjectUtils.isValidMoment(formation.hourMax)) ? formation.hourMax : MODULES_CONSTANTS.SCHEDULE.CLOSING).format(TIME_FULL_CALENDAR),
+      validRange: {
+        start: formationStart.toDate(),
+        end: formationEnd.toDate(),
+      },
+    };
+  }
 
   public static getCalendarRangeForSpeaker(formationService: FormationServiceInterface): OptionsInput {
     let validRangeStartTime = (formationService.startTime !== null) ? formationService.startTime.clone() : null;
@@ -138,36 +152,4 @@ export class CalendarFactory {
       },
     };
   }
-
-  public static getCalendarRangeForFormation(formation: Formation, formationService: FormationService): OptionsInput {
-    let validRangeStartTime = (ObjectUtils.isValidMoment(formation.startTime)) ? formation.startTime : null;
-    let validRangeEndTime = (ObjectUtils.isValidMoment(formation.endTime)) ? formation.endTime : null;
-    const todayTime = moment();
-    let defaultStartTime = todayTime.clone();
-
-    if (validRangeStartTime !== null) {
-      if (validRangeStartTime.isAfter(todayTime)) {
-        defaultStartTime = validRangeStartTime.clone();
-      }
-    } else {
-      validRangeStartTime = defaultStartTime.clone();
-    }
-    if (validRangeEndTime === null) {
-      validRangeEndTime = validRangeStartTime.clone().add(1, "week");
-    }
-
-    const hourMin = (formation.hourMin) || formationService.hourMin;
-    const hourMax = (formation.hourMax) || formationService.hourMax;
-
-    return {
-      defaultDate: defaultStartTime.toDate(),
-      minTime: hourMin.format(TIME_FULL_CALENDAR),
-      maxTime: hourMax.format(TIME_FULL_CALENDAR),
-      validRange: {
-        start: validRangeStartTime.toDate(),
-        end: validRangeEndTime.toDate(),
-      },
-    };
-  }
-
 }

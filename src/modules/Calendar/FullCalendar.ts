@@ -4,8 +4,8 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interaction from "@fullcalendar/interaction";
 import momentPlugin from "@fullcalendar/moment";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import {BehaviorSubject, Observable, of, Subject, Subscription, timer} from "rxjs";
-import {auditTime, filter, shareReplay, switchMap, take, takeUntil, tap} from "rxjs/operators";
+import {BehaviorSubject, Observable, of, Subject, Subscription} from "rxjs";
+import {auditTime, filter, switchMap, takeUntil, tap} from "rxjs/operators";
 import {TIME_FORMAT} from "./Constants";
 import {EventInterface} from "./Interface/Event.Interface";
 
