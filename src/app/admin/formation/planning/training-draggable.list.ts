@@ -7,6 +7,7 @@ import {switchMap, takeUntil} from "rxjs/operators";
 import {Component, Vue, VueComponent} from "shared/vue";
 import {Store} from "../../_store";
 import WithRender from "./training-draggable.list.html";
+import "./training-draggable.list.scss";
 
 @WithRender
 @Component
@@ -19,8 +20,8 @@ export class TrainingDraggableList extends Vue implements VueComponent {
 
   public mounted(): void {
     Store.formation_.pipe(
-      switchMap((formation: Formation) => combineLatest([formation.sessions$, formation.trainings$])),
       takeUntil(this.close_),
+      switchMap((formation: Formation) => combineLatest([formation.sessions$, formation.trainings$])),
     ).subscribe(([sessions, trainings]) => {
       this.trainings = trainings.filter((training: Training) => training.speaker !== null && training.remainingDuration.asMinutes() !== 0);
       this.$nextTick(() => {

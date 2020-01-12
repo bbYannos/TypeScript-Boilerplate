@@ -18,6 +18,7 @@ export class FullCalendar<T extends EventInterface> {
   public calendar: Calendar = null;
 
   protected dataSource$ = of([]);
+  protected rendered: boolean = false;
 
   protected calendarCallback_: Subject<any> = new Subject();
   protected calendarCallback$ub: Subscription = null;
@@ -77,7 +78,6 @@ export class FullCalendar<T extends EventInterface> {
   protected initCalendar() {
     const options = {...this.options, ...this.overrideOptions};
     this.calendar = new Calendar(this.$htmEl, options);
-    this.calendar.render();
     this.calendarReady_.next(true);
   }
 
@@ -93,6 +93,10 @@ export class FullCalendar<T extends EventInterface> {
         tap((results) => {
           this.calendar.removeAllEvents();
           this.calendar.addEventSource(results);
+          if (!this.rendered) {
+            this.calendar.render();
+            this.rendered = true;
+          }
         }),
       )),
     ).subscribe();

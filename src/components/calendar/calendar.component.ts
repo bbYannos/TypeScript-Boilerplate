@@ -18,6 +18,7 @@ interface QueryService<T extends AbstractApiModel> extends AbstractRepositorySer
 export class CalendarComponent<T extends AbstractPeriod> {
 
   public loading_: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  protected editable: boolean = false;
 
   protected overrideOptions: OptionsInput = {};
   protected service: QueryService<T> = null;
@@ -36,11 +37,14 @@ export class CalendarComponent<T extends AbstractPeriod> {
       this._component.overrideOptions = this.overrideOptions;
       this._component.close$ = this.close$;
       this._component.$htmEl = this.$htmEl;
-      this._component.editAction = this.editAction;
-      this._component.updateAction = this.updateAction;
-      this._component.deleteAction = this.deleteAction;
-      this._component.createAction = this.createAction;
-      this._component.addExternalEvent = this.addExternalEvent;
+      if (this.editable) {
+        this._component.editAction = this.editAction;
+        this._component.updateAction = this.updateAction;
+        this._component.deleteAction = this.deleteAction;
+        this._component.createAction = this.createAction;
+        this._component.addExternalEvent = this.addExternalEvent;
+        this._component.eventAfterRender = this.eventAfterRender;
+      }
     }
     return this._component;
   }
@@ -73,4 +77,6 @@ export class CalendarComponent<T extends AbstractPeriod> {
   };
 
   protected addExternalEvent: (info: { event: EventApi; draggedEl: HTMLElement; view: View; }) => void = null;
+
+  protected eventAfterRender: (data) => void = null;
 }

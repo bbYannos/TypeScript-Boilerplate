@@ -1,38 +1,40 @@
+import {OptionsInput} from "@fullcalendar/core/types/input-types";
+import {CalendarComponent} from "components/calendar/calendar.component";
 import Api from "modules/Api/Api.module";
 import {Session} from "modules/Api/Model/Session";
 import {Speaker} from "modules/Api/Model/Speaker";
-import {CalendarFactory, FullCalendar} from "modules/Calendar/module";
-import {Observable} from "rxjs";
-import {switchMap} from "rxjs/operators";
+import {CalendarFactory} from "modules/Calendar/module";
+import {switchMap, tap} from "rxjs/operators";
 import moment from "shared/moment";
 import {Store} from "../../_store";
 
-export class SpeakerCalendar {
-  public close$: Observable<any> = null;
-  public $htmEl: HTMLElement = null;
+export class SpeakerCalendar extends CalendarComponent<Session> {
+  protected overrideOptions: OptionsInput = {
+    header: {left: "prev,next", center: "title", right: ""},
+  };
 
   public render() {
-    const planningComponent = new FullCalendar(this.close$);
-    planningComponent.$htmEl = this.$htmEl as HTMLElement;
-    const calendarParams = CalendarFactory.getCalendarRangeForSpeaker(Api.formationService);
-    calendarParams.header = {left: "prev,next", center: "title", right: ""};
-    calendarParams.eventRender = (info) => CalendarFactory.formatSession(info, (session: Session) => {
-      if (session.training.formation) {
-        return session.training.formation.label;
-      }
-      return session.apiId.toString();
-    });
-    planningComponent.getAllEvents$ = (info) => {
+    this.overrideOptions = {...this.overrideOptions, ...CalendarFactory.getCalendarRangeForSpeaker(Api.formationService)};
+    this.component.getAllEvents$ = (info) => {
       const options = {
         startTime: moment(info.start),
         endTime: moment(info.end),
-        sessions$: Store.speaker_.pipe(switchMap((speaker: Speaker) => speaker.sessions$)),
+        events$: Store.speaker_.pipe(switchMap((speaker: Speaker) => speaker.sessions$)),
         vacations$: Api.availabilityService.globalVacations$,
       };
-      return CalendarFactory.makeSessionsCalendarSource$(options);
+      return CalendarFactory.makeSessionsCalendarSource$(options).pipe(
+        tap(() => this.loading_.next(false)),
+      );
     };
-    planningComponent.render(calendarParams);
+    super.render();
   }
+
+  public eventAfterRender: (data) => void = (data) => CalendarFactory.formatSession(data, (session: Session) => {
+    if (session.training.formation) {
+      return session.training.formation.label;
+    }
+    return session.apiId.toString();
+  });
 }
 
 export default SpeakerCalendar;

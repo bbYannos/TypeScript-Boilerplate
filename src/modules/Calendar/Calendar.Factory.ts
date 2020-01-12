@@ -22,7 +22,7 @@ interface FormationServiceInterface {
 export interface CalendarFactoryOptions {
   startTime?: moment.Moment;
   endTime?: moment.Moment;
-  sessions$?: Observable<EventInterface[]>;
+  events$?: Observable<EventInterface[]>;
   vacations$?: Observable<Availability[]>;
   availableSessions$?: Observable<Session[]>;
 }
@@ -47,11 +47,11 @@ export class CalendarFactory {
     const endTime = (options.endTime) ? options.endTime : null;
     const obs$ = [];
 
-    if (options.sessions$) {
+    if (options.events$) {
       const sessionsOptions = new EventMapperOptions();
       sessionsOptions.startTime = startTime;
       sessionsOptions.endTime = endTime;
-      const sessions$ = EventMapper.getEvents$AsCalendarEvents$(options.sessions$, sessionsOptions);
+      const sessions$ = EventMapper.getEvents$AsCalendarEvents$(options.events$, sessionsOptions);
       obs$.push(sessions$);
     }
 

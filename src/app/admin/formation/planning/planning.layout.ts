@@ -1,5 +1,5 @@
 import {CardPlugin} from "bootstrap-vue";
-import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
+import {CalendarWrapper} from "components/calendar/calendar-wrapper";
 import {Speaker} from "modules/Api/Model/Speaker";
 import {BehaviorSubject, from, Observable} from "rxjs";
 import {Component, Vue, VueComponent} from "shared/vue";

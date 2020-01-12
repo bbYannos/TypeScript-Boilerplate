@@ -1,4 +1,4 @@
-import {CalendarComponent} from "components/wrappers/calendar.component";
+import {CalendarComponent} from "components/calendar/calendar.component";
 import {Session} from "modules/Api/Model/Session";
 import {CalendarFactory} from "modules/Calendar/module";
 import moment from "shared/moment";

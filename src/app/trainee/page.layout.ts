@@ -1,6 +1,6 @@
 import "assets/_user";
 import {CardComponent} from "components/card";
-import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
+import {CalendarWrapper} from "components/calendar/calendar-wrapper";
 import {MainPageLayout} from "layouts/user-page";
 import {Absence} from "modules/Api/Model/Absence";
 import {forkJoin, from} from "rxjs";

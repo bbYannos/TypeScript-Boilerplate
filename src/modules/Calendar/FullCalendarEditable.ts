@@ -14,6 +14,7 @@ export class EditableFullCalendar<T extends EventInterface> extends FullCalendar
   public editAction: (object: T) => void = null;
   public createAction: (startTime: moment.Moment, endTime: moment.Moment) => Observable<T> = null;
   public addExternalEvent: (info: { event: EventApi; draggedEl: HTMLElement; view: View; }) => void = null;
+  public eventAfterRender: (data) => void = null;
 
   // noinspection ES6ClassMemberInitializationOrder
   protected options: OptionsInput = {...this.options, ...{
@@ -28,7 +29,9 @@ export class EditableFullCalendar<T extends EventInterface> extends FullCalendar
       },
       eventRender: (info) => {
         this.addDeleteIcon(info);
-        this.eventAfterRender(info);
+        if (this.eventAfterRender !== null) {
+          this.eventAfterRender(info);
+        }
       },
       eventResize: (data: any) => {
         if (this.updateAction !== null) {
@@ -78,10 +81,6 @@ export class EditableFullCalendar<T extends EventInterface> extends FullCalendar
         this.deleteAction(object).subscribe();
       });
     }
-  }
-
-  protected eventAfterRender(data) {
-    return;
   }
 }
 

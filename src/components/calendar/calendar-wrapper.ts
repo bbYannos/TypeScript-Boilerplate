@@ -1,16 +1,18 @@
-import {Observable, Subject} from "rxjs";
-import {tap} from "rxjs/operators";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {takeUntil, tap} from "rxjs/operators";
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Prop} from "vue-property-decorator";
-import WithRender from "./component-wrapper.html";
+import {LoaderComponent} from "../loader";
+import WithRender from "./calendar-wrapper.html";
 
 interface ComponentInterface {
+  loading_: BehaviorSubject<boolean>;
   render(): void;
 }
 
 @WithRender
-@Component
+@Component({components: {LoaderComponent}})
 export class CalendarWrapper extends Vue {
   public $refs: { target?: HTMLElement } = {};
   public data: { loading: boolean } = {loading: true};
@@ -24,12 +26,12 @@ export class CalendarWrapper extends Vue {
   public mounted() {
     this.component$().subscribe((module) => {
       const CalendarComponent = module.default;
-      this.data.loading = false;
       const $htmEl = this.$refs.target as HTMLElement;
       const close$ = this.close_.asObservable().pipe(
         tap(() => console.log("calendar closed")),
       );
       const component = new CalendarComponent($htmEl, close$);
+      component.loading_.pipe(takeUntil(this.close_)).subscribe((loading: boolean) => this.data.loading = loading);
       for (const key in this.params) {
         component[key] = this.params[key];
       }

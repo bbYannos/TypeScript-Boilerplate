@@ -1,8 +1,6 @@
 import {Observable, Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
-import Vue from "vue";
-import Component from "vue-class-component";
-import {Prop} from "vue-property-decorator";
+import {Component, Prop, Vue, VueComponent} from "shared/vue";
 import Router from "vue-router";
 import {LoaderComponent} from "../loader";
 import WithRender from "./list-wrapper.html";
@@ -19,7 +17,7 @@ interface ComponentInterface {
 
 @WithRender
 @Component({components: {LoaderComponent}})
-export class ListWrapper extends Vue {
+export class ListWrapper extends Vue implements VueComponent {
   public $refs: { target?: HTMLElement } = {};
   public data: {
     loading: boolean,
@@ -35,7 +33,6 @@ export class ListWrapper extends Vue {
   protected close_: Subject<void> = new Subject<void>();
   protected add_: Subject<void> = new Subject<void>();
 
-  // noinspection JSUnusedGlobalSymbols
   public mounted() {
     this.component$().subscribe(({default: _Component}) => {
       const component = new _Component();
@@ -49,7 +46,6 @@ export class ListWrapper extends Vue {
     });
   }
 
-  // noinspection JSUnusedGlobalSymbols
   public beforeDestroy() {
     this.close_.next();
     this.close_.complete();

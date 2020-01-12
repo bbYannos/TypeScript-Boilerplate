@@ -1,8 +1,9 @@
-import {CalendarComponent} from "components/wrappers/calendar.component";
+import {CalendarComponent} from "components/calendar/calendar.component";
 import Api from "modules/Api/Api.module";
 import {Session} from "modules/Api/Model/Session";
 import {CalendarFactory} from "modules/Calendar/module";
 import moment from "shared/moment";
+import {CalendarFactoryOptions} from "../../modules/Calendar/Calendar.Factory";
 import {routerAuthService} from "../routes/router";
 
 export class SpeakerCalendar extends CalendarComponent<Session> {
@@ -17,10 +18,10 @@ export class SpeakerCalendar extends CalendarComponent<Session> {
       return session.apiId.toString();
     });
     this.component.getAllEvents$ = (info) => {
-      const options = {
+      const options: CalendarFactoryOptions = {
         startTime: moment(info.start),
         endTime: moment(info.end),
-        sessions$: speaker.sessions$,
+        events$: speaker.sessions$,
       };
       return CalendarFactory.makeSessionsCalendarSource$(options);
     };

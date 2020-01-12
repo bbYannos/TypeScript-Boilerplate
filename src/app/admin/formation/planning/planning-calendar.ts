@@ -1,24 +1,21 @@
 import {EventApi, View} from "@fullcalendar/core";
-import {OptionsInput} from "@fullcalendar/core/types/input-types";
-import {CalendarComponent} from "components/wrappers/calendar.component";
+import {CalendarComponent} from "components/calendar/calendar.component";
 import Api from "modules/Api/Api.module";
 import {Formation} from "modules/Api/Model/Formation";
 import {Session, SessionQuery} from "modules/Api/Model/Session/Session.Service";
 import {Speaker} from "modules/Api/Model/Speaker";
 import {CalendarFactoryOptions} from "modules/Calendar/Calendar.Factory";
-import {TIME_FULL_CALENDAR} from "modules/Calendar/Constants";
 import {CalendarFactory} from "modules/Calendar/module";
-import {Observable, of, Subscription, timer} from "rxjs";
+import {Observable} from "rxjs";
 import {switchMap, take, tap} from "rxjs/operators";
 import moment from "shared/moment";
-import {ObjectUtils} from "shared/utils/object.utils";
 import {Store} from "../../_store";
 
 
 export class PlanningCalendar extends CalendarComponent<Session> {
   public speaker$: Observable<Speaker> = null;
   protected service = Api.sessionService;
-  protected creatingExternal: boolean = false;
+  protected editable = true;
 
   protected overrideOptions = {
     header: {left: "prev,next", center: "title", right: ""},
@@ -35,7 +32,7 @@ export class PlanningCalendar extends CalendarComponent<Session> {
         const options: CalendarFactoryOptions = {
           startTime: startTime,
           endTime: endTime,
-          sessions$: formation.sessions$,
+          events$: formation.sessions$,
           vacations$: formation.allVacations$,
           availableSessions$: this.speaker$.pipe(
             tap((speaker) => (speaker) ? console.log(speaker.label) : console.log(speaker)),
@@ -70,38 +67,6 @@ export class PlanningCalendar extends CalendarComponent<Session> {
       }
     });
   };
-
-  protected getCalendarParams(formation: Formation = null): OptionsInput {
-    let validRangeStartTime = null;
-    let validRangeEndTime = null;
-    if (formation !== null) {
-      validRangeStartTime = (ObjectUtils.isValidMoment(formation.startTime)) ? formation.startTime : null;
-      validRangeEndTime = (ObjectUtils.isValidMoment(formation.endTime)) ? formation.endTime : null;
-    }
-    const todayTime = moment();
-    let defaultStartTime = todayTime.clone();
-    if (validRangeStartTime !== null) {
-      if (validRangeStartTime.isAfter(defaultStartTime)) {
-        defaultStartTime = validRangeStartTime;
-      }
-    } else {
-      validRangeStartTime = defaultStartTime.clone();
-    }
-    if (validRangeEndTime === null) {
-      validRangeEndTime = validRangeStartTime.clone().add(1, "week");
-    }
-
-    return {
-      defaultView: "timeGridWeek",
-      defaultDate: defaultStartTime.toDate(),
-      minTime: (formation) ? formation.hourMin.format(TIME_FULL_CALENDAR) : Api.formationService.hourMin.format(TIME_FULL_CALENDAR),
-      maxTime: (formation) ? formation.hourMax.format(TIME_FULL_CALENDAR) : Api.formationService.hourMax.format(TIME_FULL_CALENDAR),
-      validRange: {
-        start: validRangeStartTime.toDate(),
-        end: validRangeEndTime.toDate(),
-      },
-    };
-  }
 }
 
 export default PlanningCalendar;

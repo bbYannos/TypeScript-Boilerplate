@@ -1,5 +1,5 @@
 import "assets/_user";
-import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
+import {CalendarWrapper} from "components/calendar/calendar-wrapper";
 import {CardComponent} from "components/card";
 import {MainPageLayout} from "layouts/user-page";
 import {from} from "rxjs";

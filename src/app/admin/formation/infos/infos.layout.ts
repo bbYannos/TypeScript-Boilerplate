@@ -1,6 +1,6 @@
 import {CardPlugin, TabsPlugin} from "bootstrap-vue";
 import {ListWrapper} from "components/lists/list-wrapper";
-import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
+import {CalendarWrapper} from "components/calendar/calendar-wrapper";
 import {from} from "rxjs";
 import Vue from "vue";
 import Component from "vue-class-component";

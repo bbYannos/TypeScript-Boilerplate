@@ -1,5 +1,5 @@
 import {CardPlugin} from "bootstrap-vue";
-import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
+import {CalendarWrapper} from "components/calendar/calendar-wrapper";
 import {from} from "rxjs";
 import Vue from "vue";
 import Component from "vue-class-component";

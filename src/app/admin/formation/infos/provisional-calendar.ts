@@ -1,5 +1,5 @@
 import {OptionsInput} from "@fullcalendar/core/types/input-types";
-import {CalendarComponent} from "components/wrappers/calendar.component";
+import {CalendarComponent} from "components/calendar/calendar.component";
 import {Availability} from "modules/Api/Model/Availability";
 import {Formation} from "modules/Api/Model/Formation";
 import {CalendarFactoryOptions} from "modules/Calendar/Calendar.Factory";

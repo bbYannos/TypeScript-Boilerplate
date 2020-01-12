@@ -1,5 +1,5 @@
 import {CardPlugin} from "bootstrap-vue";
-import {CalendarWrapper} from "components/wrappers/calendar-wrapper";
+import {CalendarWrapper} from "components/calendar/calendar-wrapper";
 import {from} from "rxjs";
 import Vue from "vue";
 import Component from "vue-class-component";
@@ -10,5 +10,5 @@ Vue.use(CardPlugin);
 @WithRender
 @Component({components: {CalendarWrapper}})
 export class InfosLayout extends Vue {
-  public weekCalendar$ = () => from(import(/* webpackChunkName: "admin" */ "./week-calendar"));
+  public weekCalendar$ = () => from(import(/* webpackChunkName: "admin" */ "./template-week-calendar"));
 }
