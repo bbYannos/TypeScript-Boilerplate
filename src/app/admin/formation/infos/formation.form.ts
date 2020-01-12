@@ -2,14 +2,13 @@ import "assets/styles/form.scss";
 import {FormEditable} from "components/forms/form.editable";
 import {Formation} from "modules/Api/Model/Formation";
 import {DATE_FORMAT, EDITABLE_TYPES, TIME_FORMAT} from "modules/DataTable/Constants";
-import Vue from "vue";
-import Component from "vue-class-component";
+import {Component, Vue, VueComponent} from "shared/vue";
 import {Store} from "../../_store";
 import WithRender from "./formation.form.html";
 
 @WithRender
 @Component({components: {FormEditable}})
-export class FormationForm extends Vue {
+export class FormationForm extends Vue implements VueComponent {
   public data: {
     TIME_FORMAT: string,
     DATE_FORMAT: string,

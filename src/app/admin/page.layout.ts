@@ -1,7 +1,6 @@
 import {MainMenu} from "components/main-menu";
 import {MenuPageLayout} from "layouts/menu-page";
-import Vue from "vue";
-import Component from "vue-class-component";
+import {Component, Vue} from "shared/vue";
 import {adminRouter, adminRoutes} from "./_routes";
 import WithRender from "./page.layout.html";
 

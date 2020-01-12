@@ -4,8 +4,7 @@ import download from "downloadjs";
 import Api from "modules/Api/Api.module";
 import {from} from "rxjs";
 import moment from "shared/moment";
-import Vue from "vue";
-import Component from "vue-class-component";
+import {Component, Vue} from "shared/vue";
 import WithRender from "./list.layout.html";
 
 Vue.use(CardPlugin);

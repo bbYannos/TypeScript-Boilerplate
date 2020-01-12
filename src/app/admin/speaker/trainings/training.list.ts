@@ -1,14 +1,13 @@
 import {ListComponent} from "components/lists/list.component";
 import Api from "modules/Api/Api.module";
 import {Formation} from "modules/Api/Model/Formation";
+import {Speaker} from "modules/Api/Model/Speaker";
 import {Training, TrainingQuery} from "modules/Api/Model/Training/Training.Service";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
 import {switchMap, tap} from "rxjs/operators";
-import {Speaker} from "../../../../modules/Api/Model/Speaker";
 import {Store} from "../../_store";
 
-// noinspection JSUnusedGlobalSymbols
 export class TrainingList extends ListComponent<Training> {
   public data: {
     addButtonDisplayed: boolean,

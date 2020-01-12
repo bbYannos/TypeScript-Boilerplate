@@ -6,7 +6,7 @@
                 <training-draggable-list ref="trainingList" @speaker="speaker_.next($event)"/>
             </div>
             <div class="col-9">
-                <calendar-w :component$="planning$" :params="{speaker$: speaker$}"/>
+                <calendar-w :component$="planning$" :params="{speaker_: speaker_}"/>
             </div>
         </div>
     </b-card>

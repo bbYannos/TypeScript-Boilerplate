@@ -1,9 +1,7 @@
 import {SubNavBar} from "components/sub-nav-bar";
 import Api from "modules/Api/Api.module";
 import {Speaker} from "modules/Api/Model/Speaker";
-import Vue from "vue";
-import Component from "vue-class-component";
-import {Watch} from "vue-property-decorator";
+import {Component, Vue, Watch} from "shared/vue";
 import {Store} from "../_store";
 import {speakerRoutes} from "./_routes.show";
 import WithRender from "./show.layout.html";

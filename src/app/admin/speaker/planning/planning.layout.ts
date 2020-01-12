@@ -1,8 +1,7 @@
 import {CardPlugin} from "bootstrap-vue";
 import {CalendarWrapper} from "components/calendar/calendar-wrapper";
 import {from} from "rxjs";
-import Vue from "vue";
-import Component from "vue-class-component";
+import {Component, Vue} from "shared/vue";
 import WithRender from "./planning.layout.html";
 
 Vue.use(CardPlugin);

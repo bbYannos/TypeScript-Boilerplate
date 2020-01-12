@@ -7,7 +7,6 @@ import {Column} from "modules/DataTable/models/Column";
 import {switchMap, tap} from "rxjs/operators";
 import {Store} from "../../_store";
 
-// noinspection JSUnusedGlobalSymbols
 export class ModuleList extends ListComponent<Module> {
   public data: {
     addButtonDisplayed: boolean,

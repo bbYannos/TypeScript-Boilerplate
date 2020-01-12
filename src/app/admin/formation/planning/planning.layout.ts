@@ -13,7 +13,6 @@ Vue.use(CardPlugin);
 export class PlanningLayout extends Vue implements VueComponent {
   public $refs: { trainingList: TrainingDraggableList } = {trainingList: null};
   public speaker_: BehaviorSubject<Speaker> = new BehaviorSubject<Speaker>(null);
-  public speaker$: Observable<Speaker> = this.speaker_.asObservable();
   public planning$ = () => from(import(/* webpackChunkName: "admin" */ "./planning-calendar"));
 
   public mounted(): void {}

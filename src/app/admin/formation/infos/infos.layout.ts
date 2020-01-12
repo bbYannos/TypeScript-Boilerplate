@@ -1,9 +1,8 @@
 import {CardPlugin, TabsPlugin} from "bootstrap-vue";
-import {ListWrapper} from "components/lists/list-wrapper";
 import {CalendarWrapper} from "components/calendar/calendar-wrapper";
+import {ListWrapper} from "components/lists/list-wrapper";
 import {from} from "rxjs";
-import Vue from "vue";
-import Component from "vue-class-component";
+import {Component, Vue} from "shared/vue";
 import {FormationForm} from "./formation.form";
 import WithRender from "./infos.layout.html";
 

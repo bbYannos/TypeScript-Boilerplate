@@ -6,14 +6,14 @@ import {Session, SessionQuery} from "modules/Api/Model/Session/Session.Service";
 import {Speaker} from "modules/Api/Model/Speaker";
 import {CalendarFactoryOptions} from "modules/Calendar/Calendar.Factory";
 import {CalendarFactory} from "modules/Calendar/module";
-import {Observable} from "rxjs";
+import {Subject} from "rxjs";
 import {switchMap, take, tap} from "rxjs/operators";
 import moment from "shared/moment";
 import {Store} from "../../_store";
 
 
 export class PlanningCalendar extends CalendarComponent<Session> {
-  public speaker$: Observable<Speaker> = null;
+  public speaker_: Subject<Speaker> = null;
   protected service = Api.sessionService;
   protected editable = true;
 
@@ -34,8 +34,7 @@ export class PlanningCalendar extends CalendarComponent<Session> {
           endTime: endTime,
           events$: formation.sessions$,
           vacations$: formation.allVacations$,
-          availableSessions$: this.speaker$.pipe(
-            tap((speaker) => (speaker) ? console.log(speaker.label) : console.log(speaker)),
+          availableSessions$: this.speaker_.pipe(
             switchMap((speaker: Speaker) => formation.availableSessions$(moment(info.start), moment(info.end), speaker)),
           ),
         };
@@ -63,6 +62,7 @@ export class PlanningCalendar extends CalendarComponent<Session> {
         });
         Api.sessionService.createByQuery(query).subscribe(() => {
           info.event.remove();
+          this.speaker_.next(null);
         });
       }
     });

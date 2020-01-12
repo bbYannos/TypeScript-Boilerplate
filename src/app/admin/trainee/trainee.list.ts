@@ -1,9 +1,9 @@
 import {ListComponent} from "components/lists/list.component";
 import Api from "modules/Api/Api.module";
 import {Formation} from "modules/Api/Model/Formation";
+import {Trainee} from "modules/Api/Model/Trainee";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
-import {Trainee} from "modules/Api/Model/Trainee";
 
 export class TraineeList extends ListComponent<Trainee> {
   public data = {

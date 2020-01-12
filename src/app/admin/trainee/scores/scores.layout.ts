@@ -1,7 +1,6 @@
 import {CardPlugin, TabsPlugin} from "bootstrap-vue";
 import {from} from "rxjs";
-import Vue from "vue";
-import Component from "vue-class-component";
+import {Component, Vue} from "shared/vue";
 import WithRender from "./scores.layout.html";
 
 Vue.use(TabsPlugin);

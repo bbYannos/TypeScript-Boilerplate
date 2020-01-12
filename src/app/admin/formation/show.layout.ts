@@ -1,9 +1,7 @@
 import {SubNavBar} from "components/sub-nav-bar";
 import Api from "modules/Api/Api.module";
 import {Formation} from "modules/Api/Model/Formation";
-import Vue from "vue";
-import Component from "vue-class-component";
-import {Watch} from "vue-property-decorator";
+import {Component, Vue, Watch} from "shared/vue";
 import {Store} from "../_store";
 import {formationRoutes} from "./_routes.show";
 import WithRender from "./show.layout.html";

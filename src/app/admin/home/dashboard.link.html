@@ -1,0 +1,14 @@
+<div class="card card-rounded">
+    <div class="card-body">
+        <div class="clearfix">
+            <div class="float-left">
+                <i :class="'mdi mdi-' + icon + ' icon-lg'" style="color: #881c25;"></i>
+            </div>
+            <div class="float-right mt-3">
+                <router-link :to="path" class="action-link" style="font-size: 14px; color: #881c25;">
+                    {{label}}
+                </router-link>
+            </div>
+        </div>
+    </div>
+</div>

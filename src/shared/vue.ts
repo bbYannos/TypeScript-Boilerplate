@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import {Prop} from "vue-property-decorator";
-
+import {Prop, Watch} from "vue-property-decorator";
 interface VueComponent {
   readonly $el: Element;
 
@@ -14,4 +13,4 @@ interface VueComponent {
   destroyed?(): void;
 }
 
-export {Component, Prop, Vue, VueComponent};
+export {Component, Prop, Vue, VueComponent, Watch};

@@ -1,11 +1,8 @@
 import Router, {RouteConfig} from "vue-router";
 import {formationsRoute} from "./formation/_routes";
+import {homeRoute} from "./home/_routes";
 import {speakersRoute} from "./speaker/_routes";
 import {traineesRoute} from "./trainee/_routes";
-
-const Foo = {template: `<div class="foo"><h1>foo</h1></div>`};
-
-const homeRoute = {path: "/home", name: "Accueil", meta: {icon: "fa-tachometer"}, component: Foo};
 
 export const adminRoutes: RouteConfig[] = [
   homeRoute,
