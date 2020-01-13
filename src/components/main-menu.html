@@ -3,7 +3,7 @@
         <li class="nav-item" v-for="route in routes" >
             <router-link :to="route.path" class="nav-link">
                 <i v-if="route.meta.icon" :class="'fa ' + route.meta.icon"> </i>
-                <span class="menu-title">{{route.name}}</span>
+                <span class="menu-title">{{route.meta.label}}</span>
                 <i v-if="routeApiChildren(route)" :class="{'menu-arrow': true, 'rotate': match(route)}" ></i>
             </router-link>
             <b-collapse v-if="routeApiChildren(route)" :visible="match(route)" >

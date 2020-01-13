@@ -14,7 +14,7 @@ speakerRoutes.forEach((_route) => {
 
 
 const speakerRoute = {
-  path: ":identifier", name: "Speaker",
+  path: ":identifier",
   redirect: () => {
     return ":identifier/" + currentRoute;
   },
@@ -26,8 +26,11 @@ const speakerRoute = {
 };
 
 export const speakersRoute = {
-  path: "/speakers", name: "Intervenants",  redirect: "/speakers/list",
-  meta: {icon: "fa-user"},
+  path: "/speakers", redirect: "/speakers/list",
+  meta: {
+    icon: "fa-user",
+    label: "Intervenants",
+  },
   component: {template: "<router-view />"},
   children: [
     {path: "list", name: "SpeakersList", component: SpeakersList},

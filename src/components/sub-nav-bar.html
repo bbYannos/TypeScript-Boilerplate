@@ -9,7 +9,7 @@
                 <li class="nav-item" v-for="route in data.routes">
                     <router-link :to="route.path" class="nav-link">
                         <i :class="['fa', route.meta.icon]"></i>
-                        <span class="menu-title"> {{route.name}}</span>
+                        <span class="menu-title"> {{route.meta.label}}</span>
                     </router-link>
                 </li>
             </ul>

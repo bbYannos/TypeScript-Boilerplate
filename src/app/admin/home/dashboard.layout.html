@@ -1,10 +1,5 @@
 <div class="row">
-    <div class="col-4">
-        <dash-link-c icon="timer-off" label="Absences & Retards" />
-    </div>
-    <div class="col-4">
-        <dash-link-c icon="chart-line" label="Exams & Notes" />
+    <div class="col-4" v-for="route in routes">
+        <dash-link-c :icon="route.meta.icon" :label="route.meta.label" :link="route.path" />
     </div>
 </div>
-
-

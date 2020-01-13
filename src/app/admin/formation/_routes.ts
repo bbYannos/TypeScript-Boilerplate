@@ -15,7 +15,6 @@ formationRoutes.forEach((_route) => {
 
 export const formationRoute = {
   path: ":identifier/",
-  name: "Formation",
   redirect: () => {
     return ":identifier/" + currentRoute;
   },
@@ -28,7 +27,10 @@ export const formationRoute = {
 
 export const formationsRoute = {
   path: "/formations", name: "Formations", redirect: "/formations/list",
-  meta: {icon: "fa-leanpub"},
+  meta: {
+    icon: "fa-leanpub",
+    label: "Formation",
+  },
   component: {template: "<router-view />"},
   children: [
     {path: "list", name: "FormationsList", component: FormationsList},

@@ -16,8 +16,11 @@ export const traineeRoute = {
 };
 
 export const traineesRoute = {
-  path: "/students", name: "Étudiants", redirect: "/students/list",
-  meta: {icon: "fa-graduation-cap"},
+  path: "/students", redirect: "/students/list",
+  meta: {
+    label: "Étudiants",
+    icon: "fa-graduation-cap",
+  },
   component: {template: "<router-view />"},
   children: [
     {path: "list", name: "StudentsList", component: TraineesList},
