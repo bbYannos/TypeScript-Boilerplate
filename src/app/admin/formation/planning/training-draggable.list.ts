@@ -20,8 +20,8 @@ export class TrainingDraggableList extends Vue implements VueComponent {
 
   public mounted(): void {
     Store.formation_.pipe(
-      takeUntil(this.close_),
       switchMap((formation: Formation) => combineLatest([formation.sessions$, formation.trainings$])),
+      takeUntil(this.close_),
     ).subscribe(([sessions, trainings]) => {
       this.trainings = trainings.filter((training: Training) => training.speaker !== null && training.remainingDuration.asMinutes() !== 0);
       this.$nextTick(() => {

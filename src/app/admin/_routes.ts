@@ -5,6 +5,7 @@ import {speakersRoute} from "./speaker/_routes";
 import {traineesRoute} from "./trainee/_routes";
 
 export const adminRoutes: RouteConfig[] = [
+  {path: "/", redirect: homeRoute.path, meta: {hidden: true}},
   homeRoute,
   traineesRoute,
   formationsRoute,

@@ -12,7 +12,8 @@
                     </ol>
                 </nav>
             </template>
-            <spate-list ref="spateList" @select="select($event)" />
+            <spate-list v-show="data.training === null" ref="spateList" @select="select($event)" />
+            <
         </b-card>
     </div>
 </div>

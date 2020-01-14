@@ -15,6 +15,7 @@ Vue.use(CardPlugin);
 @Component({components: {SpateList}})
 export class ScoresLayout extends Vue implements VueComponent {
   public $refs: {spateList: SpateList} = {spateList: null};
+  public spateListMode: boolean = true;
 
   public data: {
     formation?: Formation,
@@ -62,6 +63,7 @@ export class ScoresLayout extends Vue implements VueComponent {
       case "Training":
         this.data = {formation: this.data.formation, speaker: this.data.speaker, training: object as Training};
         this.$refs.spateList.setSource$(this.data.training.exams$);
+        this.spateListMode = false;
     }
   }
 }

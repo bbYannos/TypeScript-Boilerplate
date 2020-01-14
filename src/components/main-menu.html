@@ -1,6 +1,6 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav hover-animate">
-        <li class="nav-item" v-for="route in routes" >
+        <li class="nav-item" v-for="route in routes.filter((_route) => (_route.meta.hidden !== true))" >
             <router-link :to="route.path" class="nav-link">
                 <i v-if="route.meta.icon" :class="'fa ' + route.meta.icon"> </i>
                 <span class="menu-title">{{route.meta.label}}</span>

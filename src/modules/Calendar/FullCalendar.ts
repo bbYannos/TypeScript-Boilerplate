@@ -87,7 +87,6 @@ export class FullCalendar<T extends EventInterface> {
       this.calendarCallback$ub = null;
     }
     this.calendarCallback$ub = this.calendarCallback_.pipe(
-      takeUntil(this.close$),
       switchMap((info) => this.getAllEvents$(info).pipe(
         auditTime(50),
         tap((results) => {
@@ -99,6 +98,7 @@ export class FullCalendar<T extends EventInterface> {
           }
         }),
       )),
+      takeUntil(this.close$),
     ).subscribe();
   }
 }
