@@ -3,8 +3,8 @@ import Api from "modules/Api/Api.module";
 import {Trainee} from "modules/Api/Model/Trainee";
 import {COLUMNS} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
-import {UNJUSTIFIED_ABSENCES} from "./absence.list";
-import {DELAY_TOTAL} from "./delay.list";
+import {UNJUSTIFIED_ABSENCES} from "../absences/absence.list";
+import {DELAY_TOTAL} from "../delays/delay.list";
 
 export class SynthesisList extends ListComponent<Trainee> {
   protected overrideOptions = this.defaultPagingOptions;
@@ -17,6 +17,10 @@ export class SynthesisList extends ListComponent<Trainee> {
     new Column({...DELAY_TOTAL, ...{data: null}}),
     new Column(COLUMNS.EDIT),
   ];
+
+  public editAction = (trainee: Trainee) => {
+    this.$router.push("/students/" + trainee.identifier + "/absences");
+  };
 }
 
 export default SynthesisList;

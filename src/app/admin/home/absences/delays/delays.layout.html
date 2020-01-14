@@ -1,0 +1,13 @@
+<div class="col-12">
+    <b-card class="card-rounded" header="Saisie des retards">
+        <list-w :component$="absenceList$" :add_="addDelay_">
+            <template slot="add">
+                <div class="row">
+                    <div class="col-4">
+                        <input-clearable :source$="traineeAutocompleteSource$" placeholder="Ajouter un étudiant" @selectedItem="addDelay_.next($event)"/>
+                    </div>
+                </div>
+            </template>
+        </list-w>
+    </b-card>
+</div>

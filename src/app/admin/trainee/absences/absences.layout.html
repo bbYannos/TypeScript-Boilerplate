@@ -1,14 +1,21 @@
 <div class="col-12">
-    <b-tabs>
-        <b-tab title="Absences" active>
-            <b-card class="card-rounded">
-                <list-w :component$="absenceList$"/>
-            </b-card>
-        </b-tab>
-        <b-tab title="Retards">
-            <b-card class="card-rounded">
-               <list-w :component$="delayList$"/>
-            </b-card>
-        </b-tab>
-    </b-tabs>
+    <div class="row">
+        <div class="col-12 mt-0 mb-3">
+            <button class="btn btn-secondary btn-rounded btn-fw pull-left" @click="$router.push('/home/absences/synthesis')"><< Récapitulatif des absences et retards</button>
+        </div>
+        <div class="col-12">
+        <b-tabs>
+            <b-tab title="Absences" active>
+                <b-card class="card-rounded">
+                    <list-w :component$="absenceList$"/>
+                </b-card>
+            </b-tab>
+            <b-tab title="Retards">
+                <b-card class="card-rounded">
+                   <list-w :component$="delayList$"/>
+                </b-card>
+            </b-tab>
+        </b-tabs>
+        </div>
+    </div>
 </div>

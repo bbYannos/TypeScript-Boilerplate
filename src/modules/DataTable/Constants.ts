@@ -50,7 +50,7 @@ export const COLUMNS = {
   LABEL: (title: string, propertyName: string, width: number = null) => {
     return {
       title: title, data: propertyName, width: (width === null) ? "auto" : width + "px",
-      render: (data) => (data !== null && data.length) ? data : '<span class="text-danger">Entrez un ' + title.toLowerCase() + "</span>",
+      render: (data) => (data && data.length) ? data : '<span class="text-danger">Entrez un ' + title.toLowerCase() + "</span>",
     };
   },
   LABEL_IF_EXIST: (title: string, propertyName: string) => {

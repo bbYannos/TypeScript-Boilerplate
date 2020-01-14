@@ -1,34 +1,23 @@
 import {ListComponent} from "components/lists/list.component";
 import Api from "modules/Api/Api.module";
-import {Absence} from "modules/Api/Model/Absence";
-import {AbsenceQuery} from "modules/Api/Model/Absence/Absence.Service";
+import {Absence, AbsenceQuery} from "modules/Api/Model/Absence/Absence.Service";
 import {Trainee} from "modules/Api/Model/Trainee";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
-import {of} from "rxjs";
 import {map} from "rxjs/operators";
-import moment from "shared/moment";
 
-const DELAY_DURATION = {
-  title: "Durée",
-  data: "duration",
-  render: (data: moment.Duration) => data.asMinutes().toString(),
-  width: "40px",
-  className: "align-center",
-};
-
-export const DELAY_TOTAL = {
-  title: "Total", data: "trainee",
-  render: (trainee: Trainee) => trainee.delays.length.toString() + " <i>(" + trainee.delaysDuration.format("HH:mm", {trim: false}) + ")</i>",
+export const UNJUSTIFIED_ABSENCES = {
+  title: "Non just.", data: "trainee.unjustifiedAbsences.length",
+  render: (data) => (Number(data) < 2) ? data : '<b class="text-danger">' + data + "</b>",
   width: "40px", className: "align-center",
 };
 
-export class DelayList extends ListComponent<Absence> {
+export class AbsenceList extends ListComponent<Absence> {
   protected service = Api.absenceService;
   protected _dataSource$ = Api.absenceService.fetchAll$.pipe(
     map((absences: Absence[]) =>
       absences
-      .filter((absence) => absence.delay)
+      .filter((absence) => !absence.delay)
       .sort((abs1, abs2) => (abs1.createdAt > abs2.createdAt) ? -1 : 1),
     ),
   );
@@ -37,21 +26,23 @@ export class DelayList extends ListComponent<Absence> {
   protected columns = [
     new Column(COLUMNS.DATE_TIME("Date", "startTime"), EDITABLE_TYPES.dateTimeInput),
     new Column(COLUMNS.LABEL("Nom", "trainee.label")),
-    new Column(DELAY_DURATION, EDITABLE_TYPES.durationInput, {durationFormat: "mm"}),
-    new Column(DELAY_TOTAL),
+    new Column(COLUMNS.DATE_TIME("Fin", "endTime"), EDITABLE_TYPES.dateTimeInput),
+    new Column(COLUMNS.NUMBER("Abs. total", "trainee.absences.length")),
+    new Column(UNJUSTIFIED_ABSENCES),
     new Column(COLUMNS.DELETE),
   ];
 
   public render() {
     super.render();
-    this._dataTable.propertiesUpdatingList = ["startTime", "duration"];
+    this._dataTable.propertiesUpdatingList = ["startTime", "endTime"];
   }
 
   public createAction = (trainee: Trainee) => {
-    console.log(trainee);
-    return of(null);
-
+    const absenceQuery = new AbsenceQuery();
+    absenceQuery.trainee = trainee;
+    absenceQuery.delay = false;
+    return Api.absenceService.createByQuery(absenceQuery);
   }
 }
 
-export default DelayList;
+export default AbsenceList;

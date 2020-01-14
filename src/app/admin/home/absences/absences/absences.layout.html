@@ -1,0 +1,13 @@
+<div class="col-12">
+    <b-card class="card-rounded" header="Saisie des absences">
+        <list-w :component$="absenceList$" :add_="addAbsence_">
+            <template slot="add">
+                <div class="row">
+                    <div class="col-4">
+                        <input-clearable :source$="traineeAutocompleteSource$" placeholder="Ajouter un étudiant" @selectedItem="addAbsence_.next($event)"/>
+                    </div>
+                </div>
+            </template>
+        </list-w>
+    </b-card>
+</div>
