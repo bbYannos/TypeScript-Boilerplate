@@ -7,7 +7,6 @@ import {AbstractDataTableInput, DataTableNumberInput, DataTableTextInput} from "
 import {DataTableSelect} from "./DataTableSelect";
 import {DataTableTimeInput} from "./DataTableTimeInput";
 
-
 export class EditableContentManager {
   public static getFormattedValue(value: any, type: number) {
     switch (type) {

@@ -1,3 +1,27 @@
-<div>
-    Absences et retards
+<div class="col-12">
+    <b-tabs>
+        <b-tab title="Retards" lazy active>
+            <b-card class="card-rounded">
+                <list-w :component$="delayList$" :add_="addDelay_" >
+                    <template slot="add">
+                        <div class="row">
+                            <div class="col-4">
+                                <input-clearable :source$="traineeAutocompleteSource$" @selectedItem="addDelay_.next($event)"/>
+                            </div>
+                        </div>
+                    </template>
+                </list-w>
+            </b-card>
+        </b-tab>
+        <b-tab title="Absences" lazy>
+            <b-card class="card-rounded">
+                <list-w :component$="absenceList$" />
+            </b-card>
+        </b-tab>
+        <b-tab title="Synthèse" lazy>
+            <b-card class="card-rounded pt-4">
+                <list-w :component$="synthesisList$" />
+            </b-card>
+        </b-tab>
+    </b-tabs>
 </div>

@@ -1,13 +1,11 @@
 import $ from "jquery";
 import {EditableContentManager} from "modules/DataTable/models/Inputs/EditableContent.manager";
-import Vue from "vue";
-import Component from "vue-class-component";
-import {Prop} from "vue-property-decorator";
-import WithRender from "./form.editable.html";
+import {Component, Prop, Vue, VueComponent} from "shared/vue";
+import WithRender from "./form-editable.html";
 
 @WithRender
 @Component
-export class FormEditable extends Vue {
+export class FormEditable extends Vue implements VueComponent {
 
   @Prop({default: null})
   public value: any;

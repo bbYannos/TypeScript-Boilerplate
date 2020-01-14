@@ -1,0 +1,16 @@
+.form-control-clear {
+    z-index: 10;
+    pointer-events: auto;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    display: block;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+}
+.input-group span.twitter-typeahead .tt-menu {
+    font-size: 12px;
+}

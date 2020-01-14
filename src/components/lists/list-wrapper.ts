@@ -28,10 +28,14 @@ export class ListWrapper extends Vue implements VueComponent {
     addButtonDisplayed: false,
     addButtonLabel: "",
   };
+
   @Prop({default: null})
   public component$: () => Observable<{ default: new () => ComponentInterface }>;
+
+  @Prop({default: () => new Subject<any>()})
+  public add_: Subject<any>;
+
   protected close_: Subject<void> = new Subject<void>();
-  protected add_: Subject<void> = new Subject<void>();
 
   public mounted() {
     this.component$().subscribe(({default: _Component}) => {

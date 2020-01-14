@@ -127,7 +127,7 @@ configuration.optimization = {
                 chunks: 'all',
                 priority: -2,
             },
-            datatable: {
+            jquery: {
                 test: /(jquery|dataTables|DataTable)/,
                 chunks: 'all',
                 priority: -3,

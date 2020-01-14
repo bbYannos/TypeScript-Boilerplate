@@ -7,19 +7,22 @@ export const speakerRoutes: RouteConfig[] = [{
   path: "planning",
   meta: {
     label: "Planning",
-    icon: "fa-calendar-check-o"},
+    icon: "fa-calendar-check-o",
+  },
   component: PlanningLayout,
 }, {
   path: "trainings",
   meta: {
     label: "Liste des cours",
-    icon: "fa-bars"},
+    icon: "fa-bars",
+  },
   component: TrainingsLayout,
 }, {
   path: "availabilities",
   meta: {
     label: "Disponibilités",
-    icon: "fa-calendar-check-o"},
+    icon: "fa-calendar-check-o",
+  },
   component: InfosLayout,
 },
 ];

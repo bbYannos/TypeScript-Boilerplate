@@ -1,0 +1,5 @@
+<div class="input-group">
+    <input class="form-control" type="text" autocomplete="off" :placeholder="placeholder" v-model="value" ref="input">
+    <div class="form-control-clear " v-show="value !== ''" @click="reset"><span class="fa fa-times"></span></div>
+</div>
+

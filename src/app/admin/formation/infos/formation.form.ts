@@ -1,5 +1,5 @@
 import "assets/styles/form.scss";
-import {FormEditable} from "components/forms/form.editable";
+import {FormEditable} from "components/forms/form-editable";
 import {Formation} from "modules/Api/Model/Formation";
 import {DATE_FORMAT, EDITABLE_TYPES, TIME_FORMAT} from "modules/DataTable/Constants";
 import {Component, Vue, VueComponent} from "shared/vue";

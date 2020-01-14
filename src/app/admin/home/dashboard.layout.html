@@ -1,5 +1,5 @@
 <div class="row">
     <div class="col-4" v-for="route in routes">
-        <dash-link-c :icon="route.meta.icon" :label="route.meta.label" :link="route.path" />
+        <dash-link-c :icon="route.meta.icon" :label="route.meta.label" :path="homePath + '/' + route.path" />
     </div>
 </div>

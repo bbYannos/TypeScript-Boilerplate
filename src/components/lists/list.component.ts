@@ -50,7 +50,7 @@ export class ListComponent<T extends AbstractApiModel> {
       this.add$ub = null;
     }
     this.add$ub = this.add$.pipe(takeUntil(this.close$)).pipe(
-      switchMap(() => this.createAction()),
+      switchMap((...param) => this.createAction(...param)),
     ).subscribe();
   }
 
@@ -86,7 +86,7 @@ export class ListComponent<T extends AbstractApiModel> {
     return this._dataTable;
   }
 
-  public createAction: () => Observable<T> = () => {
+  public createAction: (...param) => Observable<T> = () => {
     if (this.service !== null) {
       return this.service.create(this.service.repository.makeNew());
     }
@@ -107,7 +107,7 @@ export class ListComponent<T extends AbstractApiModel> {
     return of(object);
   };
 
-  public editAction: (object: T) => void = (object: T) => {
+  public editAction: (...param) => void = () => {
     return;
   };
 }
