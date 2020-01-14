@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-12" v-show="loading">
+        <loader-c />
+    </div>
+    <div class="col-12" v-show="!loading">
+        <ul class="list-group">
+            <li v-for="element in elements" class="list-group-item action-link" @click="$emit('select', element)">
+                {{ getLabel(element) }}
+            </li>
+        </ul>
+    </div>
+</div>
+

@@ -26,7 +26,7 @@ export class SpeakerService extends DexieRestService<Speaker> {
             take(1),
             map((trainings) => {
               const filteredTrainings = trainings.filter((training) =>
-                  training.formation.isSame(formation) && (!forExams || training.canHaveExams),
+                  training.formation && training.formation.isSame(formation) && (!forExams || training.canHaveExams),
               );
               if (filteredTrainings.length > 0) {
                 return speaker;

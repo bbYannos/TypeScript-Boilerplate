@@ -20,6 +20,7 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
       this.animate(cell.$tr);
     }
   }
+
   protected getObjectCell(object): EditableCell | null {
     let cell: EditableCell = null;
     this.dataTableApi.rows().eq(0).each((index) => {
@@ -97,9 +98,11 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
         this.lastEdited = {col: data.cell.colIndex, row: data.cell.object, action: data.action};
         if (data.dirty) {
           this.updateAction(cell.object).subscribe(() => {
+            /*
             if (this.propertiesUpdatingList.indexOf(cell.property as keyof T) === -1) {
               this.goNext_.next();
             }
+             */
           });
         } else {
           this.goNext_.next();

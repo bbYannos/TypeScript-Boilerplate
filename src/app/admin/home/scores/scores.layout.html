@@ -1,3 +1,18 @@
-<div>
-    Exams & notes
+<div class="row">
+    <div class="col-md-12 ">
+        <b-card class="card card-rounded">
+            <template slot="header">
+                <h4>Saisie des notes</h4>
+                <nav aria-label="Saisie des notes">
+                    <ol class="breadcrumb  mb-0">
+                        <li class="breadcrumb-item action-link"><a href="javascript:" @click="select(null)">Toutes les Formations</a></li>
+                        <li class="breadcrumb-item action-link" v-for="selected in data">
+                            <a href="javascript:" @click="select(selected)">{{getLabel(selected)}}</a>
+                        </li>
+                    </ol>
+                </nav>
+            </template>
+            <spate-list ref="spateList" @select="select($event)" />
+        </b-card>
+    </div>
 </div>

@@ -25,7 +25,7 @@ export const absencesRoutes: RouteConfig[] = [
   }, {
     path: "synthesis",
     meta: {
-      label: "Synthèse",
+      label: "Récapitulatif",
       icon: "fa-list",
     },
     component: SynthesisLayout,

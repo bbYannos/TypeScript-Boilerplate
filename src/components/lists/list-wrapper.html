@@ -6,6 +6,8 @@
         <slot name="add">
             <div class="row">
                 <div class="col-md-12">
+                    <slot name="moreButton">
+                    </slot>
                     <button v-if="data.addButtonDisplayed" type="button"
                             class="btn btn-secondary btn-rounded btn-fw pull-right" @click="add_.next()">
                         <i class="mdi mdi-plus"></i> {{ data.addButtonLabel }}
