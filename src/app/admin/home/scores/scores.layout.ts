@@ -1,21 +1,23 @@
 import {CardPlugin} from "bootstrap-vue";
+import {SpateList} from "components/spate-list/spate.list";
 import Api from "modules/Api/Api.module";
 import {Exam} from "modules/Api/Model/Exam";
 import {Formation} from "modules/Api/Model/Formation";
 import {Speaker} from "modules/Api/Model/Speaker";
 import {Training, TrainingQuery} from "modules/Api/Model/Training/Training.Service";
+import {from} from "rxjs";
 import {LabeledInterface} from "shared/abstract-api/classes/models";
 import {Component, Vue, VueComponent} from "shared/vue";
+import {ExamExamTypeTabs} from "./exam-exam-type/exam-exam-type.tabs";
 import WithRender from "./scores.layout.html";
-import {SpateList} from "./spate.list";
 
 Vue.use(CardPlugin);
 
 @WithRender
-@Component({components: {SpateList}})
+@Component({components: {SpateList, ExamModuleTabs: ExamExamTypeTabs}})
 export class ScoresLayout extends Vue implements VueComponent {
   public $refs: {spateList: SpateList} = {spateList: null};
-  public spateListMode: boolean = true;
+  public examScoreList$ = () =>  from(import(/* webpackChunkName: "admin" */ "./exam-score.list"));
 
   public data: {
     formation?: Formation,
@@ -61,9 +63,20 @@ export class ScoresLayout extends Vue implements VueComponent {
         this.$refs.spateList.setSource$(Api.trainingService.list(trainingQuery));
         break;
       case "Training":
-        this.data = {formation: this.data.formation, speaker: this.data.speaker, training: object as Training};
-        this.$refs.spateList.setSource$(this.data.training.exams$);
-        this.spateListMode = false;
+        this.data = {
+          formation: this.data.formation,
+          speaker: this.data.speaker,
+          training: object as Training
+        };
+        break;
+      case "Exam":
+        this.data = {
+          formation: this.data.formation,
+          speaker: this.data.speaker,
+          training: this.data.training,
+          exam: object as Exam
+        };
+        break;
     }
   }
 }

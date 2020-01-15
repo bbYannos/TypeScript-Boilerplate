@@ -12,8 +12,9 @@
                     </ol>
                 </nav>
             </template>
-            <spate-list v-show="data.training === null" ref="spateList" @select="select($event)" />
-            <
+            <spate-list v-show="!data.training" ref="spateList" @select="select($event)" />
+            <exam-exam-type-tabs v-if="data.training && !data.exam" :training="data.training" @select="select($event)" />
+            <list-w v-if="data.exam" :component$="examScoreList$" :params="{exam: this.data.exam}"/>
         </b-card>
     </div>
 </div>

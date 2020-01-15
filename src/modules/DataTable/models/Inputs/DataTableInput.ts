@@ -57,10 +57,16 @@ export class DataTableTextInput extends AbstractDataTableInput<string> {
 // tslint:disable-next-line:max-classes-per-file
 export class DataTableNumberInput extends AbstractDataTableInput<number> {
   protected stringToValue(value: string): number {
+    if (value === "") {
+      return null;
+    }
     return Number(value);
   }
 
   protected valueToString(value): string {
+    if (!value) {
+      return "";
+    }
     return value.toString();
   }
 }

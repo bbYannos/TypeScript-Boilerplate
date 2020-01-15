@@ -13,6 +13,7 @@ interface ComponentInterface {
   add$: Observable<any>;
   $htmEl: HTMLElement;
   render(): void;
+  editAction: (...param) => void;
 }
 
 @WithRender
@@ -35,6 +36,9 @@ export class ListWrapper extends Vue implements VueComponent {
   @Prop({default: () => new Subject<any>()})
   public add_: Subject<any>;
 
+  @Prop({default: null})
+  public params: any;
+
   protected close_: Subject<void> = new Subject<void>();
 
   public mounted() {
@@ -46,6 +50,10 @@ export class ListWrapper extends Vue implements VueComponent {
       component.$router = this.$router;
       component.close$ = this.close_.asObservable();
       component.add$ = this.add_.asObservable();
+      for (const key in this.params) {
+        // noinspection JSUnfilteredForInLoop
+        component[key] = this.params[key];
+      }
       component.render();
     });
   }
