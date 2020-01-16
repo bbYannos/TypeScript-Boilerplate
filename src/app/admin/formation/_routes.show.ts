@@ -1,9 +1,17 @@
 import {RouteConfig} from "vue-router";
 import {InfosLayout} from "./infos/infos.layout";
 import {PlanningLayout} from "./planning/planning.layout";
+import {ScoresLayout} from "./scores/scores.layout";
 import {TrainingsLayout} from "./trainings/trainings.layout";
 
 export const formationRoutes: RouteConfig[] = [{
+  path: "scores",
+  meta: {
+    label: "Notes",
+    icon: "fa-star",
+  },
+  component: ScoresLayout,
+}, {
   path: "planning",
   meta: {
     label: "Planning",

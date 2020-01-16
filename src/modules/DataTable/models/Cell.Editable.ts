@@ -17,6 +17,39 @@ export class EditableCell extends Cell {
 
   public columnDef: Column = null;
 
+  public get editedObject() {
+    let object = super.object;
+    if (this.columnDef.params && this.columnDef.params.editedObject) {
+      object = this.columnDef.params.editedObject(object);
+    }
+    return object;
+  }
+
+  public get updateAction() {
+    if (this.columnDef.params && this.columnDef.params.updateAction) {
+      return this.columnDef.params.updateAction;
+    }
+    return null;
+  }
+
+  public get value() {
+    let value = super.value;
+    if (this.columnDef.display.data === null) {
+      value = null;
+      if (this.columnDef.params && this.columnDef.params.editedValue) {
+        value = this.editedObject[this.columnDef.params.editedValue];
+      }
+    }
+    return value;
+  }
+
+  public get property(): string {
+    if (this.columnDef.params && this.columnDef.params.editedValue) {
+      return this.columnDef.params.editedValue;
+    }
+    return super.property;
+  }
+
   // Open input and return Observable of changes
   public getCellUpdated$(columnDef: Column): Observable<{dirty: boolean, cell: EditableCell, action: closeAction}> {
     this.columnDef = columnDef;
@@ -33,7 +66,6 @@ export class EditableCell extends Cell {
     if (input !== null) {
       input.appendTo(this.$td, this.value);
       this.$td.addClass("to_edit");
-
       return input.close$.pipe(
         tap(() => this.$td.removeClass("to_edit")),
         map(({dirty: dirty, value: _value, action: action}) => {
@@ -71,7 +103,10 @@ export class EditableCell extends Cell {
   // this function might do really strange things !!!!
   // Use carefully
   public updateDisplayedValue(value) {
-    // console.log(this.$td, this.dataTableApi.cell(this.$td).data(), value);
+    if (!this.columnDef.display.data) {
+      this.editedObject[this.property] = value;
+    }
+    // Update directly object with DataTable Magic ^^
     this.dataTableApi.cell(this.$td).data(value);
   }
 }

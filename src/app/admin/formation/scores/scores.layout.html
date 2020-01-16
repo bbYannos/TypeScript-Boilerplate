@@ -1,0 +1,17 @@
+<div class="col-12">
+    <b-tabs>
+        <b-tab v-for="training in trainings" :title="training.label" lazy>
+            <b-card>
+
+                <b-tabs>
+                    <b-tab title="Notes" lazy>
+                        <list-w :component$="scoreList$" :params="{training: training}"/>
+                    </b-tab>
+                    <b-tab title="Examens" lazy>
+                        <list-w :component$="examList$" class="pt-3" :params="{training: training}"/>
+                    </b-tab>
+                </b-tabs>
+            </b-card>
+        </b-tab>
+    </b-tabs>
+</div>

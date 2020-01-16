@@ -1,13 +1,16 @@
 import {Observable} from "rxjs";
 import {AbstractApiQuery, DexieRestService, Repository} from "shared/abstract-api";
-import {Exam} from "./Exam.Model";
 import {Training} from "../Training/Training.Model";
+import {Exam} from "./Exam.Model";
+
 export {Exam};
+
 export class ExamQuery extends AbstractApiQuery<Exam> {
   public training: Training = null;
   protected equals = ["training"];
 }
 
+// tslint:disable-next-line
 export class ExamService extends DexieRestService<Exam> {
   public repository: Repository<Exam> = new Repository<Exam>(Exam);
 

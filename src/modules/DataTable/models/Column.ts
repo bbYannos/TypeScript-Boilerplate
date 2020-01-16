@@ -26,6 +26,9 @@ export class Column {
       max?: any,
       min?: any,
       durationFormat?: string,
+      editedObject?: (...param) => any,
+      editedValue?: string,
+      updateAction?: (...param) => Observable<any>;
     } = null) {
   }
 

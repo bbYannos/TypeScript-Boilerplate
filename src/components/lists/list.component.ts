@@ -108,7 +108,6 @@ export class ListComponent<T extends AbstractApiModel> {
   };
 
   public editAction: (...param) => void = () => {
-    console.log("Edit action");
     return;
   };
 }

@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import {Observable} from "rxjs";
-import {AbstractApiModel, PeriodList} from "shared/abstract-api";
+import {AbstractApiModel, ChildrenListFactory, PeriodList} from "shared/abstract-api";
 import {DurationConverter, JsonObject, JsonProperty, RelationConverter} from "shared/json2typescript";
 import {Exam} from "../Exam/Exam.Model";
 import {Formation} from "../Formation/Formation.Model";
@@ -8,6 +8,7 @@ import {Module} from "../Module/Module.Model";
 import {Room} from "../Room/Room.Model";
 import {Session} from "../Session/Session.Model";
 import {Speaker} from "../Speaker/Speaker.Model";
+import {Trainee} from "../Trainee";
 
 @JsonObject("Training")
 export class Training extends AbstractApiModel {
@@ -38,6 +39,26 @@ export class Training extends AbstractApiModel {
   public sessions$: Observable<Session[]> = null;
 
   public exams$: Observable<Exam[]> = null;
+
+  public get exams(): Exam[] {
+    return ChildrenListFactory.getChildrenListForProperty(this, "exams$").list.toArray() as Exam[];
+  }
+
+  public getAverageByTrainee(trainee: Trainee): number {
+    let averageScore = 0;
+    let averageRatio = 0;
+    this.exams.forEach((exam: Exam) => {
+      const score = exam.getScoreByTrainee(trainee).score;
+      if (score !== null) {
+        averageScore += exam.getScoreByTrainee(trainee).score * exam.coefficient;
+        averageRatio += exam.coefficient;
+      }
+    });
+    if (averageRatio > 0) {
+      return Math.round((averageScore / averageRatio) * 100) / 100;
+    }
+    return null;
+  }
 
   public get remainingDuration() {
     return this.duration.clone().subtract(this.getList<PeriodList<Session>>("sessions$").duration);

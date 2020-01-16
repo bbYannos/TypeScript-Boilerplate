@@ -43,7 +43,7 @@ export class TrainingService extends DexieRestService<Training> {
     return this.create(training);
   }
 
-  public sort = () => pipe (
+  public defaultSort = () => pipe (
     map((trainings: Training[]) => trainings.sort((training1, training2) => {
       // Undefined modules Or Same modules => sort by training label
       if ((!training1.module && !training2.module) ||

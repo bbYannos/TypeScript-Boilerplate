@@ -67,7 +67,6 @@ export class DataTableBase<T> {
   protected prepareDataSource$(dataSource$: Observable<T[]>) {
     return dataSource$.pipe(
       debounceTime(0),
-      takeUntil(this.close$),
       tap((objects: T[]) => {
         // console.log('From data Source', objects);
         if (this.dataTableApi === null) {
@@ -80,6 +79,7 @@ export class DataTableBase<T> {
           this.dataTableApi.page(this.currentPage).draw(false);
         }
       }),
+      takeUntil(this.close$),
     );
   }
 

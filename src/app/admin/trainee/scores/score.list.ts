@@ -18,8 +18,9 @@ export class ScoreList extends ListComponent<ExamScore> {
   protected service = Api.examScoreService;
 
   protected columns = [
-    new Column(COLUMNS.DATE_TIME("Date", "exam.label", DATE_FORMAT)),
-    new Column(COLUMNS.LABEL("Exam", "exam.training.label")),
+    new Column(COLUMNS.DATE_TIME("Date", "exam.dateTime", DATE_FORMAT)),
+    new Column(COLUMNS.LABEL("Cours", "exam.training.label")),
+    new Column(COLUMNS.LABEL("Type d'exam", "exam.examType.label")),
     new Column(COLUMNS.LABEL("Exam", "exam.label")),
     new Column(COLUMNS.NUMBER("Note", "score")),
   ];

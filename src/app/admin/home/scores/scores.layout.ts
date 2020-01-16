@@ -6,6 +6,7 @@ import {Formation} from "modules/Api/Model/Formation";
 import {Speaker} from "modules/Api/Model/Speaker";
 import {Training, TrainingQuery} from "modules/Api/Model/Training/Training.Service";
 import {from} from "rxjs";
+import {map} from "rxjs/operators";
 import {LabeledInterface} from "shared/abstract-api/classes/models";
 import {Component, Vue, VueComponent} from "shared/vue";
 import {ExamExamTypeTabs} from "./exam-exam-type/exam-exam-type.tabs";
@@ -60,6 +61,7 @@ export class ScoresLayout extends Vue implements VueComponent {
         const trainingQuery = new TrainingQuery();
         trainingQuery.formation = this.data.formation;
         trainingQuery.speaker = this.data.speaker;
+        trainingQuery.canHaveExams = true;
         this.$refs.spateList.setSource$(Api.trainingService.list(trainingQuery));
         break;
       case "Training":

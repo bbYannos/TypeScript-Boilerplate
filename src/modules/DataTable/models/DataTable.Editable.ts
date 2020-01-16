@@ -7,7 +7,7 @@ import {DataTableExpandable} from "./DataTable.Expandable";
 import {closeAction} from "./Inputs/input.component";
 
 export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpandable<T> {
-  public propertiesUpdatingList: Array<keyof T> = [];
+  public propertiesUpdatingList: string[] = [];
   // list used to detected newly created objects after source update
   public currentObjects: T[] = null;
   protected lastEdited: { col: number, row: T, action: closeAction } = null;
@@ -42,7 +42,6 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
     this.goNextSub = this.goNext_.pipe(takeUntil(this.close$)).subscribe(() => {
       if (this.lastEdited !== null && ["Tab", "Enter"].indexOf(this.lastEdited.action) !== -1) {
         const cell = this.getObjectCell(this.lastEdited.row);
-        // console.log(this.lastEdited.row, cell.rowIndex);
         if (cell) {
           const nextEditableCell = this.columnsCollection.getNextEditableCell({
             col: this.lastEdited.col,
@@ -97,8 +96,12 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
       cellUpdated$.subscribe((data: { dirty: boolean, cell: EditableCell, action: closeAction }) => {
         this.lastEdited = {col: data.cell.colIndex, row: data.cell.object, action: data.action};
         if (data.dirty) {
-          this.updateAction(cell.object).subscribe(() => {
-            if (this.propertiesUpdatingList.indexOf(cell.property as keyof T) === -1) {
+          let updateAction =  this.updateAction(cell.editedObject);
+          if (cell.updateAction) {
+            updateAction = cell.updateAction(cell.editedObject);
+          }
+          updateAction.subscribe(() => {
+            if (this.propertiesUpdatingList.indexOf(cell.property) === -1) {
               this.goNext_.next();
             }
           });

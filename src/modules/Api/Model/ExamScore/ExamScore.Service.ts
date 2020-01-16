@@ -1,4 +1,4 @@
-import {forkJoin} from "rxjs";
+import {forkJoin, Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {AbstractApiQuery, DexieRestService, Repository} from "shared/abstract-api";
 import {Exam} from "../Exam/Exam.Model";
@@ -28,25 +28,9 @@ export class ExamScoreService extends  DexieRestService<ExamScore> {
    return this.list(query);
   }
 
-  public getByExam(exam: Exam) {
-    const trainees$ = traineeService.getByFormation(exam.training.formation);
+  public getByExam(exam: Exam): Observable<ExamScore[]> {
     const query = new ExamScoreQuery();
     query.exam = exam;
-    const scores$ = this.list(query);
-    return forkJoin([trainees$, scores$]).pipe(
-      map(([trainees, scores]: [Trainee[], ExamScore[]]) => {
-        return trainees.map((trainee: Trainee) => {
-          const _score = scores.find((score: ExamScore) => score.trainee.isSame(trainee));
-          if (_score) {
-            return _score;
-          } else {
-            const examScore = this.repository.makeNew();
-            examScore.trainee = trainee;
-            examScore.exam = exam;
-            return examScore;
-          }
-        });
-      }),
-    );
+    return this.list(query);
   }
 }

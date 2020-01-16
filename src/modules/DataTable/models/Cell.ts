@@ -54,7 +54,7 @@ export class Cell {
   }
 
   public get property(): string {
-    return this.column.dataSrc().toString();
+    return (this.column.dataSrc()) ? this.column.dataSrc().toString() : null;
   }
 
   public get readOnly(): boolean {
