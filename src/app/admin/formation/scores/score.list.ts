@@ -6,34 +6,32 @@ import {Trainee} from "modules/Api/Model/Trainee";
 import {Training} from "modules/Api/Model/Training";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
-import {combineLatest, of} from "rxjs";
-import {map, switchMap, take} from "rxjs/operators";
+import {takeUntil} from "rxjs/operators";
+import {AverageManager} from "./average.manager";
 
 export class ScoreList extends ListComponent<Trainee> {
   public training: Training = null;
+  protected propertiesUpdatingList = ["score"];
 
   public render() {
-    this.training.exams$.pipe(
-      take(1),
-    ).subscribe((_exams) => {
-      this.setColumns(_exams);
-      this.dataSource$ =  this.training.exams$.pipe(
-        switchMap((exams: Exam[]) => {
-          const populateScore$ = (exams.length) ? combineLatest(exams.map((exam) => exam.scores$)) : of([]);
-          return populateScore$.pipe(map(() => exams));
-        }),
-        switchMap(() => Api.traineeService.getByFormation(this.training.formation)),
-      );
+    AverageManager.prepare$(this.training.formation).pipe(
+      takeUntil(this.close$),
+    ).subscribe(() => {
+      this.setColumns(this.training.exams);
+      this.dataSource$ = Api.traineeService.getByFormation(this.training.formation);
       super.render();
-      this.dataTable.propertiesUpdatingList = ["score"];
     });
   }
 
   protected setColumns(exams: Exam[]): void {
     this.columns = [new Column(COLUMNS.LABEL("Étudiant", "label"))];
     exams.forEach((exam: Exam) => {
+      let colLabel =  "<span style=\"color: red\">N/A</span>";
+      if (exam.examType !== null) {
+        colLabel = exam.examType.label + " <sup>(" + exam.coefficient.toString() + ")</sup>";
+      }
       const TRAINEE_SCORE = {
-        title: exam.label + " <sup>(" + exam.coefficient.toString() + ")</sup>", data: null, width: "40px", className: "align-center",
+        title: colLabel, data: null, width: "40px", className: "align-center",
         render: (trainee: Trainee) => this.getScoreLabel(exam.getScoreByTrainee(trainee)),
       };
       this.columns.push(
@@ -45,8 +43,8 @@ export class ScoreList extends ListComponent<Trainee> {
       );
     });
     const AVERAGE = {
-      title: "Moy.", data: null, width: "40px", render:
-        (trainee: Trainee) => this.getAverageLabel(this.training.getAverageByTrainee(trainee)),
+      title: "Moy.", data: null, width: "40px", className: "align-center dark", sortable: false,  render:
+        (trainee: Trainee) => this.getAverageLabel(AverageManager.averageByTraining(trainee, this.training)),
     };
     this.columns.push(new Column(AVERAGE));
   }

@@ -5,12 +5,13 @@ import {ExamScore} from "modules/Api/Model/ExamScore";
 import {Trainee} from "modules/Api/Model/Trainee";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
-import {Observable} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 
 export class ExamScoreList extends ListComponent<ExamScore> {
-  public exam: Exam = null;
+
   protected service = Api.examScoreService;
+  /* todo: src/modules/Api/Model/ExamScore/index.ts : watchedProperties */
+  protected propertiesUpdatingList = ["score"];
   protected query: ExamQuery = new ExamQuery();
   protected columns: Column[] = [
     new Column(COLUMNS.LABEL("Étudiant", "trainee.label")),
@@ -20,10 +21,10 @@ export class ExamScoreList extends ListComponent<ExamScore> {
     }, EDITABLE_TYPES.numberInput),
   ];
 
-  public get dataSource$(): Observable<ExamScore[]> {
-    return Api.traineeService.getByFormation(this.exam.training.formation).pipe(
-      switchMap((trainees: Trainee[]) => this.exam.scores$.pipe(map(() => trainees))),
-      map((trainees: Trainee[]) => trainees.map((trainee: Trainee) => this.exam.getScoreByTrainee(trainee))),
+  public set exam(exam: Exam) {
+    this._dataSource$ = Api.traineeService.getByFormation(exam.training.formation).pipe(
+      switchMap((trainees: Trainee[]) => exam.scores$.pipe(map(() => trainees))),
+      map((trainees: Trainee[]) => trainees.map((trainee: Trainee) => exam.getScoreByTrainee(trainee))),
     );
   }
 }

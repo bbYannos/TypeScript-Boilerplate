@@ -44,20 +44,11 @@ export class Training extends AbstractApiModel {
     return ChildrenListFactory.getChildrenListForProperty(this, "exams$").list.toArray() as Exam[];
   }
 
-  public getAverageByTrainee(trainee: Trainee): number {
-    let averageScore = 0;
-    let averageRatio = 0;
-    this.exams.forEach((exam: Exam) => {
-      const score = exam.getScoreByTrainee(trainee).score;
-      if (score !== null) {
-        averageScore += exam.getScoreByTrainee(trainee).score * exam.coefficient;
-        averageRatio += exam.coefficient;
-      }
-    });
-    if (averageRatio > 0) {
-      return Math.round((averageScore / averageRatio) * 100) / 100;
+  public get coefficient(): number {
+    if (this.module !== null) {
+      return this.module.coefficient;
     }
-    return null;
+    return 1;
   }
 
   public get remainingDuration() {

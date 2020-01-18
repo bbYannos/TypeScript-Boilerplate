@@ -11,8 +11,6 @@ import {Component, Vue, VueComponent} from "shared/vue";
 import {ExamExamTypeTabs} from "./exam-exam-type/exam-exam-type.tabs";
 import WithRender from "./scores.layout.html";
 
-import "@AppL"
-
 Vue.use(CardPlugin);
 
 @WithRender
@@ -71,6 +69,7 @@ export class ScoresLayout extends Vue implements VueComponent {
           speaker: this.data.speaker,
           training: object as Training,
         };
+        this.$refs.spateList.setSource$(this.data.training.exams$);
         break;
       case "Exam":
         this.data = {
@@ -79,6 +78,7 @@ export class ScoresLayout extends Vue implements VueComponent {
           training: this.data.training,
           exam: object as Exam,
         };
+
         break;
     }
   }

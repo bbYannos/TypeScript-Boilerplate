@@ -4,6 +4,7 @@ import {Column} from "modules/DataTable/models/Column";
 
 export class ExamList extends DefaultExamList {
   protected columns: Column[] = this.columns.concat([
+    new Column(COLUMNS.EDIT),
     new Column(COLUMNS.DELETE),
   ]);
 }

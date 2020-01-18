@@ -5,6 +5,7 @@ import {JsonObject, JsonProperty, RelationConverter} from "shared/json2typescrip
 import moment from "shared/moment/moment";
 import {Absence} from "../Absence/Absence.Model";
 import {Formation} from "../Formation/Formation.Model";
+import {Training} from "../Training";
 import {User} from "../User/User.Model";
 
 @JsonObject("Trainee")

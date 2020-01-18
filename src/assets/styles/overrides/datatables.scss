@@ -1,0 +1,23 @@
+@import "../vars.scss";
+.dataTables_wrapper .table td.dark, .dataTables_wrapper .table th.dark {
+  background-color: rgba($main-color, 0.05);
+  border-width: 1px;
+  border-style: solid;
+  color: $main-color;
+}
+
+.dataTables_wrapper .table td.light-dark, .dataTables_wrapper .table th.light-dark {
+  background-color: rgba($main-color-2, 0.05);
+  color: $main-color;
+}
+
+.dataTables_wrapper .table th.dark {
+  border-color: $main-color $main-color transparent $main-color;
+}
+
+.dataTables_wrapper .table td.dark {
+  border-color: transparent $main-color;
+}
+.dataTables_wrapper .table tr:last-child td.dark {
+  border-color: transparent $main-color $main-color;
+}

@@ -1,13 +1,15 @@
 import {MODULES_CONSTANTS} from "modules/modules.constants";
 import {Observable} from "rxjs";
 import {map, shareReplay, switchMap} from "rxjs/operators";
-import {AbstractPeriod, RxjsUtils} from "shared/abstract-api";
+import {AbstractPeriod, ChildrenListFactory, RxjsUtils} from "shared/abstract-api";
 import {DurationConverter, JsonObject, JsonProperty, MomentConverter, TimeConverter} from "shared/json2typescript";
 import moment from "shared/moment";
 import {Availability} from "../Availability/Availability.Model";
+import {ExamScore} from "../ExamScore";
 import {Module} from "../Module/Module.Model";
 import {Session} from "../Session/Session.Model";
 import {Speaker} from "../Speaker/Speaker.Model";
+import {Trainee} from "../Trainee";
 import {Training} from "../Training/Training.Model";
 
 @JsonObject("Formation")
@@ -30,6 +32,10 @@ export class Formation extends AbstractPeriod {
   public modules$: Observable<Module[]> = null;
 
   public trainings$: Observable<Training[]> = null;
+
+  public get trainings(): Training[] {
+    return ChildrenListFactory.getChildrenListForProperty(this, "trainings$").list.toArray() as Training[];
+  }
 
   public allAvailabilities$: Observable<Availability[]> = null;
   public allVacations$: Observable<Availability[]> = null;

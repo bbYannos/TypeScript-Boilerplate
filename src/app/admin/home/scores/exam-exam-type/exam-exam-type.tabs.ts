@@ -13,7 +13,7 @@ Vue.use(CardPlugin);
 export class ExamExamTypeTabs extends Vue {
   @Prop({default: null})
   public training: Training;
-  public examList$ = () =>  from(import(/* webpackChunkName: "admin" */ "app/_common/lists/exam.list"));
+  public examList$ = () =>  from(import(/* webpackChunkName: "admin" */ "./exam.list"));
   public examTypeList$ = () =>  from(import(/* webpackChunkName: "admin" */ "app/_common/lists/exam-type.list"));
 }
 Vue.component("exam-exam-type-tabs", ExamExamTypeTabs);

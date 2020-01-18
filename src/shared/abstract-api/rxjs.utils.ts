@@ -18,12 +18,20 @@ export class RxjsUtils {
     );
   }
 
+
+
   public static combineLatest(obs$: Array<Observable<any>>, emptyValue = []): Observable<any[]> {
     if (obs$.length === 0) {
       return of(emptyValue);
     }
     return combineLatest(obs$).pipe(
       auditTime(10),
+    );
+  }
+
+  public static combineAndFlat(ob$: Array<Observable<any>>) {
+    return this.combineLatest(ob$).pipe(
+      map((res: any[][]) => res.flat()),
     );
   }
 
