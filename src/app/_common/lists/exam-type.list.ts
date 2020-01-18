@@ -13,8 +13,10 @@ export class ExamTypeList extends ListComponent<ExamType> {
   } = {
     addButtonDisplayed: true,
   };
+
   protected service = Api.examTypeService;
   protected query: ExamQuery = new ExamQuery();
+  protected propertiesUpdatingList =  ["label", "coefficient"];
   protected columns: Column[] = [
     new Column(COLUMNS.LABEL("Intitulé", "label"), EDITABLE_TYPES.textInput),
     new Column(COLUMNS.NUMBER("Coeff.", "coefficient"), EDITABLE_TYPES.numberInput),

@@ -23,6 +23,7 @@ const configuration = {
     },
     resolve: {
         alias: {
+            app: path.resolve(__dirname + '/../', 'src/app/'),
             assets: path.resolve(__dirname + '/../', 'src/assets/'),
             components: path.resolve(__dirname + '/../', 'src/components/'),
             layouts: path.resolve(__dirname + '/../', 'src/layouts/'),
@@ -117,7 +118,7 @@ configuration.optimization = {
     splitChunks: {
         minSize: 20000,
         cacheGroups: {
-            abstract_api: {
+            libs: {
                 test: /(lodash|moment|rxjs|axios)/,
                 chunks: 'all',
                 priority: -1,
@@ -132,7 +133,7 @@ configuration.optimization = {
                 chunks: 'all',
                 priority: -3,
             },
-            abstract_api: {
+            api: {
                 test: /(abstract\-api|json2typescript|object\.utils|modules[\\/]Api)/,
                 chunks: 'all',
                 reuseExistingChunk: true,

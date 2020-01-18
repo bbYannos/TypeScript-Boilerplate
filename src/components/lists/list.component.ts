@@ -28,6 +28,7 @@ export class ListComponent<T extends AbstractApiModel> {
 
   public loading_: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
+  protected propertiesUpdatingList: string[] = [];
   protected add$ub: Subscription = null;
   protected overrideOptions: DataTables.Settings = {};
   protected defaultPagingOptions = {
@@ -45,6 +46,7 @@ export class ListComponent<T extends AbstractApiModel> {
 
   public render() {
     this.dataTable.setDataSource$(this.dataSource$);
+    this.dataTable.propertiesUpdatingList = this.propertiesUpdatingList;
     if (this.add$ub !== null) {
       this.add$ub.unsubscribe();
       this.add$ub = null;

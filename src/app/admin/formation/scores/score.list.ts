@@ -7,7 +7,7 @@ import {Training} from "modules/Api/Model/Training";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
 import {combineLatest, of} from "rxjs";
-import {map, switchMap, take, tap} from "rxjs/operators";
+import {map, switchMap, take} from "rxjs/operators";
 
 export class ScoreList extends ListComponent<Trainee> {
   public training: Training = null;
@@ -33,8 +33,8 @@ export class ScoreList extends ListComponent<Trainee> {
     this.columns = [new Column(COLUMNS.LABEL("Étudiant", "label"))];
     exams.forEach((exam: Exam) => {
       const TRAINEE_SCORE = {
-        title: exam.label, data: null, width: "40px", className: "align-center",
-        render: (trainee: Trainee) => this.getScoreLabel(exam, trainee),
+        title: exam.label + " <sup>(" + exam.coefficient.toString() + ")</sup>", data: null, width: "40px", className: "align-center",
+        render: (trainee: Trainee) => this.getScoreLabel(exam.getScoreByTrainee(trainee)),
       };
       this.columns.push(
         new Column(TRAINEE_SCORE, EDITABLE_TYPES.numberInput, {
@@ -51,14 +51,12 @@ export class ScoreList extends ListComponent<Trainee> {
     this.columns.push(new Column(AVERAGE));
   }
 
-  protected  getScoreLabel(exam: Exam, trainee: Trainee): string {
-    const examScore = exam.getScoreByTrainee(trainee);
-    const score = (examScore && examScore.score !== null) ? examScore.score.toString() : "--";
-    return score + " <sup>(" + exam.coefficient.toString() + ")</sup>";
+  protected  getScoreLabel(examScore: ExamScore): string {
+    return (examScore && examScore.score !== null) ? examScore.score.toString() : "--";
   }
 
   protected getAverageLabel(average: number) {
-    return (average) ? (Math.round(average * 100) / 100).toString() : "";
+    return (average !== null) ? (Math.round(average * 100) / 100).toString() : "";
   }
 }
 

@@ -6,11 +6,12 @@ import {Formation} from "modules/Api/Model/Formation";
 import {Speaker} from "modules/Api/Model/Speaker";
 import {Training, TrainingQuery} from "modules/Api/Model/Training/Training.Service";
 import {from} from "rxjs";
-import {map} from "rxjs/operators";
 import {LabeledInterface} from "shared/abstract-api/classes/models";
 import {Component, Vue, VueComponent} from "shared/vue";
 import {ExamExamTypeTabs} from "./exam-exam-type/exam-exam-type.tabs";
 import WithRender from "./scores.layout.html";
+
+import "@AppL"
 
 Vue.use(CardPlugin);
 
@@ -18,7 +19,7 @@ Vue.use(CardPlugin);
 @Component({components: {SpateList, ExamModuleTabs: ExamExamTypeTabs}})
 export class ScoresLayout extends Vue implements VueComponent {
   public $refs: {spateList: SpateList} = {spateList: null};
-  public examScoreList$ = () =>  from(import(/* webpackChunkName: "admin" */ "./exam-score.list"));
+  public examScoreList$ = () =>  from(import(/* webpackChunkName: "admin" */ "app/_common/lists/exam-score.list"));
 
   public data: {
     formation?: Formation,
@@ -68,7 +69,7 @@ export class ScoresLayout extends Vue implements VueComponent {
         this.data = {
           formation: this.data.formation,
           speaker: this.data.speaker,
-          training: object as Training
+          training: object as Training,
         };
         break;
       case "Exam":
@@ -76,7 +77,7 @@ export class ScoresLayout extends Vue implements VueComponent {
           formation: this.data.formation,
           speaker: this.data.speaker,
           training: this.data.training,
-          exam: object as Exam
+          exam: object as Exam,
         };
         break;
     }

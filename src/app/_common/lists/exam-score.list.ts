@@ -5,9 +5,10 @@ import {ExamScore} from "modules/Api/Model/ExamScore";
 import {Trainee} from "modules/Api/Model/Trainee";
 import {COLUMNS, EDITABLE_TYPES} from "modules/DataTable/Constants";
 import {Column} from "modules/DataTable/models/Column";
+import {Observable} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 
-export class ExamTypeList extends ListComponent<ExamScore> {
+export class ExamScoreList extends ListComponent<ExamScore> {
   public exam: Exam = null;
   protected service = Api.examScoreService;
   protected query: ExamQuery = new ExamQuery();
@@ -19,13 +20,12 @@ export class ExamTypeList extends ListComponent<ExamScore> {
     }, EDITABLE_TYPES.numberInput),
   ];
 
-  public render() {
-    this.dataSource$ = Api.traineeService.getByFormation(this.exam.training.formation).pipe(
+  public get dataSource$(): Observable<ExamScore[]> {
+    return Api.traineeService.getByFormation(this.exam.training.formation).pipe(
       switchMap((trainees: Trainee[]) => this.exam.scores$.pipe(map(() => trainees))),
       map((trainees: Trainee[]) => trainees.map((trainee: Trainee) => this.exam.getScoreByTrainee(trainee))),
     );
-    super.render();
   }
 }
 
-export default ExamTypeList;
+export default ExamScoreList;
