@@ -1,3 +1,13 @@
-<b-card header="Intervenants">
+<b-card>
+    <template slot="header">
+        <div class="float-left mr-4">
+            Intervenants
+        </div>
+        <div class="float-left">
+            <a href="javascript:" ref="excelBtn" @click="exportExcel">
+                <i class="fa fa-file-excel-o" style="color: green" aria-hidden="true"></i>
+            </a>
+        </div>
+    </template>
     <list-w :component$="listComponent$"/>
 </b-card>
