@@ -7,7 +7,8 @@ import {DataTableExpandable} from "./DataTable.Expandable";
 import {closeAction} from "./Inputs/input.component";
 
 export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpandable<T> {
-  public propertiesUpdatingList: string[] = [];
+  // list of properties which do not reload list
+  public silentProperties: string[] = [];
   // list used to detected newly created objects after source update
   public currentObjects: T[] = null;
   protected lastEdited: { col: number, row: T, action: closeAction } = null;
@@ -101,7 +102,7 @@ export class DataTableEditable<T extends AbstractApiModel> extends DataTableExpa
             updateAction = cell.updateAction(cell.editedObject);
           }
           updateAction.subscribe(() => {
-            if (this.propertiesUpdatingList.indexOf(cell.property) === -1) {
+            if (this.silentProperties.indexOf(cell.property) > -1) {
               this.goNext_.next();
             }
           });

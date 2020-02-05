@@ -13,7 +13,7 @@ import "./training-draggable.list.scss";
 @Component
 export class TrainingDraggableList extends Vue implements VueComponent {
   public trainings: Training[] = [];
-  public $refs: { container: HTMLElement, wrapper: HTMLElement} = {container: null, wrapper: null};
+  public $refs: { container: HTMLElement, wrapper: HTMLElement } = {container: null, wrapper: null};
 
   protected close_: Subject<void> = new Subject<void>();
   protected draggable: Draggable = null;
@@ -27,6 +27,9 @@ export class TrainingDraggableList extends Vue implements VueComponent {
       this.$nextTick(() => {
         if (this.draggable !== null) {
           this.draggable.destroy();
+        }
+        if (trainings.length === 0) {
+          return;
         }
         this.draggable = new Draggable(this.$refs.wrapper, {
           itemSelector: ".fc-event",
@@ -51,4 +54,4 @@ export class TrainingDraggableList extends Vue implements VueComponent {
   }
 }
 
-export default Vue.component("training-draggable-list", TrainingDraggableList);
+Vue.component("training-draggable-list", TrainingDraggableList);

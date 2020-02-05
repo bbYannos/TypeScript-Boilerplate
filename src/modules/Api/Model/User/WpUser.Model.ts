@@ -14,15 +14,15 @@ export class WpUserModel {
     return roles.filter((role: Role) => this.roles.indexOf(role) > -1).length > 0;
   }
 
-  get isAdmin(): boolean {
+  public get isAdmin(): boolean {
     return (this.roles.indexOf("administrator") > -1);
   }
 
-  get isSpeaker(): boolean {
+  public get isSpeaker(): boolean {
     return (this.roles.indexOf("speaker") > -1);
   }
 
-  get isTrainee(): boolean {
+  public get isTrainee(): boolean {
     return (this.roles.indexOf("trainee") > -1);
   }
 

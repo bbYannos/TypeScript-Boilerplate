@@ -1,4 +1,5 @@
 import {ServiceFactory} from "../../shared/abstract-api";
+import {IsVinDexieBDD} from "./IsVinBDD.Dexie";
 import {IsVinRestBDD} from "./isVinBDD.Rest";
 import {absenceService} from "./Model/Absence";
 import {availabilityService} from "./Model/Availability";
@@ -31,7 +32,12 @@ export const Api = {
   userService: new UserService(),
 };
 
+if (!ServiceFactory.connectedMode) {
+  ServiceFactory.dexieDB = new IsVinDexieBDD(false);
+  ServiceFactory.dexieDB.init();
+}
 ServiceFactory.restDB = new IsVinRestBDD();
+
 for (const key in Api) {
   ServiceFactory.initService(Api[key]);
 }

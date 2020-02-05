@@ -1,6 +1,6 @@
 import Dexie from "dexie/dist/dexie";
 import {forkJoin, from, Observable} from "rxjs";
-import {catchError, map, mergeMap, shareReplay, switchMap, tap} from "rxjs/operators";
+import {map, shareReplay, switchMap, tap} from "rxjs/operators";
 import {AbstractInitService} from "../classes/services";
 import {RxjsUtils} from "../rxjs.utils";
 
@@ -34,7 +34,11 @@ export abstract class DexieRequestServiceConnexion extends AbstractInitService {
     // do not use "dexie" witch import dexie.es.js
     // when "dexie-export-import" use dexie.js
     return from(import(/* webpackChunkName: "dexie" */  "dexie/dist/dexie.js")).pipe(
-      map((dexieModule) => new dexieModule.default(this.dbName)),
+      switchMap((dexieModule) => {
+        const db = new dexieModule.default(this.dbName);
+        db.version(this.version).stores(this.stores);
+        return RxjsUtils.promiseToObservable(db.open());
+      }),
       shareReplay(1),
     );
   }
@@ -47,6 +51,7 @@ export abstract class DexieRequestServiceConnexion extends AbstractInitService {
   }
 
   public init() {
+    /*
     let init$ = this.db$();
     if (this.connected) {
       init$ = init$.pipe(
@@ -58,12 +63,13 @@ export abstract class DexieRequestServiceConnexion extends AbstractInitService {
     ).subscribe(() => {
       this.ready_.next([true]);
     });
+     */
   }
 
   public getTable$<T>(tableName: string): Observable<Dexie.Table<T, number>> {
-    return this.isReady$.pipe(mergeMap(() =>
-      this.db$().pipe(map((db: Dexie) => db[tableName])),
-    ));
+    return this.db$().pipe(map((db: Dexie) => {
+      return db[tableName];
+    }));
   }
 
   public deleteDb(): Observable<Dexie> {
@@ -83,21 +89,10 @@ export abstract class DexieRequestServiceConnexion extends AbstractInitService {
   public importDb(file) {
     return this.db$().pipe(
       switchMap(() => this.deleteDb()),
-      switchMap(() => this.createDbIfNeeded()),
+      // switchMap(() => this.createDbIfNeeded()),
       switchMap(() => forkJoin([this.db$(), this.importExport$()])),
       switchMap(([db, eiModule]) => from(eiModule.importInto(db, file))),
     );
-  }
-
-  protected createDbIfNeeded() {
-    return this.db$().pipe(switchMap((db: Dexie) =>
-      RxjsUtils.promiseToObservable(db.open()).pipe(
-        catchError(() => {
-          db.version(this.version).stores(this.stores);
-          return RxjsUtils.promiseToObservable(db.open());
-        }),
-      ),
-    ));
   }
 }
 

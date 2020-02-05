@@ -36,7 +36,6 @@ export class DexieService<T extends AbstractApiModel> extends AbstractRepository
    */
   public get fetchAll$(): Observable<T[]> {
     return this.isReady$.pipe(
-      // tap(() => console.log(this.name + " is ready")),
       switchMap(() => this.repository.change$.pipe(
         this.defaultSort(),
       )),
@@ -95,7 +94,7 @@ export class DexieService<T extends AbstractApiModel> extends AbstractRepository
   public list(request: any = {}): Observable<T[]> {
     if (this.dexie === null) {
       /* todo: Request on repository or check if id is present and get by id*/
-      console.log("Dexie is NULL !!!");
+      console.error("Dexie is NULL !!!");
       return of([]);
     }
     return this.dexie.list(request).pipe(

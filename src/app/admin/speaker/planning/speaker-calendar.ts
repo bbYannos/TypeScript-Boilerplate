@@ -4,6 +4,7 @@ import Api from "modules/Api/Api.module";
 import {Session} from "modules/Api/Model/Session";
 import {Speaker} from "modules/Api/Model/Speaker";
 import {CalendarFactory} from "modules/Calendar/module";
+import {of} from "rxjs";
 import {switchMap, tap} from "rxjs/operators";
 import moment from "shared/moment";
 import {Store} from "../../_store";

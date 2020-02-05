@@ -1,5 +1,6 @@
-import {combineLatest, Observable, of} from "rxjs";
-import {map, share, switchMap} from "rxjs/operators";
+import {Observable, of} from "rxjs";
+import {map, switchMap} from "rxjs/operators";
+import {RxjsUtils} from "shared/abstract-api";
 import {JsonObject} from "shared/json2typescript";
 import moment from "shared/moment/moment";
 import {Availability} from "../Availability/Availability.Model";
@@ -33,10 +34,7 @@ export class Speaker extends User {
     return this.trainings$.pipe(
       switchMap((trainings: Training[]) => {
         const sessions$ = trainings.map((training: Training) => training.sessions$);
-        return combineLatest(sessions$).pipe(
-          map((sessionsArray: Session[][]) => sessionsArray.flat()),
-          share(),
-        );
+        return RxjsUtils.combineAndFlat(sessions$);
       }),
     );
   }

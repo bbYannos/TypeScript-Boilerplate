@@ -32,11 +32,6 @@ export class AbsenceList extends ListComponent<Absence> {
     new Column(COLUMNS.DELETE),
   ];
 
-  public render() {
-    super.render();
-    this._dataTable.propertiesUpdatingList = ["startTime", "endTime"];
-  }
-
   public createAction = (trainee: Trainee) => {
     const absenceQuery = new AbsenceQuery();
     absenceQuery.trainee = trainee;

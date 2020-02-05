@@ -1,3 +1,4 @@
+import {CookieUtils} from "./cookie.utils";
 import {DexieRequestService, DexieTable} from "./dexie";
 import {ApiRequestService, RestApiTable} from "./rest";
 
@@ -11,14 +12,17 @@ interface Service {
   init(): void;
 }
 
-
 export class ServiceFactory {
   public static restDB: ApiRequestService = null;
   public static dexieDB: DexieRequestService = null;
-  public static connectedMode: boolean = true;
+  public static get connectedMode(): boolean {
+    return CookieUtils.getCookie(CookieUtils.Names.OnOffLine) !== "false";
+  };
+
   protected static services: Service[] = [];
 
   public static initService<T extends Service>(service: T): T {
+
     if (service.options) {
       service.options.synchronize = this.connectedMode;
     }
@@ -29,18 +33,6 @@ export class ServiceFactory {
       service.initRest(this.restDB);
     }
     service.init();
-    return service;
-  }
-
-  public static getService<T extends Service>(Ctor: new () => T): T {
-    let service = new Ctor();
-    const cachedService = this.services.find((_service) => _service.name === service.name);
-    if (cachedService) {
-      service = cachedService as T;
-    } else {
-      this.initService(service);
-      this.services.push(service);
-    }
     return service;
   }
 }

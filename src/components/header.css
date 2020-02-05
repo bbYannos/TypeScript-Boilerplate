@@ -2,3 +2,7 @@
     width: 150px;
     height: 60px;
 }
+
+.vue-js-switch .v-switch-label {
+    font-weight: normal !important;
+}

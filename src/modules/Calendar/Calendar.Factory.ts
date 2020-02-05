@@ -7,6 +7,7 @@ import {combineLatest, Observable, of} from "rxjs";
 import {auditTime, map} from "rxjs/operators";
 import moment from "shared/moment";
 import {ObjectUtils} from "shared/utils/object.utils";
+import {RxjsUtils} from "../../shared/abstract-api";
 import {MODULES_CONSTANTS} from "../modules.constants";
 import {TIME_FULL_CALENDAR} from "./Constants";
 import {EventMapper, EventMapperOptions} from "./EventMapper";
@@ -79,10 +80,7 @@ export class CalendarFactory {
       return of([]);
     }
 
-    return combineLatest(obs$).pipe(
-      auditTime(10),
-      map((allEventsArray: any[][]) => allEventsArray.flat()),
-    );
+    return RxjsUtils.combineAndFlat(obs$);
   }
 
   public static getRangeByFormation(formation: Formation): OptionsInput {

@@ -23,24 +23,20 @@ export class VacationList extends ListComponent<Availability> {
     new Column(COLUMNS.DELETE),
   ];
 
-  public render() {
-    this.dataSource$ = Store.formation_.pipe(
-      tap((formation: Formation) => {
-        // avoid highlight of all rows
-        if (this._dataTable) {
-          this._dataTable.currentObjects = null;
-        }
-        this.loading_.next(true);
-        this.query.open = false;
-        this.query.setParentAndClass(formation);
-      }),
-      switchMap((formation) => formation.allVacations$),
-    );
-    this.createAction = () => Api.availabilityService.createByQuery(this.query);
+  protected _dataSource$ = Store.formation_.pipe(
+    tap((formation: Formation) => {
+      // avoid highlight of all rows
+      if (this._dataTable) {
+        this._dataTable.currentObjects = null;
+      }
+      this.loading_.next(true);
+      this.query.open = false;
+      this.query.setParentAndClass(formation);
+    }),
+    switchMap((formation) => formation.allVacations$),
+  );
 
-    super.render();
-    this._dataTable.propertiesUpdatingList = ["label", "startTime", "endTime", "global"];
-  }
+  public createAction = () => Api.availabilityService.createByQuery(this.query);
 }
 
 export default VacationList;

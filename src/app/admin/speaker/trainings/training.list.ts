@@ -17,6 +17,7 @@ export class TrainingList extends ListComponent<Training> {
 
   protected service = Api.trainingService;
   protected query = new TrainingQuery();
+  protected silentProperties = ["label", "formation", "duration"];
 
   protected columns = [
     new Column(COLUMNS.LABEL("Intitulé", "label"), EDITABLE_TYPES.textInput),

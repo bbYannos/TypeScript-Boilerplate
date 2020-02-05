@@ -32,6 +32,18 @@ export class DelayList extends ListComponent<Absence> {
   protected service = Api.absenceService;
   protected query = new AbsenceQuery();
 
+  protected _dataSource$ = Store.trainee_.pipe(
+    tap((trainee: Trainee) => {
+      // avoid highlight of all rows
+      if (this._dataTable) {
+        this._dataTable.currentObjects = null;
+      }
+      this.loading_.next(true);
+      this.query.trainee = trainee;
+    }),
+    switchMap((trainee) => trainee.delays$),
+  );
+
   protected columns = [
     new Column(COLUMNS.DATE_TIME("Date", "startTime"), EDITABLE_TYPES.dateTimeInput),
     new Column(DELAY_DURATION, EDITABLE_TYPES.durationInput, {durationFormat: "mm"}),
@@ -41,21 +53,10 @@ export class DelayList extends ListComponent<Absence> {
 
   public render() {
     this.query.delay = true;
-    this.dataSource$ = Store.trainee_.pipe(
-      tap((trainee: Trainee) => {
-        // avoid highlight of all rows
-        if (this._dataTable) {
-          this._dataTable.currentObjects = null;
-        }
-        this.loading_.next(true);
-        this.query.trainee = trainee;
-      }),
-      switchMap((trainee) => trainee.delays$),
-    );
-    this.createAction = () => Api.absenceService.createByQuery(this.query);
     super.render();
-    this._dataTable.propertiesUpdatingList = ["duration"];
   }
+
+  public createAction = () => Api.absenceService.createByQuery(this.query);
 }
 
 export default DelayList;

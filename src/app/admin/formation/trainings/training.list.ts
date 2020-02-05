@@ -17,6 +17,8 @@ export class TrainingList extends ListComponent<Training> {
   protected service = Api.trainingService;
   protected query = new TrainingQuery();
 
+  protected silentProperties = ["label", "speaker", "module", "duration"];
+
   protected columns = [
     new Column(COLUMNS.LABEL("Intitulé", "label"), EDITABLE_TYPES.textInput),
     new Column({
@@ -40,21 +42,19 @@ export class TrainingList extends ListComponent<Training> {
     new Column(COLUMNS.DELETE),
   ];
 
-  public render() {
-    this.dataSource$ = Store.formation_.pipe(
-      tap((formation: Formation) => {
-        // avoid highlight of all rows
-        if (this._dataTable) {
-          this._dataTable.currentObjects = null;
-        }
-        this.loading_.next(true);
-        this.query.formation = formation;
-      }),
-      switchMap((formation) => formation.trainings$),
-    );
-    this.createAction = () => Api.trainingService.createByQuery(this.query);
-    super.render();
-  }
+  protected _dataSource$ = Store.formation_.pipe(
+    tap((formation: Formation) => {
+      // avoid highlight of all rows
+      if (this._dataTable) {
+        this._dataTable.currentObjects = null;
+      }
+      this.loading_.next(true);
+      this.query.formation = formation;
+    }),
+    switchMap((formation) => formation.trainings$),
+  );
+
+  public createAction = () => Api.trainingService.createByQuery(this.query);
 }
 
 export default TrainingList;

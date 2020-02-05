@@ -16,6 +16,7 @@ export class ModuleList extends ListComponent<Module> {
 
   protected service = Api.moduleService;
   protected query = new ModuleQuery();
+  protected silentProperties = ["label", "coefficient"];
 
   protected columns = [
     new Column(COLUMNS.LABEL("Intitulé", "label"), EDITABLE_TYPES.textInput),
@@ -24,21 +25,19 @@ export class ModuleList extends ListComponent<Module> {
     new Column(COLUMNS.DELETE),
   ];
 
-  public render() {
-    this.dataSource$ = Store.formation_.pipe(
-      tap((formation: Formation) => {
-        // avoid highlight of all rows
-        if (this._dataTable) {
-          this._dataTable.currentObjects = null;
-        }
-        this.loading_.next(true);
-        this.query.formation = formation;
-      }),
-      switchMap((formation) => formation.modules$),
-    );
-    this.createAction = () => Api.moduleService.createByQuery(this.query);
-    super.render();
-  }
+  protected _dataSource$ = Store.formation_.pipe(
+    tap((formation: Formation) => {
+      // avoid highlight of all rows
+      if (this._dataTable) {
+        this._dataTable.currentObjects = null;
+      }
+      this.loading_.next(true);
+      this.query.formation = formation;
+    }),
+    switchMap((formation) => formation.modules$),
+  );
+
+  public createAction = () => Api.moduleService.createByQuery(this.query);
 }
 
 export default ModuleList;

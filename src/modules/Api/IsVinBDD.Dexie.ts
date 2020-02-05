@@ -13,7 +13,7 @@ export class IsVinDexieBDD extends DexieRequestService {
     module: ["++dexieId", "formation"].toString(),
     room: ["++dexieId"].toString(),
     speaker: ["++dexieId"].toString(),
-    training: ["++dexieId", "formation", "speaker", "module"].toString(),
+    training: ["++dexieId", "formation", "speaker", "module", ["formation+canHaveExams"]].toString(),
     trainee: ["++dexieId", "formation"].toString(),
     session: ["++dexieId", "training"].toString(),
     sessionExclusion: ["++dexieId", "session"].toString(),
