@@ -5,19 +5,19 @@ import {ScoresLayout} from "./scores/scores.layout";
 import {TrainingsLayout} from "./trainings/trainings.layout";
 
 export const formationRoutes: RouteConfig[] = [{
-  path: "scores",
-  meta: {
-    label: "Notes",
-    icon: "fa-star",
-  },
-  component: ScoresLayout,
-}, {
   path: "planning",
   meta: {
     label: "Planning",
     icon: "fa-calendar-check-o",
   },
   component: PlanningLayout,
+}, {
+  path: "scores",
+  meta: {
+    label: "Notes",
+    icon: "fa-star",
+  },
+  component: ScoresLayout,
 }, {
   path: "trainings",
   meta: {

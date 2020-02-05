@@ -8,6 +8,9 @@ import {router, routerAuthService} from "./routes/router";
 @Component({router: router})
 export class App extends Vue {}
 
+
+
+
 routerAuthService.isReady$.subscribe(() => {
   // tslint:disable-next-line
   const app = new App();

@@ -19,9 +19,14 @@ routerMethods.forEach((method: string) => {
 
 Vue.use(Router);
 
+let base: string = "/extranet/";
+if (window.location.hostname === "isvin.loc") {
+  base = __dirname;
+}
+
 export const router = new Router({
   mode: "history",
-  base: __dirname,
+  base: base,
   routes: routes,
 });
 

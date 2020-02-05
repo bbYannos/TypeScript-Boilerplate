@@ -158,7 +158,7 @@ configuration.optimization = {
                 reuseExistingChunk: true,
             },
             styles: {
-                test: path.resolve('src/assets/vendor'),
+                test: /\.(sa|sc|c)ss$/,
                 chunks: 'all',
                 priority: -20,
                 reuseExistingChunk: true,
